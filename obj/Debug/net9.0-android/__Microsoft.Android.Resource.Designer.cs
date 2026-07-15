@@ -12,7 +12,7 @@ namespace MAUI_Assignment {
 	/// Android Resource Designer class.
 	/// Exposes the Android Resource designer assembly into the project Namespace.
 	/// </summary>
-	public partial class Resource : _Microsoft.Android.Resource.Designer.Resource {
+	public partial class Resource : _Microsoft.Android.Resource.Designer.ResourceConstant {
 	}
 	#pragma warning restore IDE0002
 }

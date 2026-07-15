@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:MAUI_Assignment.Models"
+             xmlns:vm="clr-namespace:MAUI_Assignment.ViewModels"
+             xmlns:local="clr-namespace:MAUI_Assignment.Components"
+             x:Class="MAUI_Assignment.Components.TrafficView"
+             x:Name="Root"
+             x:DataType="vm:DashboardViewModel">
+
+    <Border Style="{StaticResource Card}">
+        <Grid RowDefinitions="Auto,*,Auto" RowSpacing="12">
+            <Label Grid.Row="0" Text="Traffic" Style="{StaticResource SectionTitle}" />
+
+            <!-- Donut -->
+            <Grid Grid.Row="1" HeightRequest="180">
+                <GraphicsView Drawable="{Binding Source={x:Reference Root}, Path=DonutDrawable, x:DataType=local:TrafficView}" />
+            </Grid>
+
+            <!-- Legend -->
+            <Grid Grid.Row="2" ColumnDefinitions="*,*,*">
+                <VerticalStackLayout Grid.Column="0" Spacing="4" HorizontalOptions="Center">
+                    <Label Text="34%" FontFamily="OpenSansSemibold" FontSize="20" HorizontalOptions="Center" />
+                    <HorizontalStackLayout Spacing="5" HorizontalOptions="Center">
+                        <BoxView WidthRequest="8" HeightRequest="8" CornerRadius="4" Color="{StaticResource DonutBlue}" VerticalOptions="Center" />
+                        <Label Text="Facebook" Style="{StaticResource Caption}" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="4" HorizontalOptions="Center">
+                    <Label Text="55%" FontFamily="OpenSansSemibold" FontSize="20" HorizontalOptions="Center" />
+                    <HorizontalStackLayout Spacing="5" HorizontalOptions="Center">
+                        <BoxView WidthRequest="8" HeightRequest="8" CornerRadius="4" Color="{StaticResource DonutOrange}" VerticalOptions="Center" />
+                        <Label Text="Youtube" Style="{StaticResource Caption}" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="2" Spacing="4" HorizontalOptions="Center">
+                    <Label Text="11%" FontFamily="OpenSansSemibold" FontSize="20" HorizontalOptions="Center" />
+                    <HorizontalStackLayout Spacing="5" HorizontalOptions="Center">
+                        <BoxView WidthRequest="8" HeightRequest="8" CornerRadius="4" Color="{StaticResource DonutYellow}" VerticalOptions="Center" />
+                        <Label Text="Direct Search" Style="{StaticResource Caption}" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Grid>
+        </Grid>
+    </Border>
+
+</ContentView>

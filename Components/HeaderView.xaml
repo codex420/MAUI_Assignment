@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:MAUI_Assignment.Models"
+             xmlns:vm="clr-namespace:MAUI_Assignment.ViewModels"
+             xmlns:local="clr-namespace:MAUI_Assignment.Components"
+             x:Class="MAUI_Assignment.Components.HeaderView"
+             x:Name="Root"
+             x:DataType="vm:DashboardViewModel">
+
+    <Border Style="{StaticResource Card}" Padding="0">
+        <Grid RowDefinitions="Auto,Auto">
+
+            <!-- Top region: left summary + chart -->
+            <Grid Grid.Row="0" Padding="22" ColumnDefinitions="220,*" ColumnSpacing="18">
+
+                <!-- Left column -->
+                <VerticalStackLayout Grid.Column="0" Spacing="16">
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="Dashboard" Style="{StaticResource SectionTitle}" />
+                        <Label Text="Overview of Latest Month" Style="{StaticResource SectionSubtitle}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="1">
+                        <Label Text="{Binding CurrentMonthEarnings}" Style="{StaticResource H1}" />
+                        <Label Text="Current Month Earnings" Style="{StaticResource Caption}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="1">
+                        <Label Text="{Binding CurrentMonthSales}"
+                               FontFamily="OpenSansSemibold" FontSize="24"
+                               TextColor="{StaticResource TextPrimary}" />
+                        <Label Text="Current Month Sales" Style="{StaticResource Caption}" />
+                    </VerticalStackLayout>
+
+                    <Button Text="Last Month Summary"
+                            Style="{StaticResource AccentButton}"
+                            HorizontalOptions="Start"
+                            Command="{Binding LastMonthSummaryCommand}" />
+                </VerticalStackLayout>
+
+                <!-- Right column: tabs + chart -->
+                <Grid Grid.Column="1" RowDefinitions="Auto,*" RowSpacing="14">
+                    <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+                        <HorizontalStackLayout Grid.Column="0" Spacing="20">
+                            <Label Text="DAILY" Style="{StaticResource TabActive}" />
+                            <Label Text="WEEKLY" Style="{StaticResource TabInactive}" />
+                            <Label Text="MONTHLY" Style="{StaticResource TabInactive}" />
+                            <Label Text="YEARLY" Style="{StaticResource TabInactive}" />
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Grid.Column="1" Spacing="16">
+                            <HorizontalStackLayout Spacing="5">
+                                <BoxView WidthRequest="8" HeightRequest="8" CornerRadius="4"
+                                         Color="{StaticResource ChartBlue}" VerticalOptions="Center" />
+                                <Label Text="Online" Style="{StaticResource Caption}" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="5">
+                                <BoxView WidthRequest="8" HeightRequest="8" CornerRadius="4"
+                                         Color="{StaticResource ChartOrange}" VerticalOptions="Center" />
+                                <Label Text="Store" Style="{StaticResource Caption}" />
+                            </HorizontalStackLayout>
+                        </HorizontalStackLayout>
+                    </Grid>
+
+                    <!-- Chart area placeholder: layered polygons -->
+                    <Grid Grid.Row="1" HeightRequest="180">
+                        <GraphicsView x:Name="ChartView" Drawable="{Binding Source={x:Reference Root}, Path=ChartDrawable, x:DataType=local:HeaderView}" />
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <!-- Bottom summary stats -->
+            <Border Grid.Row="1" StrokeThickness="1" Stroke="{StaticResource BorderColor}" BackgroundColor="Transparent" Padding="0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="0" />
+                </Border.StrokeShape>
+                <CollectionView ItemsSource="{Binding SummaryStats}" SelectionMode="None">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="4" HorizontalItemSpacing="0" VerticalItemSpacing="0" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:SummaryStat">
+                            <Grid Padding="20,16" ColumnDefinitions="40,*" ColumnSpacing="12">
+                                <Border Grid.Column="0" WidthRequest="34" HeightRequest="34"
+                                        StrokeThickness="0" BackgroundColor="{Binding IconColor}"
+                                        VerticalOptions="Center">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="17" />
+                                    </Border.StrokeShape>
+                                    <Label Text="{Binding Icon}" FontSize="14"
+                                           TextColor="{StaticResource White}"
+                                           HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="1" VerticalOptions="Center">
+                                    <Label Text="{Binding Title}" Style="{StaticResource Caption}" />
+                                    <Label Text="{Binding Value}"
+                                           FontFamily="OpenSansSemibold" FontSize="14"
+                                           TextColor="{StaticResource TextPrimary}" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Border>
+        </Grid>
+    </Border>
+
+</ContentView>

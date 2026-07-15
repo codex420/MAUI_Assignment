@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:MAUI_Assignment.Models"
+             x:Class="MAUI_Assignment.Components.CardView"
+             x:DataType="models:StatCard">
+
+    <Border Padding="18" StrokeThickness="0"
+            BackgroundColor="{Binding Background}">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="10" />
+        </Border.StrokeShape>
+
+        <Grid RowDefinitions="Auto,*" RowSpacing="10">
+            <Label Grid.Row="0"
+                   Text="{Binding Title}"
+                   FontSize="13"
+                   TextColor="{StaticResource TextSecondary}" />
+
+            <Grid Grid.Row="1" ColumnDefinitions="Auto,*" ColumnSpacing="10" VerticalOptions="End">
+                <!-- Left: mini chart placeholder built from bars -->
+                <HorizontalStackLayout Grid.Column="0" Spacing="3" VerticalOptions="End" HeightRequest="46">
+                    <BoxView WidthRequest="6" HeightRequest="18" CornerRadius="2" Color="{Binding Accent}" VerticalOptions="End" />
+                    <BoxView WidthRequest="6" HeightRequest="34" CornerRadius="2" Color="{Binding Accent}" VerticalOptions="End" Opacity="0.65" />
+                    <BoxView WidthRequest="6" HeightRequest="24" CornerRadius="2" Color="{Binding Accent}" VerticalOptions="End" />
+                    <BoxView WidthRequest="6" HeightRequest="44" CornerRadius="2" Color="{Binding Accent}" VerticalOptions="End" Opacity="0.65" />
+                    <BoxView WidthRequest="6" HeightRequest="30" CornerRadius="2" Color="{Binding Accent}" VerticalOptions="End" />
+                </HorizontalStackLayout>
+
+                <!-- Right: value + note -->
+                <VerticalStackLayout Grid.Column="1" HorizontalOptions="End" VerticalOptions="End" Spacing="2">
+                    <HorizontalStackLayout HorizontalOptions="End" Spacing="2">
+                        <Label Text="&#x2191;"
+                               FontFamily="OpenSansSemibold"
+                               FontSize="18"
+                               TextColor="{Binding Accent}"
+                               VerticalOptions="Center" />
+                        <Label Text="{Binding Value}"
+                               FontFamily="OpenSansSemibold"
+                               FontSize="24"
+                               TextColor="{Binding Accent}" />
+                    </HorizontalStackLayout>
+                    <Label Text="{Binding Note}"
+                           FontSize="10"
+                           HorizontalOptions="End"
+                           TextColor="{StaticResource TextMuted}"
+                           IsVisible="{Binding Note, Converter={StaticResource NotEmptyConverter}}" />
+                </VerticalStackLayout>
+            </Grid>
+        </Grid>
+    </Border>
+
+</ContentView>

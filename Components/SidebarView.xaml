@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:MAUI_Assignment.Models"
+             xmlns:vm="clr-namespace:MAUI_Assignment.ViewModels"
+             xmlns:local="clr-namespace:MAUI_Assignment.Components"
+             x:Class="MAUI_Assignment.Components.SidebarView"
+             x:Name="Root"
+             x:DataType="vm:DashboardViewModel">
+
+    <Grid BackgroundColor="{StaticResource SidebarBackground}" WidthRequest="230">
+        <ScrollView>
+            <VerticalStackLayout Padding="0,18" Spacing="2">
+                <CollectionView ItemsSource="{Binding NavItems}"
+                                SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:NavItem">
+                            <Grid>
+                                <!-- Active accent bar -->
+                                <BoxView WidthRequest="4"
+                                         HorizontalOptions="Start"
+                                         Color="{StaticResource SidebarActive}"
+                                         IsVisible="{Binding IsActive}" />
+
+                                <Grid Padding="24,11" ColumnDefinitions="22,*" ColumnSpacing="14">
+                                    <Grid.Triggers>
+                                    </Grid.Triggers>
+                                    <BoxView Grid.Column="0"
+                                             WidthRequest="16" HeightRequest="16"
+                                             CornerRadius="3"
+                                             VerticalOptions="Center"
+                                             Color="{StaticResource SidebarText}"
+                                             Opacity="0.55" />
+                                    <Label Grid.Column="1"
+                                           Text="{Binding Title}"
+                                           VerticalOptions="Center"
+                                           FontSize="13">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label"
+                                                         Binding="{Binding IsActive}"
+                                                         Value="True">
+                                                <Setter Property="TextColor" Value="{StaticResource SidebarTextActive}" />
+                                                <Setter Property="FontFamily" Value="OpenSansSemibold" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label"
+                                                         Binding="{Binding IsActive}"
+                                                         Value="False">
+                                                <Setter Property="TextColor" Value="{StaticResource SidebarText}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={x:Reference Root}, Path=SelectCommand, x:DataType=local:SidebarView}"
+                                            CommandParameter="{Binding .}" />
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentView>

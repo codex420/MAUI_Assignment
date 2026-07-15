@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Brand -->
+    <Color x:Key="SidebarBackground">#1B2A4A</Color>
+    <Color x:Key="SidebarActive">#F26522</Color>
+    <Color x:Key="SidebarText">#B9C2D6</Color>
+    <Color x:Key="SidebarTextActive">#FFFFFF</Color>
+
+    <Color x:Key="Accent">#F26522</Color>
+    <Color x:Key="AccentLight">#FF7A45</Color>
+
+    <!-- Page -->
+    <Color x:Key="PageBackground">#F4F5F7</Color>
+    <Color x:Key="CardBackground">#FFFFFF</Color>
+
+    <!-- Text -->
+    <Color x:Key="TextPrimary">#2A2E43</Color>
+    <Color x:Key="TextSecondary">#8A94A6</Color>
+    <Color x:Key="TextMuted">#AEB6C4</Color>
+
+    <!-- Lines -->
+    <Color x:Key="BorderColor">#ECEEF3</Color>
+    <Color x:Key="TableHeaderText">#9AA3B2</Color>
+
+    <!-- Stat card backgrounds -->
+    <Color x:Key="CardBlue">#EAF4FE</Color>
+    <Color x:Key="CardYellow">#FEF6DA</Color>
+    <Color x:Key="CardPeach">#FDEEE7</Color>
+    <Color x:Key="CardPurple">#F3EDFB</Color>
+
+    <!-- Status badges -->
+    <Color x:Key="StatusProcess">#F26522</Color>
+    <Color x:Key="StatusOpen">#2BC155</Color>
+    <Color x:Key="StatusHold">#3F8CFF</Color>
+
+    <!-- Chart / accent dots -->
+    <Color x:Key="ChartBlue">#4FC3F7</Color>
+    <Color x:Key="ChartOrange">#F26522</Color>
+    <Color x:Key="DonutOrange">#F26522</Color>
+    <Color x:Key="DonutBlue">#3F8CFF</Color>
+    <Color x:Key="DonutYellow">#FFC93C</Color>
+
+    <!-- Circle icon backgrounds (activities) -->
+    <Color x:Key="IconBlue">#3F8CFF</Color>
+    <Color x:Key="IconOrange">#F26522</Color>
+    <Color x:Key="IconTeal">#17C1B8</Color>
+    <Color x:Key="IconYellow">#FFB020</Color>
+    <Color x:Key="IconGreen">#2BC155</Color>
+
+    <Color x:Key="White">#FFFFFF</Color>
+    <Color x:Key="Black">#000000</Color>
+
+</ResourceDictionary>

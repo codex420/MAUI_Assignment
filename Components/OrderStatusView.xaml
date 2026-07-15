@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:MAUI_Assignment.Models"
+             xmlns:vm="clr-namespace:MAUI_Assignment.ViewModels"
+             x:Class="MAUI_Assignment.Components.OrderStatusView"
+             x:DataType="vm:DashboardViewModel">
+
+    <Border Style="{StaticResource Card}">
+        <VerticalStackLayout Spacing="16">
+
+            <!-- Header -->
+            <VerticalStackLayout Spacing="2">
+                <Label Text="Order Status" Style="{StaticResource SectionTitle}" />
+                <Label Text="Overview of Latest Month" Style="{StaticResource SectionSubtitle}" />
+            </VerticalStackLayout>
+
+            <!-- Toolbar -->
+            <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,*,Auto,Auto" ColumnSpacing="8">
+                <Button Grid.Column="0" Text="+ Add" Style="{StaticResource AccentButton}" HeightRequest="34" Padding="12,4" FontSize="12" />
+                <Border Grid.Column="1" WidthRequest="34" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
+                    <Label Text="&#x2139;" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextSecondary}" />
+                </Border>
+                <Border Grid.Column="2" WidthRequest="34" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
+                    <Label Text="&#x1F5D1;" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextSecondary}" />
+                </Border>
+                <Border Grid.Column="3" WidthRequest="34" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
+                    <Label Text="&#x1F5A8;" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextSecondary}" />
+                </Border>
+
+                <Border Grid.Column="5" WidthRequest="150" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
+                    <Label Text="Search" VerticalOptions="Center" Margin="10,0" FontSize="12" TextColor="{StaticResource TextMuted}" />
+                </Border>
+                <Border Grid.Column="6" WidthRequest="34" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
+                    <Label Text="&#x1F50D;" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextSecondary}" />
+                </Border>
+            </Grid>
+
+            <!-- Table header -->
+            <Grid ColumnDefinitions="1.1*,1.6*,1.2*,1*,1.2*" Padding="0,10" ColumnSpacing="8">
+                <BoxView Grid.ColumnSpan="5" Color="{StaticResource BorderColor}" HeightRequest="1" VerticalOptions="Start" />
+                <Label Grid.Column="0" Text="INVOICE" Style="{StaticResource TableHeader}" />
+                <Label Grid.Column="1" Text="CUSTOMERS" Style="{StaticResource TableHeader}" />
+                <Label Grid.Column="2" Text="FROM" Style="{StaticResource TableHeader}" />
+                <Label Grid.Column="3" Text="PRICE" Style="{StaticResource TableHeader}" />
+                <Label Grid.Column="4" Text="STATUS" Style="{StaticResource TableHeader}" HorizontalOptions="Center" />
+                <BoxView Grid.ColumnSpan="5" Color="{StaticResource BorderColor}" HeightRequest="1" VerticalOptions="End" />
+            </Grid>
+
+            <!-- Rows -->
+            <CollectionView ItemsSource="{Binding Orders}" SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:OrderItem">
+                        <Grid ColumnDefinitions="1.1*,1.6*,1.2*,1*,1.2*" Padding="0,12" ColumnSpacing="8">
+                            <Label Grid.Column="0" Text="{Binding Invoice}" Style="{StaticResource TableCell}" />
+                            <Label Grid.Column="1" Text="{Binding Customer}" Style="{StaticResource TableCell}" />
+                            <Label Grid.Column="2" Text="{Binding From}" Style="{StaticResource TableCell}" />
+                            <Label Grid.Column="3" Text="{Binding Price}" Style="{StaticResource TableCell}" />
+                            <Border Grid.Column="4" HorizontalOptions="Center" VerticalOptions="Center"
+                                    StrokeThickness="0" BackgroundColor="{Binding StatusColor}"
+                                    Padding="14,5">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="5" /></Border.StrokeShape>
+                                <Label Text="{Binding Status}" FontSize="11"
+                                       FontFamily="OpenSansSemibold"
+                                       TextColor="{StaticResource White}" />
+                            </Border>
+                            <BoxView Grid.ColumnSpan="5" Color="{StaticResource BorderColor}" HeightRequest="1" VerticalOptions="End" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Footer / pagination -->
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Grid.Column="0" Text="Showing 1 to 10 of 30 entries"
+                       Style="{StaticResource Caption}" VerticalOptions="Center" />
+                <HorizontalStackLayout Grid.Column="1" Spacing="6">
+                    <Label Text="&#x2039;" TextColor="{StaticResource TextMuted}" VerticalOptions="Center" />
+                    <Border WidthRequest="26" HeightRequest="26" StrokeThickness="0"
+                            BackgroundColor="{StaticResource Accent}">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="4" /></Border.StrokeShape>
+                        <Label Text="1" TextColor="{StaticResource White}" FontSize="12"
+                               HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                    <Label Text="2" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center" WidthRequest="18" HorizontalTextAlignment="Center" />
+                    <Label Text="3" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center" WidthRequest="18" HorizontalTextAlignment="Center" />
+                    <Label Text="4" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center" WidthRequest="18" HorizontalTextAlignment="Center" />
+                    <Label Text="5" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center" WidthRequest="18" HorizontalTextAlignment="Center" />
+                    <Label Text="6" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center" WidthRequest="18" HorizontalTextAlignment="Center" />
+                    <Label Text="&#x203A;" TextColor="{StaticResource TextMuted}" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Grid>
+        </VerticalStackLayout>
+    </Border>
+
+</ContentView>
