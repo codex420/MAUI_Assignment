@@ -55,12 +55,12 @@ public class DashboardService : IDashboardService
             new() { Icon = "", Title = "Documentation" },
         };
 
-        var random = new Random();
-        foreach (var item in items)
+        for (int i = 0; i < items.Count; i++)
         {
+            var item = items[i];
             if (item.Title != "Dashboard")
             {
-                item.Url = RandomUrls[random.Next(RandomUrls.Length)];
+                item.Url = RandomUrls[i % RandomUrls.Length];
             }
         }
 
@@ -95,10 +95,30 @@ public class DashboardService : IDashboardService
     public IReadOnlyList<OrderItem> GetOrders() => new List<OrderItem>
     {
         new() { Invoice = "12386", Customer = "Charly Dues",   From = "Brazil", Price = "$299",  Status = "Process", StatusColor = Res("StatusProcess") },
-        new() { Invoice = "12386", Customer = "Marko",         From = "Italy",  Price = "$2642", Status = "Open",    StatusColor = Res("StatusOpen") },
-        new() { Invoice = "12386", Customer = "Denyel Onak",   From = "Russia", Price = "$981",  Status = "On Hold", StatusColor = Res("StatusHold") },
-        new() { Invoice = "12386", Customer = "Belgin Bastana", From = "Korea", Price = "$369",  Status = "Process", StatusColor = Res("StatusProcess") },
-        new() { Invoice = "12386", Customer = "Sarti Onuska",  From = "Japan",  Price = "$1240", Status = "Open",    StatusColor = Res("StatusOpen") },
+        new() { Invoice = "12387", Customer = "Marko",         From = "Italy",  Price = "$2642", Status = "Open",    StatusColor = Res("StatusOpen") },
+        new() { Invoice = "12388", Customer = "Denyel Onak",   From = "Russia", Price = "$981",  Status = "On Hold", StatusColor = Res("StatusHold") },
+        new() { Invoice = "12389", Customer = "Belgin Bastana", From = "Korea", Price = "$369",  Status = "Process", StatusColor = Res("StatusProcess") },
+        new() { Invoice = "12390", Customer = "Sarti Onuska",  From = "Japan",  Price = "$1240", Status = "Open",    StatusColor = Res("StatusOpen") },
+        new() { Invoice = "12391", Customer = "Alex Rivera",   From = "USA",    Price = "$450",  Status = "Process", StatusColor = Res("StatusProcess") },
+        new() { Invoice = "12392", Customer = "Sofia Loren",   From = "France", Price = "$1890", Status = "Open",    StatusColor = Res("StatusOpen") },
+        new() { Invoice = "12393", Customer = "Dmitry Volkov", From = "Russia", Price = "$120",  Status = "On Hold", StatusColor = Res("StatusHold") },
+        new() { Invoice = "12394", Customer = "Yuki Tanaka",   From = "Japan",  Price = "$899",  Status = "Process", StatusColor = Res("StatusProcess") },
+        new() { Invoice = "12395", Customer = "Elena Rossi",   From = "Italy",  Price = "$2100", Status = "Open",    StatusColor = Res("StatusOpen") },
+        new() { Invoice = "12396", Customer = "Hans Müller",   From = "Germany",Price = "$750",  Status = "On Hold", StatusColor = Res("StatusHold") },
+        new() { Invoice = "12397", Customer = "Jane Doe",      From = "Canada", Price = "$340",  Status = "Process", StatusColor = Res("StatusProcess") },
+        new() { Invoice = "12398", Customer = "John Smith",    From = "UK",     Price = "$1250", Status = "Open",    StatusColor = Res("StatusOpen") },
+        new() { Invoice = "12399", Customer = "Carlos Ruiz",   From = "Spain",  Price = "$600",  Status = "Process", StatusColor = Res("StatusProcess") },
+        new() { Invoice = "12400", Customer = "Kim Min-ji",    From = "Korea",  Price = "$150",  Status = "On Hold", StatusColor = Res("StatusHold") },
+        new() { Invoice = "12401", Customer = "Amélie Laurent",From = "France", Price = "$950",  Status = "Open",    StatusColor = Res("StatusOpen") },
+        new() { Invoice = "12402", Customer = "Lucas Silva",   From = "Brazil", Price = "$1100", Status = "Process", StatusColor = Res("StatusProcess") },
+        new() { Invoice = "12403", Customer = "Arjun Patel",   From = "India",  Price = "$80",   Status = "On Hold", StatusColor = Res("StatusHold") },
+        new() { Invoice = "12404", Customer = "Fatima Al-Sayed",From = "Egypt",  Price = "$1420", Status = "Open",    StatusColor = Res("StatusOpen") },
+        new() { Invoice = "12405", Customer = "Oliver Twist",  From = "UK",     Price = "$300",  Status = "Process", StatusColor = Res("StatusProcess") },
+        new() { Invoice = "12406", Customer = "Emma Watson",   From = "USA",    Price = "$2500", Status = "Open",    StatusColor = Res("StatusOpen") },
+        new() { Invoice = "12407", Customer = "Liam Neeson",   From = "Ireland",Price = "$180",  Status = "On Hold", StatusColor = Res("StatusHold") },
+        new() { Invoice = "12408", Customer = "Chen Wei",      From = "China",  Price = "$3200", Status = "Process", StatusColor = Res("StatusProcess") },
+        new() { Invoice = "12409", Customer = "Chloe Dupont",  From = "Belgium",Price = "$430",  Status = "Open",    StatusColor = Res("StatusOpen") },
+        new() { Invoice = "12410", Customer = "Ahmed Hassan",  From = "Egypt",  Price = "$90",   Status = "On Hold", StatusColor = Res("StatusHold") },
     };
 
     public IReadOnlyList<TrafficSlice> GetTraffic() => new List<TrafficSlice>

@@ -17,7 +17,7 @@
 
             <!-- Toolbar -->
             <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,*,Auto,Auto" ColumnSpacing="8">
-                <Button Grid.Column="0" Text="+ Add" Style="{StaticResource AccentButton}" HeightRequest="34" Padding="12,4" FontSize="12" />
+                <Button Grid.Column="0" Text="+ Add" Style="{StaticResource AccentButton}" HeightRequest="34" Padding="12,4" FontSize="12" Command="{Binding ShowAddOrderModalCommand}" />
                 <Border Grid.Column="1" WidthRequest="34" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
                     <Label Text="&#x2139;" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextSecondary}" />
@@ -31,9 +31,9 @@
                     <Label Text="&#x1F5A8;" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextSecondary}" />
                 </Border>
 
-                <Border Grid.Column="5" WidthRequest="150" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}">
+                <Border Grid.Column="5" WidthRequest="150" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}" Padding="0">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
-                    <Label Text="Search" VerticalOptions="Center" Margin="10,0" FontSize="12" TextColor="{StaticResource TextMuted}" />
+                    <Entry Text="{Binding SearchQuery}" Placeholder="Search..." FontSize="12" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="{StaticResource TextPrimary}" Margin="10,0" />
                 </Border>
                 <Border Grid.Column="6" WidthRequest="34" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
@@ -79,22 +79,41 @@
 
             <!-- Footer / pagination -->
             <Grid ColumnDefinitions="*,Auto">
-                <Label Grid.Column="0" Text="Showing 1 to 10 of 30 entries"
+                <Label Grid.Column="0" Text="{Binding PaginationStatusText}"
                        Style="{StaticResource Caption}" VerticalOptions="Center" />
-                <HorizontalStackLayout Grid.Column="1" Spacing="6">
-                    <Label Text="&#x2039;" TextColor="{StaticResource TextMuted}" VerticalOptions="Center" />
-                    <Border WidthRequest="26" HeightRequest="26" StrokeThickness="0"
-                            BackgroundColor="{StaticResource Accent}">
-                        <Border.StrokeShape><RoundRectangle CornerRadius="4" /></Border.StrokeShape>
-                        <Label Text="1" TextColor="{StaticResource White}" FontSize="12"
-                               HorizontalOptions="Center" VerticalOptions="Center" />
-                    </Border>
-                    <Label Text="2" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center" WidthRequest="18" HorizontalTextAlignment="Center" />
-                    <Label Text="3" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center" WidthRequest="18" HorizontalTextAlignment="Center" />
-                    <Label Text="4" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center" WidthRequest="18" HorizontalTextAlignment="Center" />
-                    <Label Text="5" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center" WidthRequest="18" HorizontalTextAlignment="Center" />
-                    <Label Text="6" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center" WidthRequest="18" HorizontalTextAlignment="Center" />
-                    <Label Text="&#x203A;" TextColor="{StaticResource TextMuted}" VerticalOptions="Center" />
+                <HorizontalStackLayout Grid.Column="1" Spacing="12" VerticalOptions="Center">
+                    <!-- Previous Arrow -->
+                    <Label Text="&#x2039;" FontSize="22" VerticalOptions="Center" Padding="4" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PreviousPageCommand}" />
+                        </Label.GestureRecognizers>
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding CanGoPrevious}" Value="False">
+                                <Setter Property="TextColor" Value="{StaticResource TextMuted}" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Label" Binding="{Binding CanGoPrevious}" Value="True">
+                                <Setter Property="TextColor" Value="{StaticResource Accent}" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+
+                    <!-- Page Info -->
+                    <Label Text="{Binding PageIndicatorText}" FontSize="12" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center" />
+
+                    <!-- Next Arrow -->
+                    <Label Text="&#x203A;" FontSize="22" VerticalOptions="Center" Padding="4" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NextPageCommand}" />
+                        </Label.GestureRecognizers>
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding CanGoNext}" Value="False">
+                                <Setter Property="TextColor" Value="{StaticResource TextMuted}" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Label" Binding="{Binding CanGoNext}" Value="True">
+                                <Setter Property="TextColor" Value="{StaticResource Accent}" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
                 </HorizontalStackLayout>
             </Grid>
         </VerticalStackLayout>

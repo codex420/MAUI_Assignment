@@ -9,6 +9,24 @@ namespace MAUI_Assignment.ViewModels;
 public partial class DashboardViewModel : ObservableObject
 {
     private readonly IDashboardService _service;
+    private readonly List<OrderItem> _allOrders = new();
+    private const int PageSize = 5;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(DisplayStart))]
+    [NotifyPropertyChangedFor(nameof(DisplayEnd))]
+    [NotifyPropertyChangedFor(nameof(TotalEntries))]
+    [NotifyPropertyChangedFor(nameof(TotalPages))]
+    [NotifyPropertyChangedFor(nameof(PaginationStatusText))]
+    [NotifyPropertyChangedFor(nameof(CanGoNext))]
+    [NotifyPropertyChangedFor(nameof(CanGoPrevious))]
+    [NotifyPropertyChangedFor(nameof(PageIndicatorText))]
+    private int _currentPage = 1;
+
+    private static Color Res(string key) =>
+        Application.Current?.Resources.TryGetValue(key, out var v) == true && v is Color c
+            ? c
+            : Colors.Gray;
 
     [ObservableProperty]
     private string _currentMonthEarnings = string.Empty;
@@ -27,6 +45,24 @@ public partial class DashboardViewModel : ObservableObject
 
     [ObservableProperty]
     private string _activeChartTab = "Daily";
+
+    [ObservableProperty]
+    private bool _isAddOrderModalVisible = false;
+
+    [ObservableProperty]
+    private string _newOrderCustomer = string.Empty;
+
+    [ObservableProperty]
+    private string _newOrderFrom = string.Empty;
+
+    [ObservableProperty]
+    private string _newOrderPrice = string.Empty;
+
+    [ObservableProperty]
+    private string _newOrderStatus = "Process";
+
+    [ObservableProperty]
+    private string _searchQuery = string.Empty;
 
     // ---------- Responsive state ----------
 
@@ -109,7 +145,7 @@ public partial class DashboardViewModel : ObservableObject
     {
         get
         {
-            double fraction = PageWidth >= 900 ? 0.25 : (IsCompact ? 1.0 : 0.5);
+            double fraction = PageWidth >= 900 ? 0.24 : (IsCompact ? 1.0 : 0.49);
             return new Microsoft.Maui.Layouts.FlexBasis((float)fraction, isRelative: true);
         }
     }
@@ -145,6 +181,16 @@ public partial class DashboardViewModel : ObservableObject
     public int OrdersColumn => IsCompact ? 0 : 1;
     public int OrdersColumnSpan => IsCompact ? 2 : 1;
 
+    public int TotalEntries => _allOrders.Count;
+    public int TotalPages => (int)Math.Ceiling((double)TotalEntries / PageSize);
+    public int DisplayStart => TotalEntries == 0 ? 0 : (CurrentPage - 1) * PageSize + 1;
+    public int DisplayEnd => Math.Min(CurrentPage * PageSize, TotalEntries);
+    public string PaginationStatusText => $"Showing {DisplayStart} to {DisplayEnd} of {TotalEntries} entries";
+    public string PageIndicatorText => $"Page {CurrentPage} of {TotalPages}";
+
+    public bool CanGoNext => CurrentPage < TotalPages;
+    public bool CanGoPrevious => CurrentPage > 1;
+
     public ObservableCollection<NavItem> NavItems { get; } = new();
     public ObservableCollection<SummaryStat> SummaryStats { get; } = new();
     public ObservableCollection<StatCard> StatCards { get; } = new();
@@ -168,7 +214,9 @@ public partial class DashboardViewModel : ObservableObject
         Fill(SummaryStats, _service.GetSummaryStats());
         Fill(StatCards, _service.GetStatCards());
         Fill(RecentActivities, _service.GetRecentActivities());
-        Fill(Orders, _service.GetOrders());
+        _allOrders.Clear();
+        _allOrders.AddRange(_service.GetOrders());
+        UpdatePagedOrders();
         Fill(Traffic, _service.GetTraffic());
     }
 
@@ -237,5 +285,142 @@ public partial class DashboardViewModel : ObservableObject
     private void ChangeChartTab(string tab)
     {
         ActiveChartTab = tab;
+    }
+
+    partial void OnCurrentPageChanged(int value)
+    {
+        UpdatePagedOrders();
+    }
+
+    partial void OnSearchQueryChanged(string value)
+    {
+        CurrentPage = 1;
+        UpdatePagedOrders();
+    }
+
+    private List<OrderItem> GetFilteredOrders()
+    {
+        var query = (SearchQuery ?? string.Empty).Trim().ToLowerInvariant();
+        if (string.IsNullOrWhiteSpace(query))
+            return _allOrders;
+
+        return _allOrders.Where(o =>
+            (o.Invoice != null && o.Invoice.ToLowerInvariant().Contains(query)) ||
+            (o.Customer != null && o.Customer.ToLowerInvariant().Contains(query)) ||
+            (o.From != null && o.From.ToLowerInvariant().Contains(query)) ||
+            (o.Status != null && o.Status.ToLowerInvariant().Contains(query)) ||
+            (o.Price != null && o.Price.ToLowerInvariant().Contains(query))
+        ).ToList();
+    }
+
+    private void UpdatePagedOrders()
+    {
+        Orders.Clear();
+        var filteredList = GetFilteredOrders();
+        int startIndex = (CurrentPage - 1) * PageSize;
+        var pagedList = filteredList.Skip(startIndex).Take(PageSize);
+        foreach (var order in pagedList)
+        {
+            Orders.Add(order);
+        }
+
+        OnPropertyChanged(nameof(DisplayStart));
+        OnPropertyChanged(nameof(DisplayEnd));
+        OnPropertyChanged(nameof(TotalEntries));
+        OnPropertyChanged(nameof(TotalPages));
+        OnPropertyChanged(nameof(PaginationStatusText));
+        OnPropertyChanged(nameof(CanGoNext));
+        OnPropertyChanged(nameof(CanGoPrevious));
+        OnPropertyChanged(nameof(PageIndicatorText));
+    }
+
+    [RelayCommand]
+    private void NextPage()
+    {
+        if (CanGoNext)
+            CurrentPage++;
+    }
+
+    [RelayCommand]
+    private void PreviousPage()
+    {
+        if (CanGoPrevious)
+            CurrentPage--;
+    }
+
+    [RelayCommand]
+    private void ShowAddOrderModal()
+    {
+        NewOrderCustomer = string.Empty;
+        NewOrderFrom = string.Empty;
+        NewOrderPrice = string.Empty;
+        NewOrderStatus = "Process";
+        IsAddOrderModalVisible = true;
+    }
+
+    [RelayCommand]
+    private void CloseAddOrderModal()
+    {
+        IsAddOrderModalVisible = false;
+    }
+
+    [RelayCommand]
+    private void SubmitNewOrder()
+    {
+        string customer = string.IsNullOrWhiteSpace(NewOrderCustomer) ? "Guest" : NewOrderCustomer.Trim();
+        string from = string.IsNullOrWhiteSpace(NewOrderFrom) ? "USA" : NewOrderFrom.Trim();
+        
+        string price = (NewOrderPrice ?? string.Empty).Trim();
+        if (string.IsNullOrWhiteSpace(price))
+        {
+            price = "$0";
+        }
+        else if (!price.StartsWith("$"))
+        {
+            price = "$" + price;
+        }
+
+        string status = NewOrderStatus ?? "Process";
+        string colorKey = status switch
+        {
+            "Open" => "StatusOpen",
+            "On Hold" => "StatusHold",
+            _ => "StatusProcess"
+        };
+
+        // Sequential Invoice Number
+        int nextInvoice = _allOrders.Count > 0 
+            ? _allOrders.Max(o => int.TryParse(o.Invoice, out var val) ? val : 0) + 1 
+            : 12411;
+
+        var newOrder = new OrderItem
+        {
+            Invoice = nextInvoice.ToString(),
+            Customer = customer,
+            From = from,
+            Price = price,
+            Status = status,
+            StatusColor = Res(colorKey)
+        };
+
+        _allOrders.Insert(0, newOrder);
+
+        IsAddOrderModalVisible = false;
+
+        if (!string.IsNullOrWhiteSpace(SearchQuery))
+        {
+            SearchQuery = string.Empty;
+        }
+        else
+        {
+            if (CurrentPage == 1)
+            {
+                UpdatePagedOrders();
+            }
+            else
+            {
+                CurrentPage = 1;
+            }
+        }
     }
 }

@@ -140,6 +140,78 @@
                                HorizontalOptions="Start"
                                IsVisible="{Binding ScrimVisible}" />
 
+        <!-- ============ Add Order Modal Dialog ============ -->
+        <Grid Grid.ColumnSpan="2"
+              IsVisible="{Binding IsAddOrderModalVisible}"
+              BackgroundColor="#aa000000"
+              HorizontalOptions="Fill" VerticalOptions="Fill">
+            
+            <Border VerticalOptions="Center" HorizontalOptions="Center"
+                    WidthRequest="400" Padding="24"
+                    BackgroundColor="{StaticResource CardBackground}"
+                    StrokeThickness="1" Stroke="{StaticResource BorderColor}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12" />
+                </Border.StrokeShape>
+                
+                <VerticalStackLayout Spacing="16">
+                    <Label Text="Add New Order" FontSize="18" FontFamily="OpenSansSemibold" TextColor="{StaticResource TextPrimary}" />
+                    
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Customer Name" Style="{StaticResource Caption}" />
+                        <Border StrokeThickness="1" Stroke="{StaticResource BorderColor}" BackgroundColor="White" Padding="10,0">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
+                            <Entry Text="{Binding NewOrderCustomer}" Placeholder="e.g. John Doe" TextColor="Black" BackgroundColor="Transparent" HeightRequest="38" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="From (Country)" Style="{StaticResource Caption}" />
+                        <Border StrokeThickness="1" Stroke="{StaticResource BorderColor}" BackgroundColor="White" Padding="10,0">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
+                            <Entry Text="{Binding NewOrderFrom}" Placeholder="e.g. Germany" TextColor="Black" BackgroundColor="Transparent" HeightRequest="38" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Price" Style="{StaticResource Caption}" />
+                        <Border StrokeThickness="1" Stroke="{StaticResource BorderColor}" BackgroundColor="White" Padding="10,0">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
+                            <Entry Text="{Binding NewOrderPrice}" Placeholder="e.g. 250" Keyboard="Numeric" TextColor="Black" BackgroundColor="Transparent" HeightRequest="38" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Status" Style="{StaticResource Caption}" />
+                        <Border StrokeThickness="1" Stroke="{StaticResource BorderColor}" BackgroundColor="White" Padding="10,0">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
+                            <Picker SelectedItem="{Binding NewOrderStatus}" TextColor="Black" BackgroundColor="Transparent" HeightRequest="38">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Process</x:String>
+                                        <x:String>Open</x:String>
+                                        <x:String>On Hold</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,10,0,0">
+                        <Button Grid.Column="0" Text="Cancel"
+                                Style="{StaticResource AccentButton}"
+                                BackgroundColor="{StaticResource PageBackground}"
+                                TextColor="{StaticResource TextSecondary}"
+                                Command="{Binding CloseAddOrderModalCommand}" />
+                        
+                        <Button Grid.Column="1" Text="Submit"
+                                Style="{StaticResource AccentButton}"
+                                Command="{Binding SubmitNewOrderCommand}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
     </Grid>
 
 </ContentPage>
