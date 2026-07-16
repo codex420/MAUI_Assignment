@@ -88,37 +88,49 @@ Added commands to show the static Info text, toggle the Last Month Summary modal
 
 <!-- SEARCH_ORDER_TOOLBAR -->
 ### Grid Toolbar Overlap & Info Button Binding
-Changed columns to `Auto,Auto,Auto,Auto,*,Auto`. Removed the fixed `WidthRequest="150"` from the search box so it fits responsive screen widths. Added a `TapGestureRecognizer` to the Info button:
+Changed columns to `Auto,Auto,Auto,Auto,*,Auto,Auto` with light backgrounds, dark icons, and search inputs to exactly match the latest reference screenshot:
 
 ```xml
             <!-- SEARCH_ORDER_TOOLBAR -->
-            <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,*,Auto" ColumnSpacing="8">
-                <Button Grid.Column="0" Text="+ Add" Style="{StaticResource AccentButton}" HeightRequest="34" Padding="12,4" FontSize="12" Command="{Binding ShowAddOrderModalCommand}" />
-                <Border Grid.Column="1" WidthRequest="34" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}">
+            <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,*,Auto,Auto" ColumnSpacing="8">
+                <!-- Add Button -->
+                <Button Grid.Column="0" Text="&#x2295; Add" Style="{StaticResource AccentButton}" HeightRequest="34" Padding="12,4" FontSize="12" Command="{Binding ShowAddOrderModalCommand}" />
+                
+                <!-- Circled Info Button -->
+                <Border Grid.Column="1" WidthRequest="34" HeightRequest="34" StrokeThickness="0" BackgroundColor="{StaticResource PageBackground}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
                     <!-- SEARCH_INFO_GESTURE -->
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ShowInfoCommand}" />
                     </Border.GestureRecognizers>
-                    <Label Text="&#x2139;" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextSecondary}" />
+                    <Label Text="&#x24D8;" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
                 </Border>
-                <Border Grid.Column="2" WidthRequest="34" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}">
+                
+                <!-- Trash Bin Button -->
+                <Border Grid.Column="2" WidthRequest="34" HeightRequest="34" StrokeThickness="0" BackgroundColor="{StaticResource PageBackground}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
-                    <Label Text="&#x1F5D1;" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextSecondary}" />
+                    <Label Text="&#x1F5D1;" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
                 </Border>
-                <Border Grid.Column="3" WidthRequest="34" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}">
+                
+                <!-- Printer Button -->
+                <Border Grid.Column="3" WidthRequest="34" HeightRequest="34" StrokeThickness="0" BackgroundColor="{StaticResource PageBackground}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
-                    <Label Text="&#x1F5A8;" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextSecondary}" />
+                    <Label Text="&#x1F5A8;" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
                 </Border>
 
-                <!-- SEARCH_DYNAMIC_SEARCHBAR (replaces Grid.Column 5 with 150 WidthRequest) -->
-                <Border Grid.Column="4" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}" Padding="0">
+                <!-- Spacer -->
+                <BoxView Grid.Column="4" Color="Transparent" />
+
+                <!-- Search Input Field -->
+                <Border Grid.Column="5" WidthRequest="150" HeightRequest="34" StrokeThickness="0" BackgroundColor="{StaticResource PageBackground}" Padding="0">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
-                    <Entry Text="{Binding SearchQuery}" Placeholder="Search..." FontSize="12" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="{StaticResource TextPrimary}" Margin="10,0" />
+                    <Entry Text="{Binding SearchQuery}" Placeholder="Search" FontSize="12" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="{StaticResource TextPrimary}" Margin="10,0" />
                 </Border>
-                <Border Grid.Column="5" WidthRequest="34" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}">
+
+                <!-- Search-Side Printer Button -->
+                <Border Grid.Column="6" WidthRequest="34" HeightRequest="34" StrokeThickness="0" BackgroundColor="{StaticResource PageBackground}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
-                    <Label Text="&#x1F50D;" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextSecondary}" />
+                    <Label Text="&#x1F5A8;" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
                 </Border>
             </Grid>
 ```

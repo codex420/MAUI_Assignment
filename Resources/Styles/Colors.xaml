@@ -31,7 +31,7 @@
     <Color x:Key="CardPurple">#F3EDFB</Color>
 
     <!-- Status badges -->
-    <Color x:Key="StatusProcess">#F26522</Color>
+    <Color x:Key="StatusProcess">#EA3A3D</Color>
     <Color x:Key="StatusOpen">#2BC155</Color>
     <Color x:Key="StatusHold">#3F8CFF</Color>
 

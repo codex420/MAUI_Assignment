@@ -18,59 +18,70 @@
             </VerticalStackLayout>
 
             <!-- Toolbar -->
-            <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,*,Auto" ColumnSpacing="8">
-                <Button Grid.Column="0" Text="+ Add" Style="{StaticResource AccentButton}" HeightRequest="34" Padding="12,4" FontSize="12" Command="{Binding ShowAddOrderModalCommand}" />
-                <Border Grid.Column="1" WidthRequest="34" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}">
+            <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,*,Auto,Auto" ColumnSpacing="8">
+                <!-- Add Button with Circular Plus Icon -->
+                <Button Grid.Column="0" Text="&#x2295; Add" Style="{StaticResource AccentButton}" HeightRequest="34" Padding="12,4" FontSize="12" Command="{Binding ShowAddOrderModalCommand}" />
+                
+                <!-- Circled Info Button -->
+                <Border Grid.Column="1" WidthRequest="34" HeightRequest="34" StrokeThickness="0" BackgroundColor="{StaticResource PageBackground}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ShowInfoCommand}" />
                     </Border.GestureRecognizers>
-                    <Label Text="&#x2139;" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextSecondary}" />
+                    <Label Text="&#x24D8;" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
                 </Border>
-                <Border Grid.Column="2" WidthRequest="34" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}">
+                
+                <!-- Trash Bin Button -->
+                <Border Grid.Column="2" WidthRequest="34" HeightRequest="34" StrokeThickness="0" BackgroundColor="{StaticResource PageBackground}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
-                    <Label Text="&#x1F5D1;" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextSecondary}" />
+                    <Label Text="&#x1F5D1;" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
                 </Border>
-                <Border Grid.Column="3" WidthRequest="34" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}">
+                
+                <!-- Printer Button -->
+                <Border Grid.Column="3" WidthRequest="34" HeightRequest="34" StrokeThickness="0" BackgroundColor="{StaticResource PageBackground}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
-                    <Label Text="&#x1F5A8;" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextSecondary}" />
+                    <Label Text="&#x1F5A8;" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
                 </Border>
 
-                <Border Grid.Column="4" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}" Padding="0">
+                <!-- Spacer -->
+                <BoxView Grid.Column="4" Color="Transparent" />
+
+                <!-- Search Input Field (Light Background, No Border) -->
+                <Border Grid.Column="5" WidthRequest="150" HeightRequest="34" StrokeThickness="0" BackgroundColor="{StaticResource PageBackground}" Padding="0">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
-                    <Entry Text="{Binding SearchQuery}" Placeholder="Search..." FontSize="12" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="{StaticResource TextPrimary}" Margin="10,0" />
+                    <Entry Text="{Binding SearchQuery}" Placeholder="Search" FontSize="12" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="{StaticResource TextPrimary}" Margin="10,0" />
                 </Border>
-                <Border Grid.Column="5" WidthRequest="34" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}">
+
+                <!-- Search-Side Printer Button -->
+                <Border Grid.Column="6" WidthRequest="34" HeightRequest="34" StrokeThickness="0" BackgroundColor="{StaticResource PageBackground}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
-                    <Label Text="&#x1F50D;" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextSecondary}" />
+                    <Label Text="&#x1F5A8;" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
                 </Border>
             </Grid>
 
-            <!-- Table header -->
-            <Grid ColumnDefinitions="1.1*,1.6*,1.2*,1*,1.2*" Padding="0,10" ColumnSpacing="8">
-                <BoxView Grid.ColumnSpan="5" Color="{StaticResource BorderColor}" HeightRequest="1" VerticalOptions="Start" />
-                <Label Grid.Column="0" Text="INVOICE" Style="{StaticResource TableHeader}" />
-                <Label Grid.Column="1" Text="CUSTOMERS" Style="{StaticResource TableHeader}" />
-                <Label Grid.Column="2" Text="FROM" Style="{StaticResource TableHeader}" />
-                <Label Grid.Column="3" Text="PRICE" Style="{StaticResource TableHeader}" />
-                <Label Grid.Column="4" Text="STATUS" Style="{StaticResource TableHeader}" HorizontalOptions="Center" />
-                <BoxView Grid.ColumnSpan="5" Color="{StaticResource BorderColor}" HeightRequest="1" VerticalOptions="End" />
+            <!-- Table header with Shaded Background Banner -->
+            <Grid ColumnDefinitions="1.1*,1.5*,1.1*,1*,1.4*" Padding="12,12" ColumnSpacing="8" BackgroundColor="#EEF2F6">
+                <Label Grid.Column="0" Text="INVOICE" Style="{StaticResource TableHeader}" TextColor="{StaticResource TextPrimary}" FontFamily="OpenSansSemibold" VerticalOptions="Center" />
+                <Label Grid.Column="1" Text="CUSTOMERS" Style="{StaticResource TableHeader}" TextColor="{StaticResource TextPrimary}" FontFamily="OpenSansSemibold" VerticalOptions="Center" />
+                <Label Grid.Column="2" Text="FROM" Style="{StaticResource TableHeader}" TextColor="{StaticResource TextPrimary}" FontFamily="OpenSansSemibold" VerticalOptions="Center" />
+                <Label Grid.Column="3" Text="PRICE" Style="{StaticResource TableHeader}" TextColor="{StaticResource TextPrimary}" FontFamily="OpenSansSemibold" VerticalOptions="Center" />
+                <Label Grid.Column="4" Text="STATUS" Style="{StaticResource TableHeader}" TextColor="{StaticResource TextPrimary}" FontFamily="OpenSansSemibold" HorizontalOptions="Center" VerticalOptions="Center" />
             </Grid>
 
-            <!-- Rows: BindableLayout so the table sizes naturally inside the
-                 page's ScrollView (nested CollectionView mis-measures on Android). -->
+            <!-- Rows with Spacing and Padding Bottom after status -->
             <VerticalStackLayout Spacing="0"
-                                 BindableLayout.ItemsSource="{Binding Orders}">
+                                 BindableLayout.ItemsSource="{Binding Orders}"
+                                 Margin="0,0,0,24">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="models:OrderItem">
-                        <Grid ColumnDefinitions="1.1*,1.6*,1.2*,1*,1.2*" Padding="0,12" ColumnSpacing="8" BackgroundColor="Transparent">
-                            <Label Grid.Column="0" Text="{Binding Invoice}" Style="{StaticResource TableCell}" />
-                            <Label Grid.Column="1" Text="{Binding Customer}" Style="{StaticResource TableCell}" />
-                            <Label Grid.Column="2" Text="{Binding From}" Style="{StaticResource TableCell}" />
-                            <Label Grid.Column="3" Text="{Binding Price}" Style="{StaticResource TableCell}" />
+                        <Grid ColumnDefinitions="1.1*,1.5*,1.1*,1*,1.4*" Padding="12,16" ColumnSpacing="8" BackgroundColor="Transparent">
+                            <Label Grid.Column="0" Text="{Binding Invoice}" Style="{StaticResource TableCell}" VerticalOptions="Center" />
+                            <Label Grid.Column="1" Text="{Binding Customer}" Style="{StaticResource TableCell}" VerticalOptions="Center" />
+                            <Label Grid.Column="2" Text="{Binding From}" Style="{StaticResource TableCell}" VerticalOptions="Center" />
+                            <Label Grid.Column="3" Text="{Binding Price}" Style="{StaticResource TableCell}" VerticalOptions="Center" />
                             <Border Grid.Column="4" HorizontalOptions="Center" VerticalOptions="Center"
                                     StrokeThickness="0" BackgroundColor="{Binding StatusColor}"
-                                    Padding="14,5">
+                                    Padding="14,6">
                                 <Border.StrokeShape><RoundRectangle CornerRadius="5" /></Border.StrokeShape>
                                 <Label Text="{Binding Status}" FontSize="11"
                                        FontFamily="OpenSansSemibold"
