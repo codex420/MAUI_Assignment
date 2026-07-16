@@ -116,7 +116,7 @@
                     <!-- Page Numbers list -->
                     <HorizontalStackLayout Spacing="2" BindableLayout.ItemsSource="{Binding PageNumbers}">
                         <BindableLayout.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate x:DataType="{x:Null}">
                                 <Grid WidthRequest="28" HeightRequest="28">
                                     <!-- Active Page State (Circular Background) -->
                                     <Border WidthRequest="26" HeightRequest="26" StrokeThickness="0" BackgroundColor="#EAF4FE" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="False">

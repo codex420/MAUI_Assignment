@@ -375,8 +375,31 @@ public partial class DashboardViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void ChangePage(int page)
+    private void ChangePage(object pageParam)
     {
+        if (pageParam == null) return;
+        int page = 0;
+        if (pageParam is int intVal)
+        {
+            page = intVal;
+        }
+        else if (pageParam is long longVal)
+        {
+            page = (int)longVal;
+        }
+        else if (pageParam is string strVal && int.TryParse(strVal, out int parsed))
+        {
+            page = parsed;
+        }
+        else
+        {
+            try
+            {
+                page = Convert.ToInt32(pageParam);
+            }
+            catch {}
+        }
+
         if (page >= 1 && page <= TotalPages)
         {
             CurrentPage = page;
