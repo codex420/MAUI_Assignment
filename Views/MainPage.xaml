@@ -51,7 +51,7 @@
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="models:StatCard">
                                 <components:CardView BindingContext="{Binding .}"
-                                                     HeightRequest="88"
+                                                     HeightRequest="118"
                                                      Margin="0,0,10,10"
                                                      FlexLayout.Grow="1"
                                                      FlexLayout.Basis="{Binding Source={x:Reference Page}, Path=BindingContext.StatCardBasis}" />

@@ -6,7 +6,7 @@
              x:Name="Root"
              x:DataType="models:StatCard">
 
-    <Border Padding="18" StrokeThickness="0"
+    <Border Padding="12" StrokeThickness="0"
             BackgroundColor="{Binding Background}">
         <Border.StrokeShape>
             <RoundRectangle CornerRadius="10" />
@@ -56,46 +56,50 @@
             </Grid>
 
             <!-- ============ AREA LAYOUT (Page View) ============ -->
-            <Grid RowDefinitions="Auto,Auto,*" RowSpacing="4"
+            <Grid RowDefinitions="Auto,Auto,*" RowSpacing="2"
                   IsVisible="{Binding Kind, Converter={StaticResource EnumEqualsConverter}, ConverterParameter=Area}">
                 <Label Grid.Row="0"
                        Text="{Binding Title}"
-                       FontSize="13"
+                       FontSize="12"
                        TextColor="{StaticResource TextSecondary}" />
 
                 <HorizontalStackLayout Grid.Row="1" Spacing="2">
                     <Label Text="&#x2191;"
                            FontFamily="OpenSansSemibold"
-                           FontSize="18"
+                           FontSize="15"
                            TextColor="{Binding Accent}"
                            VerticalOptions="Center" />
                     <Label Text="{Binding Value}"
                            FontFamily="OpenSansSemibold"
-                           FontSize="24"
+                           FontSize="20"
                            TextColor="{Binding Accent}" />
                 </HorizontalStackLayout>
 
-                <GraphicsView Grid.Row="2" x:Name="AreaChart" Margin="-18,4,-18,-18" />
+                <!-- Chart fills the bottom, bleeding to the card edges. MinimumHeight
+                     guarantees it always has room to draw even on short cards. -->
+                <GraphicsView Grid.Row="2" x:Name="AreaChart"
+                              MinimumHeightRequest="44"
+                              Margin="-12,2,-12,-12" />
             </Grid>
 
             <!-- ============ LINE LAYOUT (Bounce Rate) ============ -->
-            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10"
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8"
                   IsVisible="{Binding Kind, Converter={StaticResource EnumEqualsConverter}, ConverterParameter=Line}">
 
                 <!-- Left column: title, value, Monthly dropdown -->
-                <VerticalStackLayout Grid.Column="0" Spacing="6" VerticalOptions="Start" WidthRequest="120">
+                <VerticalStackLayout Grid.Column="0" Spacing="4" VerticalOptions="Center" WidthRequest="108">
                     <Label Text="{Binding Title}"
-                           FontSize="13"
+                           FontSize="12"
                            TextColor="{StaticResource TextSecondary}" />
                     <HorizontalStackLayout Spacing="2">
                         <Label Text="&#x2191;"
                                FontFamily="OpenSansSemibold"
-                               FontSize="18"
+                               FontSize="15"
                                TextColor="{Binding Accent}"
                                VerticalOptions="Center" />
                         <Label Text="{Binding Value}"
                                FontFamily="OpenSansSemibold"
-                               FontSize="24"
+                               FontSize="20"
                                TextColor="{Binding Accent}" />
                     </HorizontalStackLayout>
 
@@ -103,14 +107,14 @@
                     <Border Padding="0" StrokeThickness="1"
                             Stroke="{StaticResource BorderColor}"
                             BackgroundColor="{StaticResource White}"
-                            WidthRequest="104"
-                            HeightRequest="36"
+                            WidthRequest="100"
+                            HeightRequest="30"
                             HorizontalOptions="Start">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="6" />
                         </Border.StrokeShape>
                         <Picker x:Name="RangePicker"
-                                FontSize="12"
+                                FontSize="11"
                                 Margin="6,0"
                                 BackgroundColor="Transparent"
                                 VerticalOptions="Fill"
@@ -130,7 +134,9 @@
                 </VerticalStackLayout>
 
                 <!-- Right column: wavy line chart -->
-                <GraphicsView Grid.Column="1" x:Name="LineChart" VerticalOptions="Fill" />
+                <GraphicsView Grid.Column="1" x:Name="LineChart"
+                              MinimumHeightRequest="44"
+                              VerticalOptions="Fill" />
             </Grid>
 
         </Grid>
