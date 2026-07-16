@@ -16,14 +16,12 @@ public class DashboardService : IDashboardService
 
     private static readonly string[] RandomUrls = new[]
     {
-        "https://dotnet.microsoft.com",
-        "https://learn.microsoft.com",
-        "https://www.wikipedia.org",
-        "https://news.ycombinator.com",
+        "https://dotnet.microsoft.com/en-us/apps/maui",
+        "https://en.m.wikipedia.org/wiki/Main_Page",
         "https://www.w3schools.com",
-        "https://example.com",
-        "https://www.worldometers.info",
+        "https://news.ycombinator.com",
         "https://httpbin.org",
+        "https://www.nasa.gov",
         "https://www.gutenberg.org",
         "https://archive.org"
     };

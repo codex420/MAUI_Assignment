@@ -14,10 +14,12 @@ public partial class App : Application
             Title = "MAUI Dashboard"
         };
 
+#if WINDOWS || MACCATALYST
         const int width = 1280;
         const int height = 820;
         window.Width = width;
         window.Height = height;
+#endif
 
         return window;
     }

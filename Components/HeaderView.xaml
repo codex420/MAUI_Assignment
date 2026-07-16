@@ -9,7 +9,7 @@
              x:DataType="vm:DashboardViewModel">
 
     <Border Style="{StaticResource Card}" Padding="0">
-        <Grid RowDefinitions="*,Auto">
+        <Grid RowDefinitions="Auto,Auto">
 
             <!-- ============ TOP REGION FOR DESKTOP / TABLET (Side-by-Side Grid) ============ -->
             <!-- Visible only when NOT compact (IsCompact = False). This ensures the chart shows up properly on desktop full screen. -->
