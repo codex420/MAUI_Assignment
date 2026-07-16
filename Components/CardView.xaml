@@ -87,7 +87,7 @@
                   IsVisible="{Binding Kind, Converter={StaticResource EnumEqualsConverter}, ConverterParameter=Line}">
 
                 <!-- Left column: title, value, Monthly dropdown -->
-                <VerticalStackLayout Grid.Column="0" Spacing="4" VerticalOptions="Center" WidthRequest="108">
+                <VerticalStackLayout Grid.Column="0" Spacing="4" VerticalOptions="Center" WidthRequest="124">
                     <Label Text="{Binding Title}"
                            FontSize="12"
                            TextColor="{StaticResource TextSecondary}" />
@@ -107,7 +107,7 @@
                     <Border Padding="0" StrokeThickness="1"
                             Stroke="{StaticResource BorderColor}"
                             BackgroundColor="{StaticResource White}"
-                            WidthRequest="100"
+                            WidthRequest="120"
                             HeightRequest="34"
                             HorizontalOptions="Start">
                         <Border.StrokeShape>
@@ -115,7 +115,7 @@
                         </Border.StrokeShape>
                         <Picker x:Name="RangePicker"
                                 FontSize="11"
-                                Margin="6,0"
+                                Margin="4,0"
                                 BackgroundColor="Transparent"
                                 VerticalOptions="Center"
                                 HorizontalOptions="Fill"

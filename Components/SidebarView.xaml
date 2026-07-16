@@ -8,24 +8,10 @@
              x:Name="Root"
              x:DataType="vm:DashboardViewModel">
 
-    <Grid BackgroundColor="{StaticResource SidebarBackground}" RowDefinitions="Auto,*">
+    <Grid BackgroundColor="{StaticResource SidebarBackground}" RowDefinitions="*">
 
-        <!-- Brand / logo header -->
-        <Grid Grid.Row="0" Padding="24,20" ColumnDefinitions="Auto,*" ColumnSpacing="10">
-            <Border Grid.Column="0" WidthRequest="30" HeightRequest="30"
-                    StrokeThickness="0" BackgroundColor="{StaticResource Accent}"
-                    VerticalOptions="Center">
-                <Border.StrokeShape><RoundRectangle CornerRadius="7" /></Border.StrokeShape>
-                <Label Text="&#x1F4CA;" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" />
-            </Border>
-            <Label Grid.Column="1" Text="Dashboard"
-                   FontFamily="OpenSansSemibold" FontSize="17"
-                   TextColor="{StaticResource SidebarTextActive}"
-                   VerticalOptions="Center" />
-        </Grid>
-
-        <ScrollView Grid.Row="1">
-            <VerticalStackLayout Padding="0,4,0,18" Spacing="2">
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="0,16,0,18" Spacing="2">
                 <CollectionView ItemsSource="{Binding NavItems}"
                                 SelectionMode="None">
                     <CollectionView.ItemTemplate>
