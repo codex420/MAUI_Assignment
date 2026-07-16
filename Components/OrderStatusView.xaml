@@ -82,7 +82,7 @@
                                  consistent spacing so the status badge never overlaps
                                  the neighbouring rows. -->
                             <Grid ColumnDefinitions="1.1*,1.5*,1.1*,1*,1.4*" Padding="12,0" ColumnSpacing="8"
-                                  HeightRequest="46" BackgroundColor="Transparent">
+                                  HeightRequest="38" BackgroundColor="Transparent">
                                 <Label Grid.Column="0" Text="{Binding Invoice}" Style="{StaticResource TableCell}" VerticalOptions="Center" />
                                 <Label Grid.Column="1" Text="{Binding Customer}" Style="{StaticResource TableCell}" VerticalOptions="Center" />
                                 <Label Grid.Column="2" Text="{Binding From}" Style="{StaticResource TableCell}" VerticalOptions="Center" />
