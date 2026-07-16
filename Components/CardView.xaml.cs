@@ -36,8 +36,8 @@ public enum MiniChartKind
 /// </summary>
 public class MiniChartDrawable : IDrawable
 {
-    // Rising, choppy profile for the "Page View" area card.
-    private static readonly float[] AreaValues = { 0.20f, 0.14f, 0.40f, 0.30f, 0.55f, 0.42f, 0.70f, 0.58f, 0.62f };
+    // Rising, choppy profile for the "Page View" area card (climbs toward the right).
+    private static readonly float[] AreaValues = { 0.28f, 0.18f, 0.52f, 0.40f, 0.70f, 0.55f, 0.88f, 0.72f, 0.80f };
     // Sine-like wave for the "Bounce Rate" line card.
     private static readonly float[] LineValues = { 0.30f, 0.72f, 0.40f, 0.20f, 0.55f, 0.82f, 0.60f, 0.30f, 0.48f };
 

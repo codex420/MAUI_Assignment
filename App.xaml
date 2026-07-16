@@ -8,6 +8,7 @@
             <services:NotEmptyConverter x:Key="NotEmptyConverter" />
             <services:BoolToOrientationConverter x:Key="BoolToOrientationConverter" />
             <services:InvertBoolConverter x:Key="InvertBoolConverter" />
+            <services:EnumEqualsConverter x:Key="EnumEqualsConverter" />
             <services:StackedToBasisConverter x:Key="StackedToBasisConverter" />
             <services:RowGapConverter x:Key="RowGapConverter" />
             <ResourceDictionary.MergedDictionaries>

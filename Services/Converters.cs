@@ -25,6 +25,19 @@ public class RowGapConverter : IValueConverter
         => throw new NotSupportedException();
 }
 
+/// <summary>
+/// Returns true when the bound value's string form equals the ConverterParameter.
+/// Used to switch card layouts on <c>StatCardKind</c> (e.g. parameter "Area").
+/// </summary>
+public class EnumEqualsConverter : IValueConverter
+{
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => value is not null && string.Equals(value.ToString(), parameter as string, StringComparison.OrdinalIgnoreCase);
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => throw new NotSupportedException();
+}
+
 /// <summary>Inverts a boolean.</summary>
 public class InvertBoolConverter : IValueConverter
 {
