@@ -133,17 +133,24 @@
                             </VerticalStackLayout>
                         </HorizontalStackLayout>
 
-                        <!-- Legend (top-aligned to sit on the same line as the tabs) -->
+                        <!-- Legend (top-aligned to sit on the same line as the tabs).
+                             Tapping an item toggles that series in the chart. -->
                         <HorizontalStackLayout Spacing="16" Margin="24,1,0,0" VerticalOptions="Start">
-                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                            <HorizontalStackLayout x:Name="OnlineLegend" Spacing="6" VerticalOptions="Center">
                                 <BoxView WidthRequest="9" HeightRequest="9" CornerRadius="4.5"
                                          Color="{StaticResource ChartBlue}" VerticalOptions="Center" />
                                 <Label Text="Online" Style="{StaticResource Caption}" VerticalOptions="Center" />
+                                <HorizontalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnToggleOnline" />
+                                </HorizontalStackLayout.GestureRecognizers>
                             </HorizontalStackLayout>
-                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                            <HorizontalStackLayout x:Name="StoreLegend" Spacing="6" VerticalOptions="Center">
                                 <BoxView WidthRequest="9" HeightRequest="9" CornerRadius="4.5"
                                          Color="{StaticResource ChartOrange}" VerticalOptions="Center" />
                                 <Label Text="Store" Style="{StaticResource Caption}" VerticalOptions="Center" />
+                                <HorizontalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnToggleStore" />
+                                </HorizontalStackLayout.GestureRecognizers>
                             </HorizontalStackLayout>
                         </HorizontalStackLayout>
                     </FlexLayout>
@@ -279,15 +286,21 @@
 
                         <!-- Legend (top-aligned to sit on the same line as the tabs) -->
                         <HorizontalStackLayout Spacing="16" Margin="24,1,0,0" VerticalOptions="Start">
-                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                            <HorizontalStackLayout x:Name="OnlineLegendCompact" Spacing="6" VerticalOptions="Center">
                                 <BoxView WidthRequest="9" HeightRequest="9" CornerRadius="4.5"
                                          Color="{StaticResource ChartBlue}" VerticalOptions="Center" />
                                 <Label Text="Online" Style="{StaticResource Caption}" VerticalOptions="Center" />
+                                <HorizontalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnToggleOnline" />
+                                </HorizontalStackLayout.GestureRecognizers>
                             </HorizontalStackLayout>
-                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                            <HorizontalStackLayout x:Name="StoreLegendCompact" Spacing="6" VerticalOptions="Center">
                                 <BoxView WidthRequest="9" HeightRequest="9" CornerRadius="4.5"
                                          Color="{StaticResource ChartOrange}" VerticalOptions="Center" />
                                 <Label Text="Store" Style="{StaticResource Caption}" VerticalOptions="Center" />
+                                <HorizontalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnToggleStore" />
+                                </HorizontalStackLayout.GestureRecognizers>
                             </HorizontalStackLayout>
                         </HorizontalStackLayout>
                     </FlexLayout>

@@ -51,10 +51,42 @@ public partial class HeaderView : ContentView
             if (ChartDrawable is LineChartDrawable lineChart)
             {
                 lineChart.UpdateData(tab);
-                ChartView?.Invalidate();
-                ChartViewCompact?.Invalidate();
+                InvalidateCharts();
             }
         }
+    }
+
+    // ---- Legend toggles: hide/show a series; state lives on the drawable so it
+    //      survives Daily/Weekly/Monthly/Yearly tab switches. ----
+
+    private void OnToggleOnline(object? sender, EventArgs e)
+    {
+        if (ChartDrawable is LineChartDrawable c)
+        {
+            c.ShowOnline = !c.ShowOnline;
+            double op = c.ShowOnline ? 1.0 : 0.35;
+            OnlineLegend.Opacity = op;
+            OnlineLegendCompact.Opacity = op;
+            InvalidateCharts();
+        }
+    }
+
+    private void OnToggleStore(object? sender, EventArgs e)
+    {
+        if (ChartDrawable is LineChartDrawable c)
+        {
+            c.ShowStore = !c.ShowStore;
+            double op = c.ShowStore ? 1.0 : 0.35;
+            StoreLegend.Opacity = op;
+            StoreLegendCompact.Opacity = op;
+            InvalidateCharts();
+        }
+    }
+
+    private void InvalidateCharts()
+    {
+        ChartView?.Invalidate();
+        ChartViewCompact?.Invalidate();
     }
 }
 
@@ -113,6 +145,10 @@ public class LineChartDrawable : IDrawable
     private const float AxisGutter = 30f;
     private const int HorizontalLines = 5; // grid rows (=> HorizontalLines gridlines)
 
+    /// <summary>Series visibility toggled by the legend; persists across tab switches.</summary>
+    public bool ShowOnline { get; set; } = true;
+    public bool ShowStore { get; set; } = true;
+
     public void Draw(ICanvas canvas, RectF rect)
     {
         float left = rect.Left + AxisGutter;
@@ -123,11 +159,13 @@ public class LineChartDrawable : IDrawable
         DrawGrid(canvas, left, top, right, bottom);
 
         // Blue (Online) sits behind with a neutral gray area fill, matching the design.
-        DrawSeries(canvas, left, top, right, bottom, _currentOnline, OnlineColor,
-                   Color.FromArgb("#E4E6EB"), 0.75f);
+        if (ShowOnline)
+            DrawSeries(canvas, left, top, right, bottom, _currentOnline, OnlineColor,
+                       Color.FromArgb("#E4E6EB"), 0.75f);
         // Orange (Store) sits on top with a soft orange fill.
-        DrawSeries(canvas, left, top, right, bottom, _currentStore, StoreColor,
-                   StoreColor, 0.14f);
+        if (ShowStore)
+            DrawSeries(canvas, left, top, right, bottom, _currentStore, StoreColor,
+                       StoreColor, 0.14f);
     }
 
     private static void DrawGrid(ICanvas canvas, float left, float top, float right, float bottom)
