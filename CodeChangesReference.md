@@ -83,8 +83,31 @@ Added commands to show the static Info text, toggle the Last Month Summary modal
     }
 
     [RelayCommand]
-    private void ChangePage(int page)
+    private void ChangePage(object pageParam)
     {
+        if (pageParam == null) return;
+        int page = 0;
+        if (pageParam is int intVal)
+        {
+            page = intVal;
+        }
+        else if (pageParam is long longVal)
+        {
+            page = (int)longVal;
+        }
+        else if (pageParam is string strVal && int.TryParse(strVal, out int parsed))
+        {
+            page = parsed;
+        }
+        else
+        {
+            try
+            {
+                page = Convert.ToInt32(pageParam);
+            }
+            catch {}
+        }
+
         if (page >= 1 && page <= TotalPages)
         {
             CurrentPage = page;
@@ -161,7 +184,7 @@ Renders page numbers dynamically as buttons with circular background triggers:
                     <!-- Page Numbers list -->
                     <HorizontalStackLayout Spacing="2" BindableLayout.ItemsSource="{Binding PageNumbers}">
                         <BindableLayout.ItemTemplate>
-                            <DataTemplate x:DataType="x:Int32">
+                            <DataTemplate x:DataType="{x:Null}">
                                 <Grid WidthRequest="28" HeightRequest="28">
                                     <!-- Active Page State -->
                                     <Border WidthRequest="26" HeightRequest="26" StrokeThickness="0" BackgroundColor="#EAF4FE" ...>
