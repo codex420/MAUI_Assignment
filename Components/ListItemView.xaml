@@ -5,7 +5,7 @@
              x:Class="MAUI_Assignment.Components.ListItemView"
              x:DataType="models:ActivityItem">
 
-    <Grid ColumnDefinitions="70,44,*" ColumnSpacing="12" Padding="0,10">
+    <Grid ColumnDefinitions="70,44,*" ColumnSpacing="12" Padding="0,26">
         <!-- Time -->
         <Label Grid.Column="0"
                Text="{Binding TimeAgo}"

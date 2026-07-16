@@ -43,11 +43,11 @@
     <Color x:Key="DonutYellow">#FFC93C</Color>
 
     <!-- Circle icon backgrounds (activities) -->
-    <Color x:Key="IconBlue">#3F8CFF</Color>
-    <Color x:Key="IconOrange">#F26522</Color>
-    <Color x:Key="IconTeal">#17C1B8</Color>
+    <Color x:Key="IconBlue">#5E72E4</Color>
+    <Color x:Key="IconOrange">#F5365C</Color>
+    <Color x:Key="IconTeal">#11CDEF</Color>
     <Color x:Key="IconYellow">#FFB020</Color>
-    <Color x:Key="IconGreen">#2BC155</Color>
+    <Color x:Key="IconGreen">#2DCE89</Color>
 
     <Color x:Key="White">#FFFFFF</Color>
     <Color x:Key="Black">#000000</Color>

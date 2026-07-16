@@ -85,11 +85,11 @@ public class DashboardService : IDashboardService
 
     public IReadOnlyList<ActivityItem> GetRecentActivities() => new List<ActivityItem>
     {
-        new() { TimeAgo = "42 Mins Ago", Icon = "\U0001F4CB", IconBackground = Res("IconBlue"),   Title = "Task Updated",      Author = "Nikolai",  Detail = "Updated a Task" },
-        new() { TimeAgo = "1 day Ago",   Icon = "\U0001F4B0", IconBackground = Res("IconOrange"), Title = "Deal Added",        Author = "Panchi",   Detail = "Updated a Task" },
-        new() { TimeAgo = "42 Mins Ago", Icon = "\U0001F4C4", IconBackground = Res("IconTeal"),   Title = "Published Article", Author = "Rasel",    Detail = "Published an Article" },
-        new() { TimeAgo = "1 day Ago",   Icon = "\U0001F517", IconBackground = Res("IconYellow"), Title = "Dock Updated",      Author = "Reshmi",   Detail = "Updated a Dock" },
-        new() { TimeAgo = "1 day Ago",   Icon = "\U0001F4AC", IconBackground = Res("IconGreen"),  Title = "Replyed Comment",   Author = "Jenathon", Detail = "Added a Comment" },
+        new() { TimeAgo = "42 Mins Ago", Icon = "\u2630",     IconBackground = Res("IconBlue"),   Title = "Task Updated",      Author = "Nikolai",  Detail = "Updated a Task" },
+        new() { TimeAgo = "1 day Ago",   Icon = "\u26A1",     IconBackground = Res("IconOrange"), Title = "Deal Added",        Author = "Panchi",   Detail = "Updated a Task" },
+        new() { TimeAgo = "42 Mins Ago", Icon = "\u270D",     IconBackground = Res("IconTeal"),   Title = "Published Article", Author = "Rasel",    Detail = "Published an Article" },
+        new() { TimeAgo = "1 day Ago",   Icon = "\u26A1",     IconBackground = Res("IconYellow"), Title = "Dock Updated",      Author = "Reshmi",   Detail = "Updated a Dock" },
+        new() { TimeAgo = "1 day Ago",   Icon = "\u26A1",     IconBackground = Res("IconGreen"),  Title = "Replyed Comment",   Author = "Jenathon", Detail = "Added a Comment" },
     };
 
     public IReadOnlyList<OrderItem> GetOrders() => new List<OrderItem>

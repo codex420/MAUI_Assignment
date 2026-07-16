@@ -10,16 +10,25 @@
     <Border Style="{StaticResource Card}">
         <VerticalStackLayout Spacing="6">
             <Label Text="Recent Activities" Style="{StaticResource SectionTitle}" Margin="0,0,0,6" />
-            <!-- BindableLayout (not CollectionView) so the list measures its
-                 natural height inside the outer ScrollView on Android. -->
-            <VerticalStackLayout Spacing="0"
-                                 BindableLayout.ItemsSource="{Binding RecentActivities}">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate x:DataType="models:ActivityItem">
-                        <components:ListItemView BindingContext="{Binding .}" />
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
-            </VerticalStackLayout>
+            <Grid>
+                <!-- Faint vertical timeline connector line -->
+                <BoxView WidthRequest="2"
+                         Color="#E4E9F2"
+                         HorizontalOptions="Start"
+                         VerticalOptions="Fill"
+                         Margin="104,45,0,45" />
+
+                <!-- BindableLayout (not CollectionView) so the list measures its
+                     natural height inside the outer ScrollView on Android. -->
+                <VerticalStackLayout Spacing="0"
+                                     BindableLayout.ItemsSource="{Binding RecentActivities}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:ActivityItem">
+                            <components:ListItemView BindingContext="{Binding .}" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </Grid>
         </VerticalStackLayout>
     </Border>
 
