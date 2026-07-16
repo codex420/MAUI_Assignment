@@ -18,10 +18,13 @@
             </VerticalStackLayout>
 
             <!-- Toolbar -->
-            <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,*,Auto,Auto" ColumnSpacing="8">
+            <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,*,Auto" ColumnSpacing="8">
                 <Button Grid.Column="0" Text="+ Add" Style="{StaticResource AccentButton}" HeightRequest="34" Padding="12,4" FontSize="12" Command="{Binding ShowAddOrderModalCommand}" />
                 <Border Grid.Column="1" WidthRequest="34" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ShowInfoCommand}" />
+                    </Border.GestureRecognizers>
                     <Label Text="&#x2139;" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextSecondary}" />
                 </Border>
                 <Border Grid.Column="2" WidthRequest="34" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}">
@@ -33,11 +36,11 @@
                     <Label Text="&#x1F5A8;" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextSecondary}" />
                 </Border>
 
-                <Border Grid.Column="5" WidthRequest="150" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}" Padding="0">
+                <Border Grid.Column="4" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}" Padding="0">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
                     <Entry Text="{Binding SearchQuery}" Placeholder="Search..." FontSize="12" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="{StaticResource TextPrimary}" Margin="10,0" />
                 </Border>
-                <Border Grid.Column="6" WidthRequest="34" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}">
+                <Border Grid.Column="5" WidthRequest="34" HeightRequest="34" StrokeThickness="1" Stroke="{StaticResource BorderColor}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
                     <Label Text="&#x1F50D;" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextSecondary}" />
                 </Border>
@@ -61,9 +64,6 @@
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="models:OrderItem">
                         <Grid ColumnDefinitions="1.1*,1.6*,1.2*,1*,1.2*" Padding="0,12" ColumnSpacing="8" BackgroundColor="Transparent">
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding BindingContext.EditOrderCommand, Source={RelativeSource AncestorType={x:Type components:OrderStatusView}}}" CommandParameter="{Binding .}" />
-                            </Grid.GestureRecognizers>
                             <Label Grid.Column="0" Text="{Binding Invoice}" Style="{StaticResource TableCell}" />
                             <Label Grid.Column="1" Text="{Binding Customer}" Style="{StaticResource TableCell}" />
                             <Label Grid.Column="2" Text="{Binding From}" Style="{StaticResource TableCell}" />

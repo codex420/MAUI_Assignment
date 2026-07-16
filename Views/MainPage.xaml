@@ -212,6 +212,60 @@
             </Border>
         </Grid>
 
+        <!-- ============ Info Modal Dialog ============ -->
+        <Grid Grid.ColumnSpan="2"
+              IsVisible="{Binding IsInfoModalVisible}"
+              BackgroundColor="#aa000000"
+              HorizontalOptions="Fill" VerticalOptions="Fill">
+            
+            <Border VerticalOptions="Center" HorizontalOptions="Center"
+                    WidthRequest="350" Padding="24"
+                    BackgroundColor="{StaticResource CardBackground}"
+                    StrokeThickness="1" Stroke="{StaticResource BorderColor}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12" />
+                </Border.StrokeShape>
+                
+                <VerticalStackLayout Spacing="16">
+                    <Label Text="Information" FontSize="18" FontFamily="OpenSansSemibold" TextColor="{StaticResource TextPrimary}" />
+                    
+                    <Label Text="{Binding InfoModalMessage}" FontSize="14" TextColor="{StaticResource TextSecondary}" LineBreakMode="WordWrap" />
+                    
+                    <Button Text="Close"
+                            Style="{StaticResource AccentButton}"
+                            Command="{Binding CloseInfoModalCommand}"
+                            Margin="0,10,0,0" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <!-- ============ Summary Modal Dialog ============ -->
+        <Grid Grid.ColumnSpan="2"
+              IsVisible="{Binding IsSummaryModalVisible}"
+              BackgroundColor="#aa000000"
+              HorizontalOptions="Fill" VerticalOptions="Fill">
+            
+            <Border VerticalOptions="Center" HorizontalOptions="Center"
+                    WidthRequest="400" Padding="24"
+                    BackgroundColor="{StaticResource CardBackground}"
+                    StrokeThickness="1" Stroke="{StaticResource BorderColor}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12" />
+                </Border.StrokeShape>
+                
+                <VerticalStackLayout Spacing="16">
+                    <Label Text="Last Month Summary" FontSize="18" FontFamily="OpenSansSemibold" TextColor="{StaticResource TextPrimary}" />
+                    
+                    <Label Text="{Binding SummaryModalDetails}" FontSize="14" TextColor="{StaticResource TextSecondary}" LineBreakMode="WordWrap" />
+                    
+                    <Button Text="Close"
+                            Style="{StaticResource AccentButton}"
+                            Command="{Binding CloseSummaryModalCommand}"
+                            Margin="0,10,0,0" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
     </Grid>
 
 </ContentPage>

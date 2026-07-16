@@ -69,6 +69,18 @@ public partial class DashboardViewModel : ObservableObject
     [NotifyPropertyChangedFor(nameof(ModalTitle))]
     private OrderItem? _editingOrder;
 
+    [ObservableProperty]
+    private bool _isInfoModalVisible = false;
+
+    [ObservableProperty]
+    private string _infoModalMessage = string.Empty;
+
+    [ObservableProperty]
+    private bool _isSummaryModalVisible = false;
+
+    [ObservableProperty]
+    private string _summaryModalDetails = string.Empty;
+
     public bool IsEditing => EditingOrder != null;
     public string ModalTitle => IsEditing ? $"Edit Order #{EditingOrder!.Invoice}" : "Add New Order";
 
@@ -286,7 +298,20 @@ public partial class DashboardViewModel : ObservableObject
     [RelayCommand]
     private void LastMonthSummary()
     {
-        // Placeholder command — wired to the header button.
+        SummaryModalDetails = "Last Month Performance Summary:\n\n" +
+                              "• Total Earnings: $24,890 (+12% growth)\n" +
+                              "• Total Completed Orders: 1,420\n" +
+                              "• Top Customer Location: Brazil (450 orders)\n" +
+                              "• Active Platform Users: 890\n" +
+                              "• Resolution Rate: 98.4%\n" +
+                              "• Average Delivery Time: 2.3 days";
+        IsSummaryModalVisible = true;
+    }
+
+    [RelayCommand]
+    private void CloseSummaryModal()
+    {
+        IsSummaryModalVisible = false;
     }
 
     [RelayCommand]
@@ -383,6 +408,19 @@ public partial class DashboardViewModel : ObservableObject
         NewOrderPrice = order.Price.Replace("$", string.Empty);
         NewOrderStatus = order.Status;
         IsAddOrderModalVisible = true;
+    }
+
+    [RelayCommand]
+    private void ShowInfo()
+    {
+        InfoModalMessage = "These are the order statuses of all the people inside the dashboard.";
+        IsInfoModalVisible = true;
+    }
+
+    [RelayCommand]
+    private void CloseInfoModal()
+    {
+        IsInfoModalVisible = false;
     }
 
     [RelayCommand]
