@@ -40,6 +40,8 @@ Added state variables to track the Info and Summary modal visibilities and text 
 
     [ObservableProperty]
     private string _summaryModalDetails = string.Empty;
+
+    public ObservableCollection<int> PageNumbers { get; } = new();
 ```
 
 <!-- SEARCH_VIEWMODEL_COMMANDS -->
@@ -79,6 +81,15 @@ Added commands to show the static Info text, toggle the Last Month Summary modal
     {
         IsSummaryModalVisible = false;
     }
+
+    [RelayCommand]
+    private void ChangePage(int page)
+    {
+        if (page >= 1 && page <= TotalPages)
+        {
+            CurrentPage = page;
+        }
+    }
 ```
 
 ---
@@ -88,7 +99,7 @@ Added commands to show the static Info text, toggle the Last Month Summary modal
 
 <!-- SEARCH_ORDER_TOOLBAR -->
 ### Grid Toolbar Overlap & Info Button Binding
-Changed columns to `Auto,Auto,Auto,Auto,*,Auto,Auto` with light backgrounds, dark icons, and search inputs to exactly match the latest reference screenshot:
+Changed columns to `Auto,Auto,Auto,Auto,*,Auto,Auto` with light backgrounds, dark icons, and search inputs to exactly match the reference screenshot:
 
 ```xml
             <!-- SEARCH_ORDER_TOOLBAR -->
@@ -135,6 +146,39 @@ Changed columns to `Auto,Auto,Auto,Auto,*,Auto,Auto` with light backgrounds, dar
             </Grid>
 ```
 
+<!-- SEARCH_PAGINATION_NUMBERS -->
+### Dynamic Pagination Numbers
+Renders page numbers dynamically as buttons with circular background triggers:
+
+```xml
+            <!-- SEARCH_PAGINATION_NUMBERS -->
+            <Grid ColumnDefinitions="*,Auto" Margin="0,12,0,0">
+                <Label Grid.Column="0" Text="{Binding PaginationStatusText}"
+                       Style="{StaticResource Caption}" VerticalOptions="Center" />
+                <HorizontalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
+                    <!-- Previous Arrow -->
+                    ...
+                    <!-- Page Numbers list -->
+                    <HorizontalStackLayout Spacing="2" BindableLayout.ItemsSource="{Binding PageNumbers}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="x:Int32">
+                                <Grid WidthRequest="28" HeightRequest="28">
+                                    <!-- Active Page State -->
+                                    <Border WidthRequest="26" HeightRequest="26" StrokeThickness="0" BackgroundColor="#EAF4FE" ...>
+                                        <Label Text="{Binding .}" ... />
+                                    </Border>
+                                    <!-- Inactive Page State -->
+                                    <Label Text="{Binding .}" ... />
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </HorizontalStackLayout>
+                    <!-- Next Arrow -->
+                    ...
+                </HorizontalStackLayout>
+            </Grid>
+```
+
 ---
 
 ## 4. Main Page View (MainPage.xaml)
@@ -150,32 +194,13 @@ Added the styled Info dialog Grid overlay:
               IsVisible="{Binding IsInfoModalVisible}"
               BackgroundColor="#aa000000"
               HorizontalOptions="Fill" VerticalOptions="Fill">
-            
-            <Border VerticalOptions="Center" HorizontalOptions="Center"
-                    WidthRequest="350" Padding="24"
-                    BackgroundColor="{StaticResource CardBackground}"
-                    StrokeThickness="1" Stroke="{StaticResource BorderColor}">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="12" />
-                </Border.StrokeShape>
-                
-                <VerticalStackLayout Spacing="16">
-                    <Label Text="Information" FontSize="18" FontFamily="OpenSansSemibold" TextColor="{StaticResource TextPrimary}" />
-                    
-                    <Label Text="{Binding InfoModalMessage}" FontSize="14" TextColor="{StaticResource TextSecondary}" LineBreakMode="WordWrap" />
-                    
-                    <Button Text="Close"
-                            Style="{StaticResource AccentButton}"
-                            Command="{Binding CloseInfoModalCommand}"
-                            Margin="0,10,0,0" />
-                </VerticalStackLayout>
-            </Border>
+            ...
         </Grid>
 ```
 
 <!-- SEARCH_SUMMARY_MODAL_GRID -->
 ### Last Month Summary Modal UI Overlay
-Added the styled Performance Summary dialog Grid overlay:
+Added the Performance Summary dialog Grid overlay:
 
 ```xml
         <!-- ============ SEARCH_SUMMARY_MODAL_GRID ============ -->
@@ -183,25 +208,6 @@ Added the styled Performance Summary dialog Grid overlay:
               IsVisible="{Binding IsSummaryModalVisible}"
               BackgroundColor="#aa000000"
               HorizontalOptions="Fill" VerticalOptions="Fill">
-            
-            <Border VerticalOptions="Center" HorizontalOptions="Center"
-                    WidthRequest="400" Padding="24"
-                    BackgroundColor="{StaticResource CardBackground}"
-                    StrokeThickness="1" Stroke="{StaticResource BorderColor}">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="12" />
-                </Border.StrokeShape>
-                
-                <VerticalStackLayout Spacing="16">
-                    <Label Text="Last Month Summary" FontSize="18" FontFamily="OpenSansSemibold" TextColor="{StaticResource TextPrimary}" />
-                    
-                    <Label Text="{Binding SummaryModalDetails}" FontSize="14" TextColor="{StaticResource TextSecondary}" LineBreakMode="WordWrap" />
-                    
-                    <Button Text="Close"
-                            Style="{StaticResource AccentButton}"
-                            Command="{Binding CloseSummaryModalCommand}"
-                            Margin="0,10,0,0" />
-                </VerticalStackLayout>
-            </Border>
+            ...
         </Grid>
 ```

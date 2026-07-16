@@ -71,7 +71,7 @@
             <!-- Rows with Spacing and Padding Bottom after status -->
             <VerticalStackLayout Spacing="0"
                                  BindableLayout.ItemsSource="{Binding Orders}"
-                                 Margin="0,0,0,24">
+                                 Margin="0,0,0,40">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="models:OrderItem">
                         <Grid ColumnDefinitions="1.1*,1.5*,1.1*,1*,1.4*" Padding="12,16" ColumnSpacing="8" BackgroundColor="Transparent">
@@ -94,12 +94,12 @@
             </VerticalStackLayout>
 
             <!-- Footer / pagination -->
-            <Grid ColumnDefinitions="*,Auto">
+            <Grid ColumnDefinitions="*,Auto" Margin="0,12,0,0">
                 <Label Grid.Column="0" Text="{Binding PaginationStatusText}"
                        Style="{StaticResource Caption}" VerticalOptions="Center" />
-                <HorizontalStackLayout Grid.Column="1" Spacing="12" VerticalOptions="Center">
+                <HorizontalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
                     <!-- Previous Arrow -->
-                    <Label Text="&#x2039;" FontSize="22" VerticalOptions="Center" Padding="4" HorizontalTextAlignment="Center">
+                    <Label Text="&#x2039;" FontSize="20" VerticalOptions="Center" Padding="6" HorizontalTextAlignment="Center">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding PreviousPageCommand}" />
                         </Label.GestureRecognizers>
@@ -108,16 +108,45 @@
                                 <Setter Property="TextColor" Value="{StaticResource TextMuted}" />
                             </DataTrigger>
                             <DataTrigger TargetType="Label" Binding="{Binding CanGoPrevious}" Value="True">
-                                <Setter Property="TextColor" Value="{StaticResource Accent}" />
+                                <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
                             </DataTrigger>
                         </Label.Triggers>
                     </Label>
 
-                    <!-- Page Info -->
-                    <Label Text="{Binding PageIndicatorText}" FontSize="12" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center" />
+                    <!-- Page Numbers list -->
+                    <HorizontalStackLayout Spacing="2" BindableLayout.ItemsSource="{Binding PageNumbers}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Grid WidthRequest="28" HeightRequest="28">
+                                    <!-- Active Page State (Circular Background) -->
+                                    <Border WidthRequest="26" HeightRequest="26" StrokeThickness="0" BackgroundColor="#EAF4FE" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="False">
+                                        <Border.StrokeShape><RoundRectangle CornerRadius="13" /></Border.StrokeShape>
+                                        <Label Text="{Binding .}" FontSize="12" FontFamily="OpenSansSemibold" TextColor="#3F8CFF" HorizontalOptions="Center" VerticalOptions="Center" />
+                                        <Border.Triggers>
+                                            <DataTrigger TargetType="Border" Binding="{Binding BindingContext.CurrentPage, Source={RelativeSource AncestorType={x:Type components:OrderStatusView}}}" Value="{Binding .}">
+                                                <Setter Property="IsVisible" Value="True" />
+                                            </DataTrigger>
+                                        </Border.Triggers>
+                                    </Border>
+
+                                    <!-- Inactive Page State (Simple Label) -->
+                                    <Label Text="{Binding .}" FontSize="12" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center" HorizontalOptions="Center" Padding="4" IsVisible="True">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding BindingContext.ChangePageCommand, Source={RelativeSource AncestorType={x:Type components:OrderStatusView}}}" CommandParameter="{Binding .}" />
+                                        </Label.GestureRecognizers>
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding BindingContext.CurrentPage, Source={RelativeSource AncestorType={x:Type components:OrderStatusView}}}" Value="{Binding .}">
+                                                <Setter Property="IsVisible" Value="False" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </HorizontalStackLayout>
 
                     <!-- Next Arrow -->
-                    <Label Text="&#x203A;" FontSize="22" VerticalOptions="Center" Padding="4" HorizontalTextAlignment="Center">
+                    <Label Text="&#x203A;" FontSize="20" VerticalOptions="Center" Padding="6" HorizontalTextAlignment="Center">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding NextPageCommand}" />
                         </Label.GestureRecognizers>
@@ -126,7 +155,7 @@
                                 <Setter Property="TextColor" Value="{StaticResource TextMuted}" />
                             </DataTrigger>
                             <DataTrigger TargetType="Label" Binding="{Binding CanGoNext}" Value="True">
-                                <Setter Property="TextColor" Value="{StaticResource Accent}" />
+                                <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
                             </DataTrigger>
                         </Label.Triggers>
                     </Label>

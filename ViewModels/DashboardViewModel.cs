@@ -217,6 +217,7 @@ public partial class DashboardViewModel : ObservableObject
     public ObservableCollection<ActivityItem> RecentActivities { get; } = new();
     public ObservableCollection<OrderItem> Orders { get; } = new();
     public ObservableCollection<TrafficSlice> Traffic { get; } = new();
+    public ObservableCollection<int> PageNumbers { get; } = new();
 
     public DashboardViewModel(IDashboardService service)
     {
@@ -357,6 +358,12 @@ public partial class DashboardViewModel : ObservableObject
             Orders.Add(order);
         }
 
+        PageNumbers.Clear();
+        for (int i = 1; i <= TotalPages; i++)
+        {
+            PageNumbers.Add(i);
+        }
+
         OnPropertyChanged(nameof(DisplayStart));
         OnPropertyChanged(nameof(DisplayEnd));
         OnPropertyChanged(nameof(TotalEntries));
@@ -365,6 +372,15 @@ public partial class DashboardViewModel : ObservableObject
         OnPropertyChanged(nameof(CanGoNext));
         OnPropertyChanged(nameof(CanGoPrevious));
         OnPropertyChanged(nameof(PageIndicatorText));
+    }
+
+    [RelayCommand]
+    private void ChangePage(int page)
+    {
+        if (page >= 1 && page <= TotalPages)
+        {
+            CurrentPage = page;
+        }
     }
 
     [RelayCommand]
