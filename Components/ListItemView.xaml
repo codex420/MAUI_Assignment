@@ -5,37 +5,37 @@
              x:Class="MAUI_Assignment.Components.ListItemView"
              x:DataType="models:ActivityItem">
 
-    <Grid ColumnDefinitions="70,44,*" ColumnSpacing="12" Padding="0,26">
+    <Grid ColumnDefinitions="64,36,*" ColumnSpacing="10" Padding="0,12">
         <!-- Time -->
         <Label Grid.Column="0"
                Text="{Binding TimeAgo}"
-               FontSize="11"
+               FontSize="10"
                TextColor="{StaticResource TextMuted}"
                VerticalOptions="Center" />
 
         <!-- Icon bubble -->
         <Border Grid.Column="1"
-                WidthRequest="38" HeightRequest="38"
+                WidthRequest="32" HeightRequest="32"
                 StrokeThickness="0"
                 BackgroundColor="{Binding IconBackground}"
                 VerticalOptions="Center">
             <Border.StrokeShape>
-                <RoundRectangle CornerRadius="19" />
+                <RoundRectangle CornerRadius="16" />
             </Border.StrokeShape>
             <Label Text="{Binding Icon}"
-                   FontSize="15"
+                   FontSize="13"
                    TextColor="{StaticResource White}"
                    HorizontalOptions="Center"
                    VerticalOptions="Center" />
         </Border>
 
         <!-- Text -->
-        <VerticalStackLayout Grid.Column="2" Spacing="2" VerticalOptions="Center">
+        <VerticalStackLayout Grid.Column="2" Spacing="1" VerticalOptions="Center">
             <Label Text="{Binding Title}"
                    FontFamily="OpenSansSemibold"
-                   FontSize="14"
+                   FontSize="13"
                    TextColor="{StaticResource TextPrimary}" />
-            <Label FontSize="12">
+            <Label FontSize="11">
                 <Label.FormattedText>
                     <FormattedString>
                         <Span Text="{Binding Author}"

@@ -20,55 +20,17 @@
                                 WidthRequest="230" />
 
         <!-- ============ Main content ============ -->
-        <Grid Grid.Column="1" RowDefinitions="Auto,*">
+        <Grid Grid.Column="1" RowDefinitions="*">
 
-            <!-- Top app bar with hamburger toggle -->
-            <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto"
-                  Padding="12,10" ColumnSpacing="10"
-                  BackgroundColor="{StaticResource CardBackground}">
-                <Border Grid.Column="0"
-                        WidthRequest="42" HeightRequest="42"
-                        StrokeThickness="0"
-                        BackgroundColor="{StaticResource PageBackground}"
-                        VerticalOptions="Center">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="8" />
-                    </Border.StrokeShape>
-                    <Label Text="&#x2630;" FontSize="20"
-                           TextColor="{StaticResource TextPrimary}"
-                           HorizontalOptions="Center" VerticalOptions="Center" />
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ToggleSidebarCommand}" />
-                    </Border.GestureRecognizers>
-                </Border>
-
-                <Label Grid.Column="1" Text="{Binding PageHeaderTitle}"
-                       Style="{StaticResource SectionTitle}"
-                       VerticalOptions="Center" />
-
-                <Border Grid.Column="2"
-                        WidthRequest="38" HeightRequest="38"
-                        StrokeThickness="0"
-                        BackgroundColor="{StaticResource Accent}"
-                        VerticalOptions="Center">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="19" />
-                    </Border.StrokeShape>
-                    <Label Text="A" TextColor="{StaticResource White}"
-                           FontFamily="OpenSansSemibold"
-                           HorizontalOptions="Center" VerticalOptions="Center" />
-                </Border>
-            </Grid>
-
-            <!-- Scrollable dashboard body -->
-            <ScrollView Grid.Row="1" IsVisible="{Binding IsDashboardActive}">
-                <VerticalStackLayout Padding="{Binding ContentPadding}" Spacing="18">
+            <!-- Scrollable dashboard body (top app bar removed to match design) -->
+            <ScrollView Grid.Row="0" IsVisible="{Binding IsDashboardActive}">
+                <VerticalStackLayout Padding="{Binding ContentPadding}" Spacing="10">
 
                     <!-- Row 1: Header summary + Traffic (reflows) -->
                     <Grid ColumnDefinitions="63*, 37*"
                           RowDefinitions="Auto, Auto"
-                          ColumnSpacing="18"
-                          RowSpacing="18">
+                          ColumnSpacing="10"
+                          RowSpacing="10">
                         <components:HeaderView BindingContext="{Binding .}"
                                                Grid.Row="{Binding HeaderRow}"
                                                Grid.Column="{Binding HeaderColumn}"
@@ -89,8 +51,8 @@
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="models:StatCard">
                                 <components:CardView BindingContext="{Binding .}"
-                                                     HeightRequest="110"
-                                                     Margin="0,0,16,16"
+                                                     HeightRequest="88"
+                                                     Margin="0,0,10,10"
                                                      FlexLayout.Grow="1"
                                                      FlexLayout.Basis="{Binding Source={x:Reference Page}, Path=BindingContext.StatCardBasis}" />
                             </DataTemplate>
@@ -116,8 +78,30 @@
                 </VerticalStackLayout>
             </ScrollView>
 
+            <!-- Compact-only floating menu button (Android / narrow screens).
+                 Wide & medium layouts keep the sidebar permanently docked, so no
+                 button is shown there. -->
+            <Border Grid.Row="0"
+                    IsVisible="{Binding SidebarIsOverlay}"
+                    WidthRequest="40" HeightRequest="40"
+                    Margin="12,12,0,0"
+                    StrokeThickness="0"
+                    BackgroundColor="{StaticResource CardBackground}"
+                    HorizontalOptions="Start" VerticalOptions="Start"
+                    ZIndex="5">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8" />
+                </Border.StrokeShape>
+                <Label Text="&#x2630;" FontSize="18"
+                       TextColor="{StaticResource TextPrimary}"
+                       HorizontalOptions="Center" VerticalOptions="Center" />
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ToggleSidebarCommand}" />
+                </Border.GestureRecognizers>
+            </Border>
+
             <!-- WebView container for non-dashboard tabs -->
-            <Grid Grid.Row="1" IsVisible="{Binding IsDashboardActive, Converter={StaticResource InvertBoolConverter}}">
+            <Grid Grid.Row="0" IsVisible="{Binding IsDashboardActive, Converter={StaticResource InvertBoolConverter}}">
                 <WebView Source="{Binding CurrentUrl}"
                          HorizontalOptions="Fill"
                          VerticalOptions="Fill" />

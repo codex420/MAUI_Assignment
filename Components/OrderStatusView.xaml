@@ -9,10 +9,10 @@
              x:Name="Root">
 
     <Border Style="{StaticResource Card}">
-        <VerticalStackLayout Spacing="16">
+        <VerticalStackLayout Spacing="10">
 
             <!-- Header -->
-            <VerticalStackLayout Spacing="2">
+            <VerticalStackLayout Spacing="1">
                 <Label Text="Order Status" Style="{StaticResource SectionTitle}" />
                 <Label Text="Overview of Latest Month" Style="{StaticResource SectionSubtitle}" />
             </VerticalStackLayout>
@@ -61,7 +61,7 @@
 
             <!-- Table header with Shaded Background Banner -->
             <VerticalStackLayout Spacing="0">
-                <Grid ColumnDefinitions="1.1*,1.5*,1.1*,1*,1.4*" Padding="12,12" ColumnSpacing="8" BackgroundColor="#EEF2F6">
+                <Grid ColumnDefinitions="1.1*,1.5*,1.1*,1*,1.4*" Padding="12,8" ColumnSpacing="8" BackgroundColor="#EEF2F6">
                     <Label Grid.Column="0" Text="INVOICE" Style="{StaticResource TableHeader}" TextColor="{StaticResource TextPrimary}" FontFamily="OpenSansSemibold" VerticalOptions="Center" />
                     <Label Grid.Column="1" Text="CUSTOMERS" Style="{StaticResource TableHeader}" TextColor="{StaticResource TextPrimary}" FontFamily="OpenSansSemibold" VerticalOptions="Center" />
                     <Label Grid.Column="2" Text="FROM" Style="{StaticResource TableHeader}" TextColor="{StaticResource TextPrimary}" FontFamily="OpenSansSemibold" VerticalOptions="Center" />
@@ -74,11 +74,11 @@
             <!-- Rows with Spacing and Padding Bottom after status -->
             <VerticalStackLayout Spacing="0"
                                  BindableLayout.ItemsSource="{Binding Orders}"
-                                 Margin="0,0,0,40">
+                                 Margin="0,0,0,8">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="models:OrderItem">
                         <VerticalStackLayout Spacing="0" BackgroundColor="Transparent">
-                            <Grid ColumnDefinitions="1.1*,1.5*,1.1*,1*,1.4*" Padding="12,16" ColumnSpacing="8" BackgroundColor="Transparent">
+                            <Grid ColumnDefinitions="1.1*,1.5*,1.1*,1*,1.4*" Padding="12,9" ColumnSpacing="8" BackgroundColor="Transparent">
                                 <Label Grid.Column="0" Text="{Binding Invoice}" Style="{StaticResource TableCell}" VerticalOptions="Center" />
                                 <Label Grid.Column="1" Text="{Binding Customer}" Style="{StaticResource TableCell}" VerticalOptions="Center" />
                                 <Label Grid.Column="2" Text="{Binding From}" Style="{StaticResource TableCell}" VerticalOptions="Center" />
@@ -99,7 +99,7 @@
             </VerticalStackLayout>
 
             <!-- Footer / pagination -->
-            <Grid ColumnDefinitions="*,Auto" Margin="0,12,0,0">
+            <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
                 <Label Grid.Column="0" Text="{Binding PaginationStatusText}"
                        Style="{StaticResource Caption}" VerticalOptions="Center" />
                 <HorizontalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">

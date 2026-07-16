@@ -16,7 +16,7 @@
                          Color="#E4E9F2"
                          HorizontalOptions="Start"
                          VerticalOptions="Fill"
-                         Margin="104,45,0,45" />
+                         Margin="89,30,0,30" />
 
                 <!-- BindableLayout (not CollectionView) so the list measures its
                      natural height inside the outer ScrollView on Android. -->

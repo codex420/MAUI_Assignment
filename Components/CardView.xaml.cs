@@ -5,6 +5,8 @@ namespace MAUI_Assignment.Components;
 
 public partial class CardView : ContentView
 {
+    private MiniChartDrawable? _lineDrawable;
+
     public CardView()
     {
         InitializeComponent();
@@ -16,10 +18,21 @@ public partial class CardView : ContentView
         if (BindingContext is StatCard card)
         {
             AreaChart.Drawable = new MiniChartDrawable(MiniChartKind.Area, card.Accent);
-            LineChart.Drawable = new MiniChartDrawable(MiniChartKind.Line, card.Accent);
+            _lineDrawable = new MiniChartDrawable(MiniChartKind.Line, card.Accent)
+            {
+                LineProfileIndex = RangePicker.SelectedIndex < 0 ? 0 : RangePicker.SelectedIndex
+            };
+            LineChart.Drawable = _lineDrawable;
             AreaChart.Invalidate();
             LineChart.Invalidate();
         }
+    }
+
+    private void OnRangeChanged(object? sender, EventArgs e)
+    {
+        if (_lineDrawable is null || sender is not Picker picker) return;
+        _lineDrawable.LineProfileIndex = picker.SelectedIndex < 0 ? 0 : picker.SelectedIndex;
+        LineChart.Invalidate();
     }
 }
 
@@ -38,11 +51,21 @@ public class MiniChartDrawable : IDrawable
 {
     // Rising, choppy profile for the "Page View" area card (climbs toward the right).
     private static readonly float[] AreaValues = { 0.28f, 0.18f, 0.52f, 0.40f, 0.70f, 0.55f, 0.88f, 0.72f, 0.80f };
-    // Sine-like wave for the "Bounce Rate" line card.
-    private static readonly float[] LineValues = { 0.30f, 0.72f, 0.40f, 0.20f, 0.55f, 0.82f, 0.60f, 0.30f, 0.48f };
+
+    // Distinct line profiles per Bounce Rate range so switching the dropdown visibly
+    // changes the wave. Index maps to the Picker order: Monthly / Weekly / Daily.
+    private static readonly float[][] LineProfiles =
+    {
+        new[] { 0.30f, 0.72f, 0.40f, 0.20f, 0.55f, 0.82f, 0.60f, 0.30f, 0.48f }, // Monthly
+        new[] { 0.50f, 0.35f, 0.65f, 0.45f, 0.28f, 0.60f, 0.40f, 0.72f, 0.55f }, // Weekly
+        new[] { 0.20f, 0.55f, 0.30f, 0.78f, 0.45f, 0.25f, 0.68f, 0.42f, 0.62f }, // Daily
+    };
 
     private readonly MiniChartKind _kind;
     private readonly Color _color;
+
+    /// <summary>Selected Bounce Rate profile (0 = Monthly). Ignored for area charts.</summary>
+    public int LineProfileIndex { get; set; }
 
     public MiniChartDrawable(MiniChartKind kind, Color color)
     {
@@ -76,7 +99,8 @@ public class MiniChartDrawable : IDrawable
 
     private void DrawLine(ICanvas canvas, RectF rect)
     {
-        var pts = BuildPoints(rect, LineValues);
+        int idx = Math.Clamp(LineProfileIndex, 0, LineProfiles.Length - 1);
+        var pts = BuildPoints(rect, LineProfiles[idx]);
 
         var line = SmoothPath(pts, rect.Bottom, closePath: false);
         canvas.StrokeColor = _color;

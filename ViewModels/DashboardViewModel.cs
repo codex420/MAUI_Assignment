@@ -177,11 +177,11 @@ public partial class DashboardViewModel : ObservableObject
     public bool BottomRowVertical => IsCompact;
 
     // ---------- HeaderView responsive height settings to avoid clipping ----------
-    public double HeaderTopHeight => IsCompact ? 410 : 210;
-    public double HeaderBottomHeight => IsWide ? 70 : (IsMedium ? 140 : 280);
+    public double HeaderTopHeight => IsCompact ? 330 : 165;
+    public double HeaderBottomHeight => IsWide ? 58 : (IsMedium ? 116 : 232);
 
     /// <summary>Tighter padding on phones.</summary>
-    public Thickness ContentPadding => IsCompact ? new Thickness(12) : new Thickness(20);
+    public Thickness ContentPadding => IsCompact ? new Thickness(12, 60, 12, 12) : new Thickness(16);
 
     // Row 1 grid positioning (Header + Traffic)
     public int HeaderRow => 0;

@@ -103,16 +103,21 @@
                     <Border Padding="0" StrokeThickness="1"
                             Stroke="{StaticResource BorderColor}"
                             BackgroundColor="{StaticResource White}"
+                            WidthRequest="104"
+                            HeightRequest="36"
                             HorizontalOptions="Start">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="6" />
                         </Border.StrokeShape>
-                        <Picker Title="Monthly"
+                        <Picker x:Name="RangePicker"
                                 FontSize="12"
-                                WidthRequest="96"
-                                HeightRequest="34"
+                                Margin="6,0"
+                                BackgroundColor="Transparent"
+                                VerticalOptions="Fill"
+                                HorizontalOptions="Fill"
                                 TextColor="{StaticResource TextSecondary}"
-                                SelectedIndex="0">
+                                SelectedIndex="0"
+                                SelectedIndexChanged="OnRangeChanged">
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
                                     <x:String>Monthly</x:String>

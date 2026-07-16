@@ -13,11 +13,11 @@
 
             <!-- ============ TOP REGION FOR DESKTOP / TABLET (Side-by-Side Grid) ============ -->
             <!-- Visible only when NOT compact (IsCompact = False). This ensures the chart shows up properly on desktop full screen. -->
-            <Grid Grid.Row="0" Padding="22" ColumnDefinitions="Auto,*" ColumnSpacing="30"
+            <Grid Grid.Row="0" Padding="14" ColumnDefinitions="Auto,*" ColumnSpacing="22"
                   IsVisible="{Binding IsCompact, Converter={StaticResource InvertBoolConverter}}">
-                
+
                 <!-- Left column: Summary Info -->
-                <VerticalStackLayout Grid.Column="0" Spacing="16" WidthRequest="200" VerticalOptions="Start">
+                <VerticalStackLayout Grid.Column="0" Spacing="10" WidthRequest="180" VerticalOptions="Start">
                     <VerticalStackLayout Spacing="2">
                         <Label Text="Dashboard" Style="{StaticResource SectionTitle}" />
                         <Label Text="Overview of Latest Month" Style="{StaticResource SectionSubtitle}" />
@@ -30,7 +30,7 @@
 
                     <VerticalStackLayout Spacing="1">
                         <Label Text="{Binding CurrentMonthSales}"
-                               FontFamily="OpenSansSemibold" FontSize="24"
+                               FontFamily="OpenSansSemibold" FontSize="18"
                                TextColor="{StaticResource TextPrimary}" />
                         <Label Text="Current Month Sales" Style="{StaticResource Caption}" />
                     </VerticalStackLayout>
@@ -134,22 +134,22 @@
                         </HorizontalStackLayout>
 
                         <!-- Legend -->
-                        <HorizontalStackLayout Spacing="16" Margin="0,0,0,6">
-                            <HorizontalStackLayout Spacing="5">
-                                <BoxView WidthRequest="8" HeightRequest="8" CornerRadius="4"
+                        <HorizontalStackLayout Spacing="16" Margin="24,0,0,6" VerticalOptions="Center">
+                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                <BoxView WidthRequest="9" HeightRequest="9" CornerRadius="4.5"
                                          Color="{StaticResource ChartBlue}" VerticalOptions="Center" />
-                                <Label Text="Online" Style="{StaticResource Caption}" />
+                                <Label Text="Online" Style="{StaticResource Caption}" VerticalOptions="Center" />
                             </HorizontalStackLayout>
-                            <HorizontalStackLayout Spacing="5">
-                                <BoxView WidthRequest="8" HeightRequest="8" CornerRadius="4"
+                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                <BoxView WidthRequest="9" HeightRequest="9" CornerRadius="4.5"
                                          Color="{StaticResource ChartOrange}" VerticalOptions="Center" />
-                                <Label Text="Store" Style="{StaticResource Caption}" />
+                                <Label Text="Store" Style="{StaticResource Caption}" VerticalOptions="Center" />
                             </HorizontalStackLayout>
                         </HorizontalStackLayout>
                     </FlexLayout>
 
                     <!-- Chart Canvas -->
-                    <Grid Grid.Row="1" HeightRequest="180">
+                    <Grid Grid.Row="1" HeightRequest="130">
                         <GraphicsView x:Name="ChartView" Drawable="{Binding Source={x:Reference Root}, Path=ChartDrawable, x:DataType=local:HeaderView}" />
                     </Grid>
                 </Grid>
@@ -157,11 +157,11 @@
 
             <!-- ============ TOP REGION FOR MOBILE / COMPACT (Stacked Grid) ============ -->
             <!-- Visible only when compact (IsCompact = True). This places the chart below the summary column cleanly. -->
-            <Grid Grid.Row="0" Padding="22" RowDefinitions="Auto,Auto" RowSpacing="20"
+            <Grid Grid.Row="0" Padding="14" RowDefinitions="Auto,Auto" RowSpacing="14"
                   IsVisible="{Binding IsCompact}">
-                
+
                 <!-- Summary Info -->
-                <VerticalStackLayout Grid.Row="0" Spacing="16">
+                <VerticalStackLayout Grid.Row="0" Spacing="10">
                     <VerticalStackLayout Spacing="2">
                         <Label Text="Dashboard" Style="{StaticResource SectionTitle}" />
                         <Label Text="Overview of Latest Month" Style="{StaticResource SectionSubtitle}" />
@@ -174,7 +174,7 @@
 
                     <VerticalStackLayout Spacing="1">
                         <Label Text="{Binding CurrentMonthSales}"
-                               FontFamily="OpenSansSemibold" FontSize="24"
+                               FontFamily="OpenSansSemibold" FontSize="18"
                                TextColor="{StaticResource TextPrimary}" />
                         <Label Text="Current Month Sales" Style="{StaticResource Caption}" />
                     </VerticalStackLayout>
@@ -278,22 +278,22 @@
                         </HorizontalStackLayout>
 
                         <!-- Legend -->
-                        <HorizontalStackLayout Spacing="16" Margin="0,0,0,6">
-                            <HorizontalStackLayout Spacing="5">
-                                <BoxView WidthRequest="8" HeightRequest="8" CornerRadius="4"
+                        <HorizontalStackLayout Spacing="16" Margin="24,0,0,6" VerticalOptions="Center">
+                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                <BoxView WidthRequest="9" HeightRequest="9" CornerRadius="4.5"
                                          Color="{StaticResource ChartBlue}" VerticalOptions="Center" />
-                                <Label Text="Online" Style="{StaticResource Caption}" />
+                                <Label Text="Online" Style="{StaticResource Caption}" VerticalOptions="Center" />
                             </HorizontalStackLayout>
-                            <HorizontalStackLayout Spacing="5">
-                                <BoxView WidthRequest="8" HeightRequest="8" CornerRadius="4"
+                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                <BoxView WidthRequest="9" HeightRequest="9" CornerRadius="4.5"
                                          Color="{StaticResource ChartOrange}" VerticalOptions="Center" />
-                                <Label Text="Store" Style="{StaticResource Caption}" />
+                                <Label Text="Store" Style="{StaticResource Caption}" VerticalOptions="Center" />
                             </HorizontalStackLayout>
                         </HorizontalStackLayout>
                     </FlexLayout>
 
                     <!-- Chart Canvas (Compact) -->
-                    <Grid Grid.Row="1" HeightRequest="180">
+                    <Grid Grid.Row="1" HeightRequest="130">
                         <GraphicsView x:Name="ChartViewCompact" Drawable="{Binding Source={x:Reference Root}, Path=ChartDrawable, x:DataType=local:HeaderView}" />
                     </Grid>
                 </Grid>
@@ -309,16 +309,16 @@
                             MinimumHeightRequest="{Binding HeaderBottomHeight}">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="models:SummaryStat">
-                            <Grid Padding="12,12" ColumnDefinitions="40,*" ColumnSpacing="8"
+                            <Grid Padding="10,8" ColumnDefinitions="34,*" ColumnSpacing="8"
                                   FlexLayout.Grow="1"
                                   FlexLayout.Basis="{Binding Source={x:Reference Root}, Path=BindingContext.SummaryStatBasis}">
-                                <Border Grid.Column="0" WidthRequest="34" HeightRequest="34"
+                                <Border Grid.Column="0" WidthRequest="30" HeightRequest="30"
                                         StrokeThickness="0" BackgroundColor="{Binding IconColor}"
                                         VerticalOptions="Center">
                                     <Border.StrokeShape>
-                                        <RoundRectangle CornerRadius="17" />
+                                        <RoundRectangle CornerRadius="15" />
                                     </Border.StrokeShape>
-                                    <Label Text="{Binding Icon}" FontSize="14"
+                                    <Label Text="{Binding Icon}" FontSize="12"
                                            TextColor="{StaticResource White}"
                                            HorizontalOptions="Center" VerticalOptions="Center" />
                                 </Border>
