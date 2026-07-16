@@ -108,7 +108,7 @@
                             Stroke="{StaticResource BorderColor}"
                             BackgroundColor="{StaticResource White}"
                             WidthRequest="100"
-                            HeightRequest="30"
+                            HeightRequest="34"
                             HorizontalOptions="Start">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="6" />
@@ -117,10 +117,10 @@
                                 FontSize="11"
                                 Margin="6,0"
                                 BackgroundColor="Transparent"
-                                VerticalOptions="Fill"
+                                VerticalOptions="Center"
                                 HorizontalOptions="Fill"
-                                TextColor="{StaticResource TextSecondary}"
-                                SelectedIndex="0"
+                                TextColor="{StaticResource TextPrimary}"
+                                TitleColor="{StaticResource TextPrimary}"
                                 SelectedIndexChanged="OnRangeChanged">
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">

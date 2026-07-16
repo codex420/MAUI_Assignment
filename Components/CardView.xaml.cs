@@ -17,6 +17,12 @@ public partial class CardView : ContentView
     {
         if (BindingContext is StatCard card)
         {
+            // Ensure the Picker shows its default selection ("Monthly"). Setting this
+            // in code after ItemsSource is bound is more reliable than SelectedIndex
+            // in XAML, which can race with item initialization on WinUI.
+            if (RangePicker.SelectedIndex < 0 && RangePicker.Items.Count > 0)
+                RangePicker.SelectedIndex = 0;
+
             AreaChart.Drawable = new MiniChartDrawable(MiniChartKind.Area, card.Accent);
             _lineDrawable = new MiniChartDrawable(MiniChartKind.Line, card.Accent)
             {

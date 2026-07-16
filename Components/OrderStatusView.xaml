@@ -49,7 +49,7 @@
                 <!-- Search Input Field (Light Background, No Border) -->
                 <Border Grid.Column="5" WidthRequest="150" HeightRequest="34" StrokeThickness="0" BackgroundColor="{StaticResource PageBackground}" Padding="0">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
-                    <Entry Text="{Binding SearchQuery}" Placeholder="Search" FontSize="12" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="{StaticResource TextPrimary}" Margin="10,0" />
+                    <Entry Text="{Binding SearchQuery}" Placeholder="Search" PlaceholderColor="{StaticResource TextSecondary}" FontSize="12" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="{StaticResource TextPrimary}" Margin="10,0" />
                 </Border>
 
                 <!-- Search-Side Printer Button -->
