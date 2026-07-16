@@ -42,7 +42,7 @@
                     </Border.GestureRecognizers>
                 </Border>
 
-                <Label Grid.Column="1" Text="Dashboard"
+                <Label Grid.Column="1" Text="{Binding PageHeaderTitle}"
                        Style="{StaticResource SectionTitle}"
                        VerticalOptions="Center" />
 
@@ -61,7 +61,7 @@
             </Grid>
 
             <!-- Scrollable dashboard body -->
-            <ScrollView Grid.Row="1">
+            <ScrollView Grid.Row="1" IsVisible="{Binding IsDashboardActive}">
                 <VerticalStackLayout Padding="{Binding ContentPadding}" Spacing="18">
 
                     <!-- Row 1: Header summary + Traffic (reflows) -->
@@ -109,6 +109,13 @@
 
                 </VerticalStackLayout>
             </ScrollView>
+
+            <!-- WebView container for non-dashboard tabs -->
+            <Grid Grid.Row="1" IsVisible="{Binding IsDashboardActive, Converter={StaticResource InvertBoolConverter}}">
+                <WebView Source="{Binding CurrentUrl}"
+                         HorizontalOptions="Fill"
+                         VerticalOptions="Fill" />
+            </Grid>
         </Grid>
 
         <!-- ============ Scrim (compact overlay only) ============ -->

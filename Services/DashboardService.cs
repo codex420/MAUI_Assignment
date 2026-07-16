@@ -14,32 +14,60 @@ public class DashboardService : IDashboardService
             ? c
             : Colors.Gray;
 
+    private static readonly string[] RandomUrls = new[]
+    {
+        "https://dotnet.microsoft.com",
+        "https://learn.microsoft.com",
+        "https://www.wikipedia.org",
+        "https://news.ycombinator.com",
+        "https://www.w3schools.com",
+        "https://example.com",
+        "https://www.worldometers.info",
+        "https://httpbin.org",
+        "https://www.gutenberg.org",
+        "https://archive.org"
+    };
+
     public (string earnings, string sales) GetHeaderTotals() => ("$3468.96", "82");
 
-    public IReadOnlyList<NavItem> GetNavItems() => new List<NavItem>
+    public IReadOnlyList<NavItem> GetNavItems()
     {
-        new() { Icon = "", Title = "Dashboard", IsActive = true },
-        new() { Icon = "", Title = "Widgets" },
-        new() { Icon = "", Title = "UI Elements" },
-        new() { Icon = "", Title = "Advanced UI" },
-        new() { Icon = "", Title = "Form Elements" },
-        new() { Icon = "", Title = "Editors" },
-        new() { Icon = "", Title = "Charts" },
-        new() { Icon = "", Title = "Tables" },
-        new() { Icon = "", Title = "Popups" },
-        new() { Icon = "", Title = "Notifications" },
-        new() { Icon = "", Title = "Icons" },
-        new() { Icon = "", Title = "Maps" },
-        new() { Icon = "", Title = "User Pages" },
-        new() { Icon = "", Title = "Error Pages" },
-        new() { Icon = "", Title = "General Pages" },
-        new() { Icon = "", Title = "E-Commerce" },
-        new() { Icon = "", Title = "E-mail" },
-        new() { Icon = "", Title = "Calendar" },
-        new() { Icon = "", Title = "Todo List" },
-        new() { Icon = "", Title = "Gallery" },
-        new() { Icon = "", Title = "Documentation" },
-    };
+        var items = new List<NavItem>
+        {
+            new() { Icon = "", Title = "Dashboard", IsActive = true },
+            new() { Icon = "", Title = "Widgets" },
+            new() { Icon = "", Title = "UI Elements" },
+            new() { Icon = "", Title = "Advanced UI" },
+            new() { Icon = "", Title = "Form Elements" },
+            new() { Icon = "", Title = "Editors" },
+            new() { Icon = "", Title = "Charts" },
+            new() { Icon = "", Title = "Tables" },
+            new() { Icon = "", Title = "Popups" },
+            new() { Icon = "", Title = "Notifications" },
+            new() { Icon = "", Title = "Icons" },
+            new() { Icon = "", Title = "Maps" },
+            new() { Icon = "", Title = "User Pages" },
+            new() { Icon = "", Title = "Error Pages" },
+            new() { Icon = "", Title = "General Pages" },
+            new() { Icon = "", Title = "E-Commerce" },
+            new() { Icon = "", Title = "E-mail" },
+            new() { Icon = "", Title = "Calendar" },
+            new() { Icon = "", Title = "Todo List" },
+            new() { Icon = "", Title = "Gallery" },
+            new() { Icon = "", Title = "Documentation" },
+        };
+
+        var random = new Random();
+        foreach (var item in items)
+        {
+            if (item.Title != "Dashboard")
+            {
+                item.Url = RandomUrls[random.Next(RandomUrls.Length)];
+            }
+        }
+
+        return items;
+    }
 
     public IReadOnlyList<SummaryStat> GetSummaryStats() => new List<SummaryStat>
     {

@@ -16,6 +16,18 @@ public partial class DashboardViewModel : ObservableObject
     [ObservableProperty]
     private string _currentMonthSales = string.Empty;
 
+    [ObservableProperty]
+    private string _currentUrl = string.Empty;
+
+    [ObservableProperty]
+    private bool _isDashboardActive = true;
+
+    [ObservableProperty]
+    private string _pageHeaderTitle = "Dashboard";
+
+    [ObservableProperty]
+    private string _activeChartTab = "Daily";
+
     // ---------- Responsive state ----------
 
     /// <summary>Current page width in device-independent units.</summary>
@@ -33,6 +45,8 @@ public partial class DashboardViewModel : ObservableObject
     [NotifyPropertyChangedFor(nameof(ContentPadding))]
     [NotifyPropertyChangedFor(nameof(ScrimVisible))]
     [NotifyPropertyChangedFor(nameof(DockedSidebarVisible))]
+    [NotifyPropertyChangedFor(nameof(HeaderTopHeight))]
+    [NotifyPropertyChangedFor(nameof(HeaderBottomHeight))]
     private double _pageWidth = 1280;
 
     /// <summary>Whether the sidebar is currently shown.</summary>
@@ -93,6 +107,10 @@ public partial class DashboardViewModel : ObservableObject
 
     /// <summary>Stack the Activities/Orders row vertically below the wide breakpoint.</summary>
     public bool BottomRowVertical => IsCompact;
+
+    // ---------- HeaderView responsive height settings to avoid clipping ----------
+    public double HeaderTopHeight => IsCompact ? 410 : 210;
+    public double HeaderBottomHeight => IsWide ? 70 : (IsMedium ? 140 : 280);
 
     /// <summary>Tighter padding on phones.</summary>
     public Thickness ContentPadding => IsCompact ? new Thickness(12) : new Thickness(20);
@@ -163,6 +181,11 @@ public partial class DashboardViewModel : ObservableObject
         if (item is null) return;
         foreach (var n in NavItems)
             n.IsActive = ReferenceEquals(n, item);
+
+        IsDashboardActive = item.Title == "Dashboard";
+        CurrentUrl = item.Url;
+        PageHeaderTitle = item.Title;
+
         // Re-emit so the UI re-evaluates IsActive-bound visuals.
         var snapshot = NavItems.ToList();
         NavItems.Clear();
@@ -178,5 +201,11 @@ public partial class DashboardViewModel : ObservableObject
     private void LastMonthSummary()
     {
         // Placeholder command — wired to the header button.
+    }
+
+    [RelayCommand]
+    private void ChangeChartTab(string tab)
+    {
+        ActiveChartTab = tab;
     }
 }
