@@ -11,11 +11,14 @@
     <Border Style="{StaticResource Card}" Padding="0">
         <Grid RowDefinitions="Auto,Auto">
 
-            <!-- Top region: left summary + chart -->
-            <Grid Grid.Row="0" Padding="22" ColumnDefinitions="220,*" ColumnSpacing="18">
+            <!-- Top region: left summary + chart (wraps on narrow cards) -->
+            <FlexLayout Grid.Row="0" Padding="22" Wrap="Wrap" Direction="Row" AlignItems="Start">
 
                 <!-- Left column -->
-                <VerticalStackLayout Grid.Column="0" Spacing="16">
+                <VerticalStackLayout Spacing="16"
+                                     FlexLayout.Grow="1" FlexLayout.Shrink="0"
+                                     FlexLayout.Basis="200"
+                                     MinimumWidthRequest="200">
                     <VerticalStackLayout Spacing="2">
                         <Label Text="Dashboard" Style="{StaticResource SectionTitle}" />
                         <Label Text="Overview of Latest Month" Style="{StaticResource SectionSubtitle}" />
@@ -40,15 +43,21 @@
                 </VerticalStackLayout>
 
                 <!-- Right column: tabs + chart -->
-                <Grid Grid.Column="1" RowDefinitions="Auto,*" RowSpacing="14">
-                    <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
-                        <HorizontalStackLayout Grid.Column="0" Spacing="20">
+                <Grid RowDefinitions="Auto,*" RowSpacing="14"
+                      FlexLayout.Grow="1" FlexLayout.Shrink="1"
+                      FlexLayout.Basis="300"
+                      MinimumWidthRequest="260"
+                      Margin="0,10,0,0">
+                    <!-- Tabs + legend wrap so the legend drops below on narrow widths -->
+                    <FlexLayout Grid.Row="0" Wrap="Wrap" Direction="Row"
+                                JustifyContent="SpaceBetween" AlignItems="Center">
+                        <HorizontalStackLayout Spacing="20" Margin="0,0,0,6">
                             <Label Text="DAILY" Style="{StaticResource TabActive}" />
                             <Label Text="WEEKLY" Style="{StaticResource TabInactive}" />
                             <Label Text="MONTHLY" Style="{StaticResource TabInactive}" />
                             <Label Text="YEARLY" Style="{StaticResource TabInactive}" />
                         </HorizontalStackLayout>
-                        <HorizontalStackLayout Grid.Column="1" Spacing="16">
+                        <HorizontalStackLayout Spacing="16" Margin="0,0,0,6">
                             <HorizontalStackLayout Spacing="5">
                                 <BoxView WidthRequest="8" HeightRequest="8" CornerRadius="4"
                                          Color="{StaticResource ChartBlue}" VerticalOptions="Center" />
@@ -60,27 +69,27 @@
                                 <Label Text="Store" Style="{StaticResource Caption}" />
                             </HorizontalStackLayout>
                         </HorizontalStackLayout>
-                    </Grid>
+                    </FlexLayout>
 
                     <!-- Chart area placeholder: layered polygons -->
                     <Grid Grid.Row="1" HeightRequest="180">
                         <GraphicsView x:Name="ChartView" Drawable="{Binding Source={x:Reference Root}, Path=ChartDrawable, x:DataType=local:HeaderView}" />
                     </Grid>
                 </Grid>
-            </Grid>
+            </FlexLayout>
 
             <!-- Bottom summary stats -->
             <Border Grid.Row="1" StrokeThickness="1" Stroke="{StaticResource BorderColor}" BackgroundColor="Transparent" Padding="0">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="0" />
                 </Border.StrokeShape>
-                <CollectionView ItemsSource="{Binding SummaryStats}" SelectionMode="None">
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="4" HorizontalItemSpacing="0" VerticalItemSpacing="0" />
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
+                <FlexLayout Wrap="Wrap" Direction="Row" AlignItems="Stretch" JustifyContent="Start"
+                            BindableLayout.ItemsSource="{Binding SummaryStats}">
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="models:SummaryStat">
-                            <Grid Padding="20,16" ColumnDefinitions="40,*" ColumnSpacing="12">
+                            <Grid Padding="20,16" ColumnDefinitions="40,*" ColumnSpacing="12"
+                                  FlexLayout.Grow="1"
+                                  FlexLayout.Basis="{Binding Source={x:Reference Root}, Path=BindingContext.SummaryStatBasis}">
                                 <Border Grid.Column="0" WidthRequest="34" HeightRequest="34"
                                         StrokeThickness="0" BackgroundColor="{Binding IconColor}"
                                         VerticalOptions="Center">
@@ -99,8 +108,8 @@
                                 </VerticalStackLayout>
                             </Grid>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </Border>
         </Grid>
     </Border>

@@ -8,9 +8,24 @@
              x:Name="Root"
              x:DataType="vm:DashboardViewModel">
 
-    <Grid BackgroundColor="{StaticResource SidebarBackground}" WidthRequest="230">
-        <ScrollView>
-            <VerticalStackLayout Padding="0,18" Spacing="2">
+    <Grid BackgroundColor="{StaticResource SidebarBackground}" RowDefinitions="Auto,*">
+
+        <!-- Brand / logo header -->
+        <Grid Grid.Row="0" Padding="24,20" ColumnDefinitions="Auto,*" ColumnSpacing="10">
+            <Border Grid.Column="0" WidthRequest="30" HeightRequest="30"
+                    StrokeThickness="0" BackgroundColor="{StaticResource Accent}"
+                    VerticalOptions="Center">
+                <Border.StrokeShape><RoundRectangle CornerRadius="7" /></Border.StrokeShape>
+                <Label Text="&#x1F4CA;" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" />
+            </Border>
+            <Label Grid.Column="1" Text="Dashboard"
+                   FontFamily="OpenSansSemibold" FontSize="17"
+                   TextColor="{StaticResource SidebarTextActive}"
+                   VerticalOptions="Center" />
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="0,4,0,18" Spacing="2">
                 <CollectionView ItemsSource="{Binding NavItems}"
                                 SelectionMode="None">
                     <CollectionView.ItemTemplate>
@@ -23,8 +38,6 @@
                                          IsVisible="{Binding IsActive}" />
 
                                 <Grid Padding="24,11" ColumnDefinitions="22,*" ColumnSpacing="14">
-                                    <Grid.Triggers>
-                                    </Grid.Triggers>
                                     <BoxView Grid.Column="0"
                                              WidthRequest="16" HeightRequest="16"
                                              CornerRadius="3"

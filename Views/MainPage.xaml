@@ -5,45 +5,128 @@
              xmlns:components="clr-namespace:MAUI_Assignment.Components"
              xmlns:vm="clr-namespace:MAUI_Assignment.ViewModels"
              x:Class="MAUI_Assignment.Views.MainPage"
+             x:Name="Page"
              x:DataType="vm:DashboardViewModel"
              BackgroundColor="{StaticResource PageBackground}">
 
-    <Grid ColumnDefinitions="Auto,*">
+    <!-- Single-cell root: sidebar overlays/docks on top of the content layer. -->
+    <Grid x:Name="RootGrid" ColumnDefinitions="Auto,*">
 
-        <!-- Sidebar -->
-        <components:SidebarView Grid.Column="0" BindingContext="{Binding .}" />
+        <!-- ============ Docked sidebar (wide / medium) ============ -->
+        <!-- Occupies layout space only when NOT in overlay mode and open. -->
+        <components:SidebarView Grid.Column="0"
+                                BindingContext="{Binding .}"
+                                IsVisible="{Binding DockedSidebarVisible}"
+                                WidthRequest="230" />
 
-        <!-- Main content -->
-        <ScrollView Grid.Column="1">
-            <VerticalStackLayout Padding="20" Spacing="18">
+        <!-- ============ Main content ============ -->
+        <Grid Grid.Column="1" RowDefinitions="Auto,*">
 
-                <!-- Row 1: Header summary + Traffic -->
-                <Grid ColumnDefinitions="2.4*,1*" ColumnSpacing="18">
-                    <components:HeaderView Grid.Column="0" BindingContext="{Binding .}" />
-                    <components:TrafficView Grid.Column="1" BindingContext="{Binding .}" />
-                </Grid>
+            <!-- Top app bar with hamburger toggle -->
+            <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto"
+                  Padding="12,10" ColumnSpacing="10"
+                  BackgroundColor="{StaticResource CardBackground}">
+                <Border Grid.Column="0"
+                        WidthRequest="42" HeightRequest="42"
+                        StrokeThickness="0"
+                        BackgroundColor="{StaticResource PageBackground}"
+                        VerticalOptions="Center">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8" />
+                    </Border.StrokeShape>
+                    <Label Text="&#x2630;" FontSize="20"
+                           TextColor="{StaticResource TextPrimary}"
+                           HorizontalOptions="Center" VerticalOptions="Center" />
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToggleSidebarCommand}" />
+                    </Border.GestureRecognizers>
+                </Border>
 
-                <!-- Row 2: Stat cards -->
-                <CollectionView ItemsSource="{Binding StatCards}" SelectionMode="None" HeightRequest="120">
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="4"
-                                         HorizontalItemSpacing="18" VerticalItemSpacing="0" />
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:StatCard">
-                            <components:CardView BindingContext="{Binding .}" />
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                <Label Grid.Column="1" Text="Dashboard"
+                       Style="{StaticResource SectionTitle}"
+                       VerticalOptions="Center" />
 
-                <!-- Row 3: Recent Activities + Order Status -->
-                <Grid ColumnDefinitions="1*,1.9*" ColumnSpacing="18">
-                    <components:RecentActivitiesView Grid.Column="0" BindingContext="{Binding .}" VerticalOptions="Start" />
-                    <components:OrderStatusView Grid.Column="1" BindingContext="{Binding .}" VerticalOptions="Start" />
-                </Grid>
+                <Border Grid.Column="2"
+                        WidthRequest="38" HeightRequest="38"
+                        StrokeThickness="0"
+                        BackgroundColor="{StaticResource Accent}"
+                        VerticalOptions="Center">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="19" />
+                    </Border.StrokeShape>
+                    <Label Text="A" TextColor="{StaticResource White}"
+                           FontFamily="OpenSansSemibold"
+                           HorizontalOptions="Center" VerticalOptions="Center" />
+                </Border>
+            </Grid>
 
-            </VerticalStackLayout>
-        </ScrollView>
+            <!-- Scrollable dashboard body -->
+            <ScrollView Grid.Row="1">
+                <VerticalStackLayout Padding="{Binding ContentPadding}" Spacing="18">
+
+                    <!-- Row 1: Header summary + Traffic (reflows) -->
+                    <FlexLayout Wrap="Wrap" Direction="Row"
+                                AlignItems="Stretch" JustifyContent="Start">
+                        <components:HeaderView BindingContext="{Binding .}"
+                                               FlexLayout.Grow="1" FlexLayout.Shrink="1"
+                                               FlexLayout.Basis="{Binding TopRowVertical, Converter={StaticResource StackedToBasisConverter}, ConverterParameter=63%}" />
+                        <components:TrafficView BindingContext="{Binding .}"
+                                                Margin="{Binding TopRowVertical, Converter={StaticResource RowGapConverter}}"
+                                                FlexLayout.Grow="1" FlexLayout.Shrink="1"
+                                                FlexLayout.Basis="{Binding TopRowVertical, Converter={StaticResource StackedToBasisConverter}, ConverterParameter=33%}" />
+                    </FlexLayout>
+
+                    <!-- Row 2: Stat cards (reflow 4 / 2 / 1 across).
+                         FlexLayout + BindableLayout so the row measures inside
+                         the ScrollView on Android; basis comes from the VM. -->
+                    <FlexLayout Wrap="Wrap" Direction="Row"
+                                AlignItems="Stretch" JustifyContent="Start"
+                                Margin="0,0,-16,-16"
+                                BindableLayout.ItemsSource="{Binding StatCards}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:StatCard">
+                                <components:CardView BindingContext="{Binding .}"
+                                                     HeightRequest="110"
+                                                     Margin="0,0,16,16"
+                                                     FlexLayout.Grow="1"
+                                                     FlexLayout.Basis="{Binding Source={x:Reference Page}, Path=BindingContext.StatCardBasis}" />
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+
+
+                    <!-- Row 3: Recent Activities + Order Status (reflows) -->
+                    <FlexLayout Wrap="Wrap" Direction="Row"
+                                AlignItems="Stretch" JustifyContent="Start">
+                        <components:RecentActivitiesView BindingContext="{Binding .}"
+                                                         FlexLayout.Grow="1" FlexLayout.Shrink="1"
+                                                         FlexLayout.Basis="{Binding BottomRowVertical, Converter={StaticResource StackedToBasisConverter}, ConverterParameter=33%}" />
+                        <components:OrderStatusView BindingContext="{Binding .}"
+                                                    Margin="{Binding BottomRowVertical, Converter={StaticResource RowGapConverter}}"
+                                                    FlexLayout.Grow="1" FlexLayout.Shrink="1"
+                                                    FlexLayout.Basis="{Binding BottomRowVertical, Converter={StaticResource StackedToBasisConverter}, ConverterParameter=63%}" />
+                    </FlexLayout>
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+
+        <!-- ============ Scrim (compact overlay only) ============ -->
+        <BoxView Grid.ColumnSpan="2"
+                 Color="#66000000"
+                 IsVisible="{Binding ScrimVisible}">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CloseSidebarCommand}" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
+
+        <!-- ============ Overlay sidebar (compact only) ============ -->
+        <components:SidebarView Grid.ColumnSpan="2"
+                               BindingContext="{Binding .}"
+                               WidthRequest="250"
+                               HorizontalOptions="Start"
+                               IsVisible="{Binding ScrimVisible}" />
+
     </Grid>
 
 </ContentPage>

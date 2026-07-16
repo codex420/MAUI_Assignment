@@ -1,7 +1,7 @@
 {
-  "version": 3,
+  "version": 4,
   "targets": {
-    "net9.0-android35.0": {
+    "net9.0-android": {
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -439,7 +439,7 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/9.0.12": {
+      "Microsoft.NET.ILLink.Tasks/9.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
@@ -2311,7 +2311,7 @@
         }
       }
     },
-    "net9.0-android35.0/android-arm64": {
+    "net9.0-android/android-arm64": {
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -2749,7 +2749,7 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/9.0.12": {
+      "Microsoft.NET.ILLink.Tasks/9.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
@@ -4621,7 +4621,7 @@
         }
       }
     },
-    "net9.0-android35.0/android-x64": {
+    "net9.0-android/android-x64": {
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -5059,7 +5059,7 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/9.0.12": {
+      "Microsoft.NET.ILLink.Tasks/9.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
@@ -6931,7 +6931,7 @@
         }
       }
     },
-    "net9.0-android35.0/win10-x64": {
+    "net9.0-android/win10-x64": {
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -7369,7 +7369,7 @@
           "buildTransitive/Microsoft.Maui.Resizetizer.targets": {}
         }
       },
-      "Microsoft.NET.ILLink.Tasks/9.0.12": {
+      "Microsoft.NET.ILLink.Tasks/9.0.17": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.ILLink.Tasks.props": {}
@@ -9241,7 +9241,7 @@
         }
       }
     },
-    "net9.0-windows10.0.19041": {
+    "net9.0-windows10.0.19041.0": {
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -9910,7 +9910,7 @@
         }
       }
     },
-    "net9.0-windows10.0.19041/android-arm64": {
+    "net9.0-windows10.0.19041.0/android-arm64": {
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -10517,7 +10517,7 @@
         }
       }
     },
-    "net9.0-windows10.0.19041/android-x64": {
+    "net9.0-windows10.0.19041.0/android-x64": {
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -11124,7 +11124,7 @@
         }
       }
     },
-    "net9.0-windows10.0.19041/win10-x64": {
+    "net9.0-windows10.0.19041.0/win10-x64": {
       "CommunityToolkit.Mvvm/8.4.0": {
         "type": "package",
         "compile": {
@@ -12921,10 +12921,10 @@
         "microsoft.maui.resizetizer.nuspec"
       ]
     },
-    "Microsoft.NET.ILLink.Tasks/9.0.12": {
-      "sha512": "StA3kyImQHqDo8A8ZHaSxgASbEuT5UIqgeCvK5SzUPj//xE1QSys421J9pEs4cYuIVwq7CJvWSKxtyH7aPr1LA==",
+    "Microsoft.NET.ILLink.Tasks/9.0.17": {
+      "sha512": "P5qY/hIYMlo0+QRM0W3Gd/SRf20TX+z5W5NwpdzkOk0FtgcbSTNwNcYBRNDgfThFcLpcDFslz65RcGqWOq00/w==",
       "type": "package",
-      "path": "microsoft.net.illink.tasks/9.0.12",
+      "path": "microsoft.net.illink.tasks/9.0.17",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
@@ -12938,7 +12938,7 @@
         "build/Microsoft.NET.ILLink.Analyzers.props",
         "build/Microsoft.NET.ILLink.Tasks.props",
         "build/Microsoft.NET.ILLink.targets",
-        "microsoft.net.illink.tasks.9.0.12.nupkg.sha512",
+        "microsoft.net.illink.tasks.9.0.17.nupkg.sha512",
         "microsoft.net.illink.tasks.nuspec",
         "tools/net472/ILLink.Tasks.dll",
         "tools/net472/ILLink.Tasks.dll.config",
@@ -15695,13 +15695,13 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net9.0-android35.0": [
+    "net9.0-android": [
       "CommunityToolkit.Mvvm >= 8.4.0",
       "Microsoft.Extensions.Logging.Debug >= 9.0.0",
       "Microsoft.Maui.Controls >= 9.0.120",
-      "Microsoft.NET.ILLink.Tasks >= 9.0.12"
+      "Microsoft.NET.ILLink.Tasks >= 9.0.17"
     ],
-    "net9.0-windows10.0.19041": [
+    "net9.0-windows10.0.19041.0": [
       "CommunityToolkit.Mvvm >= 8.4.0",
       "Microsoft.Extensions.Logging.Debug >= 9.0.0",
       "Microsoft.Maui.Controls >= 9.0.120"
@@ -15740,11 +15740,13 @@
         "https://nuget.pkg.github.com/3100-JPI-Cloud-Team/index.json": {}
       },
       "frameworks": {
-        "net9.0-android35.0": {
+        "net9.0-android": {
+          "framework": "net9.0-android35.0",
           "targetAlias": "net9.0-android",
           "projectReferences": {}
         },
-        "net9.0-windows10.0.19041": {
+        "net9.0-windows10.0.19041.0": {
+          "framework": "net9.0-windows10.0.19041",
           "targetAlias": "net9.0-windows10.0.19041.0",
           "projectReferences": {}
         }
@@ -15759,10 +15761,11 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "10.0.100"
+      "SdkAnalysisLevel": "10.0.300"
     },
     "frameworks": {
-      "net9.0-android35.0": {
+      "net9.0-android": {
+        "framework": "net9.0-android35.0",
         "targetAlias": "net9.0-android",
         "dependencies": {
           "CommunityToolkit.Mvvm": {
@@ -15780,7 +15783,7 @@
           "Microsoft.NET.ILLink.Tasks": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "[9.0.12, )",
+            "version": "[9.0.17, )",
             "autoReferenced": true
           }
         },
@@ -15807,14 +15810,6 @@
           {
             "name": "Microsoft.Android.Runtime.35.android-x64",
             "version": "[35.0.105, 35.0.105]"
-          },
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[9.0.12, 9.0.12]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[9.0.12, 9.0.12]"
           }
         ],
         "frameworkReferences": {
@@ -15825,9 +15820,10 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json"
       },
-      "net9.0-windows10.0.19041": {
+      "net9.0-windows10.0.19041.0": {
+        "framework": "net9.0-windows10.0.19041",
         "targetAlias": "net9.0-windows10.0.19041.0",
         "dependencies": {
           "CommunityToolkit.Mvvm": {
@@ -15856,24 +15852,8 @@
         "warn": true,
         "downloadDependencies": [
           {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[9.0.12, 9.0.12]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[9.0.12, 9.0.12]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[9.0.12, 9.0.12]"
-          },
-          {
             "name": "Microsoft.Windows.SDK.NET.Ref",
             "version": "[10.0.19041.57, 10.0.19041.57]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[9.0.12, 9.0.12]"
           }
         ],
         "frameworkReferences": {
@@ -15884,7 +15864,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301\\RuntimeIdentifierGraph.json"
       }
     },
     "runtimes": {

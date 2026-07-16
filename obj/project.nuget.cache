@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "fr5y4F+iMmQ=",
+  "dgSpecHash": "DVRMVUrW0xc=",
   "success": true,
   "projectFilePath": "C:\\Users\\fiftyfive\\source\\repos\\MAUI_Assignment\\MAUI_Assignment.csproj",
   "expectedPackageFiles": [
@@ -26,7 +26,7 @@
     "C:\\Users\\fiftyfive\\.nuget\\packages\\microsoft.maui.graphics\\9.0.120\\microsoft.maui.graphics.9.0.120.nupkg.sha512",
     "C:\\Users\\fiftyfive\\.nuget\\packages\\microsoft.maui.graphics.win2d.winui.desktop\\9.0.120\\microsoft.maui.graphics.win2d.winui.desktop.9.0.120.nupkg.sha512",
     "C:\\Users\\fiftyfive\\.nuget\\packages\\microsoft.maui.resizetizer\\9.0.120\\microsoft.maui.resizetizer.9.0.120.nupkg.sha512",
-    "C:\\Users\\fiftyfive\\.nuget\\packages\\microsoft.net.illink.tasks\\9.0.12\\microsoft.net.illink.tasks.9.0.12.nupkg.sha512",
+    "C:\\Users\\fiftyfive\\.nuget\\packages\\microsoft.net.illink.tasks\\9.0.17\\microsoft.net.illink.tasks.9.0.17.nupkg.sha512",
     "C:\\Users\\fiftyfive\\.nuget\\packages\\microsoft.web.webview2\\1.0.3179.45\\microsoft.web.webview2.1.0.3179.45.nupkg.sha512",
     "C:\\Users\\fiftyfive\\.nuget\\packages\\microsoft.windows.sdk.buildtools\\10.0.22621.756\\microsoft.windows.sdk.buildtools.10.0.22621.756.nupkg.sha512",
     "C:\\Users\\fiftyfive\\.nuget\\packages\\microsoft.windowsappsdk\\1.7.250909003\\microsoft.windowsappsdk.1.7.250909003.nupkg.sha512",
@@ -119,16 +119,10 @@
     "C:\\Users\\fiftyfive\\.nuget\\packages\\xamarin.kotlinx.coroutines.core.jvm\\1.9.0.3\\xamarin.kotlinx.coroutines.core.jvm.1.9.0.3.nupkg.sha512",
     "C:\\Users\\fiftyfive\\.nuget\\packages\\xamarin.kotlinx.serialization.core\\1.7.3.4\\xamarin.kotlinx.serialization.core.1.7.3.4.nupkg.sha512",
     "C:\\Users\\fiftyfive\\.nuget\\packages\\xamarin.kotlinx.serialization.core.jvm\\1.7.3.4\\xamarin.kotlinx.serialization.core.jvm.1.7.3.4.nupkg.sha512",
-    "C:\\Users\\fiftyfive\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.12\\microsoft.windowsdesktop.app.ref.9.0.12.nupkg.sha512",
+    "C:\\Users\\fiftyfive\\.nuget\\packages\\microsoft.android.ref.35\\35.0.105\\microsoft.android.ref.35.35.0.105.nupkg.sha512",
     "C:\\Users\\fiftyfive\\.nuget\\packages\\microsoft.android.runtime.35.android-arm64\\35.0.105\\microsoft.android.runtime.35.android-arm64.35.0.105.nupkg.sha512",
     "C:\\Users\\fiftyfive\\.nuget\\packages\\microsoft.android.runtime.35.android-x64\\35.0.105\\microsoft.android.runtime.35.android-x64.35.0.105.nupkg.sha512",
-    "C:\\Users\\fiftyfive\\.nuget\\packages\\microsoft.android.ref.35\\35.0.105\\microsoft.android.ref.35.35.0.105.nupkg.sha512",
-    "C:\\Users\\fiftyfive\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.12\\microsoft.aspnetcore.app.ref.9.0.12.nupkg.sha512",
-    "C:\\Users\\fiftyfive\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.19041.57\\microsoft.windows.sdk.net.ref.10.0.19041.57.nupkg.sha512",
-    "C:\\Users\\fiftyfive\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.12\\microsoft.windowsdesktop.app.ref.9.0.12.nupkg.sha512",
-    "C:\\Users\\fiftyfive\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.12\\microsoft.netcore.app.ref.9.0.12.nupkg.sha512",
-    "C:\\Users\\fiftyfive\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.12\\microsoft.aspnetcore.app.ref.9.0.12.nupkg.sha512",
-    "C:\\Users\\fiftyfive\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\9.0.12\\microsoft.netcore.app.host.win-x64.9.0.12.nupkg.sha512"
+    "C:\\Users\\fiftyfive\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.19041.57\\microsoft.windows.sdk.net.ref.10.0.19041.57.nupkg.sha512"
   ],
   "logs": []
 }

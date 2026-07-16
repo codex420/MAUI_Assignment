@@ -16,6 +16,87 @@ public partial class DashboardViewModel : ObservableObject
     [ObservableProperty]
     private string _currentMonthSales = string.Empty;
 
+    // ---------- Responsive state ----------
+
+    /// <summary>Current page width in device-independent units.</summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsWide))]
+    [NotifyPropertyChangedFor(nameof(IsMedium))]
+    [NotifyPropertyChangedFor(nameof(IsCompact))]
+    [NotifyPropertyChangedFor(nameof(StatCardSpan))]
+    [NotifyPropertyChangedFor(nameof(StatCardBasis))]
+    [NotifyPropertyChangedFor(nameof(SummaryStatSpan))]
+    [NotifyPropertyChangedFor(nameof(SummaryStatBasis))]
+    [NotifyPropertyChangedFor(nameof(TopRowVertical))]
+    [NotifyPropertyChangedFor(nameof(BottomRowVertical))]
+    [NotifyPropertyChangedFor(nameof(SidebarIsOverlay))]
+    [NotifyPropertyChangedFor(nameof(ContentPadding))]
+    [NotifyPropertyChangedFor(nameof(ScrimVisible))]
+    [NotifyPropertyChangedFor(nameof(DockedSidebarVisible))]
+    private double _pageWidth = 1280;
+
+    /// <summary>Whether the sidebar is currently shown.</summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ScrimVisible))]
+    [NotifyPropertyChangedFor(nameof(DockedSidebarVisible))]
+    private bool _isSidebarOpen = true;
+
+    // Breakpoints
+    private const double WideBreakpoint = 1100;
+    private const double MediumBreakpoint = 700;
+
+    public bool IsWide => PageWidth >= WideBreakpoint;
+    public bool IsMedium => PageWidth >= MediumBreakpoint && PageWidth < WideBreakpoint;
+    public bool IsCompact => PageWidth < MediumBreakpoint;
+
+    /// <summary>On compact screens the sidebar floats over the content instead of pushing it.</summary>
+    public bool SidebarIsOverlay => IsCompact;
+
+    /// <summary>The dimming scrim is only shown when an overlay sidebar is open.</summary>
+    public bool ScrimVisible => SidebarIsOverlay && IsSidebarOpen;
+
+    /// <summary>Docked sidebar shows only when open AND not in overlay mode.</summary>
+    public bool DockedSidebarVisible => IsSidebarOpen && !SidebarIsOverlay;
+
+    /// <summary>Number of columns for the stat-card grid.</summary>
+    public int StatCardSpan => IsWide ? 4 : (IsMedium ? 2 : 1);
+
+    /// <summary>
+    /// Relative flex-basis for each stat card so the row reflows 4 → 2 → 1
+    /// across breakpoints. Slightly under the exact fraction to leave room
+    /// for the inter-card margin.
+    /// </summary>
+    public Microsoft.Maui.Layouts.FlexBasis StatCardBasis
+    {
+        get
+        {
+            double fraction = IsWide ? 0.235 : (IsMedium ? 0.48 : 1.0);
+            return new Microsoft.Maui.Layouts.FlexBasis((float)fraction, isRelative: true);
+        }
+    }
+
+    /// <summary>Columns for the header summary-stats strip (4 wide → 2 small).</summary>
+    public int SummaryStatSpan => PageWidth >= 900 ? 4 : (IsCompact ? 1 : 2);
+
+    /// <summary>Relative flex-basis for each header summary stat (4 / 2 / 1 up).</summary>
+    public Microsoft.Maui.Layouts.FlexBasis SummaryStatBasis
+    {
+        get
+        {
+            double fraction = PageWidth >= 900 ? 0.25 : (IsCompact ? 1.0 : 0.5);
+            return new Microsoft.Maui.Layouts.FlexBasis((float)fraction, isRelative: true);
+        }
+    }
+
+    /// <summary>Stack the Header/Traffic row vertically on small screens.</summary>
+    public bool TopRowVertical => !IsWide;
+
+    /// <summary>Stack the Activities/Orders row vertically below the wide breakpoint.</summary>
+    public bool BottomRowVertical => IsCompact;
+
+    /// <summary>Tighter padding on phones.</summary>
+    public Thickness ContentPadding => IsCompact ? new Thickness(12) : new Thickness(20);
+
     public ObservableCollection<NavItem> NavItems { get; } = new();
     public ObservableCollection<SummaryStat> SummaryStats { get; } = new();
     public ObservableCollection<StatCard> StatCards { get; } = new();
@@ -50,6 +131,32 @@ public partial class DashboardViewModel : ObservableObject
             target.Add(item);
     }
 
+    /// <summary>
+    /// Called by the page whenever its size changes. Recomputes the
+    /// breakpoint and auto-opens/closes the sidebar for the new form factor.
+    /// </summary>
+    public void UpdateForWidth(double width)
+    {
+        if (width <= 0 || Math.Abs(width - PageWidth) < 0.5)
+            return;
+
+        bool wasCompact = IsCompact;
+        PageWidth = width;
+
+        // When crossing into a compact layout, hide the sidebar so content
+        // gets the full width. When growing back to a docked layout, show it.
+        if (IsCompact && !wasCompact)
+            IsSidebarOpen = false;
+        else if (!IsCompact)
+            IsSidebarOpen = true;
+    }
+
+    [RelayCommand]
+    private void ToggleSidebar() => IsSidebarOpen = !IsSidebarOpen;
+
+    [RelayCommand]
+    private void CloseSidebar() => IsSidebarOpen = false;
+
     [RelayCommand]
     private void SelectNav(NavItem item)
     {
@@ -61,6 +168,10 @@ public partial class DashboardViewModel : ObservableObject
         NavItems.Clear();
         foreach (var n in snapshot)
             NavItems.Add(n);
+
+        // On phones, selecting an item should dismiss the overlay menu.
+        if (SidebarIsOverlay)
+            IsSidebarOpen = false;
     }
 
     [RelayCommand]

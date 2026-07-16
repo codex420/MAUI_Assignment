@@ -33,11 +33,13 @@
           "https://nuget.pkg.github.com/3100-JPI-Cloud-Team/index.json": {}
         },
         "frameworks": {
-          "net9.0-android35.0": {
+          "net9.0-android": {
+            "framework": "net9.0-android35.0",
             "targetAlias": "net9.0-android",
             "projectReferences": {}
           },
-          "net9.0-windows10.0.19041": {
+          "net9.0-windows10.0.19041.0": {
+            "framework": "net9.0-windows10.0.19041",
             "targetAlias": "net9.0-windows10.0.19041.0",
             "projectReferences": {}
           }
@@ -52,10 +54,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
-        "net9.0-android35.0": {
+        "net9.0-android": {
+          "framework": "net9.0-android35.0",
           "targetAlias": "net9.0-android",
           "dependencies": {
             "CommunityToolkit.Mvvm": {
@@ -73,7 +76,7 @@
             "Microsoft.NET.ILLink.Tasks": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[9.0.12, )",
+              "version": "[9.0.17, )",
               "autoReferenced": true
             }
           },
@@ -100,14 +103,6 @@
             {
               "name": "Microsoft.Android.Runtime.35.android-x64",
               "version": "[35.0.105, 35.0.105]"
-            },
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[9.0.12, 9.0.12]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[9.0.12, 9.0.12]"
             }
           ],
           "frameworkReferences": {
@@ -118,9 +113,10 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json"
         },
-        "net9.0-windows10.0.19041": {
+        "net9.0-windows10.0.19041.0": {
+          "framework": "net9.0-windows10.0.19041",
           "targetAlias": "net9.0-windows10.0.19041.0",
           "dependencies": {
             "CommunityToolkit.Mvvm": {
@@ -149,24 +145,8 @@
           "warn": true,
           "downloadDependencies": [
             {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[9.0.12, 9.0.12]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[9.0.12, 9.0.12]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[9.0.12, 9.0.12]"
-            },
-            {
               "name": "Microsoft.Windows.SDK.NET.Ref",
               "version": "[10.0.19041.57, 10.0.19041.57]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[9.0.12, 9.0.12]"
             }
           ],
           "frameworkReferences": {
@@ -177,7 +157,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301\\RuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {

@@ -52,9 +52,11 @@
                 <BoxView Grid.ColumnSpan="5" Color="{StaticResource BorderColor}" HeightRequest="1" VerticalOptions="End" />
             </Grid>
 
-            <!-- Rows -->
-            <CollectionView ItemsSource="{Binding Orders}" SelectionMode="None">
-                <CollectionView.ItemTemplate>
+            <!-- Rows: BindableLayout so the table sizes naturally inside the
+                 page's ScrollView (nested CollectionView mis-measures on Android). -->
+            <VerticalStackLayout Spacing="0"
+                                 BindableLayout.ItemsSource="{Binding Orders}">
+                <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="models:OrderItem">
                         <Grid ColumnDefinitions="1.1*,1.6*,1.2*,1*,1.2*" Padding="0,12" ColumnSpacing="8">
                             <Label Grid.Column="0" Text="{Binding Invoice}" Style="{StaticResource TableCell}" />
@@ -72,8 +74,8 @@
                             <BoxView Grid.ColumnSpan="5" Color="{StaticResource BorderColor}" HeightRequest="1" VerticalOptions="End" />
                         </Grid>
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
 
             <!-- Footer / pagination -->
             <Grid ColumnDefinitions="*,Auto">
