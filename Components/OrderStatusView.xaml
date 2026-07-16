@@ -4,7 +4,8 @@
              xmlns:models="clr-namespace:MAUI_Assignment.Models"
              xmlns:vm="clr-namespace:MAUI_Assignment.ViewModels"
              x:Class="MAUI_Assignment.Components.OrderStatusView"
-             x:DataType="vm:DashboardViewModel">
+             x:DataType="vm:DashboardViewModel"
+             x:Name="Root">
 
     <Border Style="{StaticResource Card}">
         <VerticalStackLayout Spacing="16">
@@ -59,6 +60,9 @@
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="models:OrderItem">
                         <Grid ColumnDefinitions="1.1*,1.6*,1.2*,1*,1.2*" Padding="0,12" ColumnSpacing="8">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:Reference Root}, Path=BindingContext.EditOrderCommand}" CommandParameter="{Binding .}" />
+                            </Grid.GestureRecognizers>
                             <Label Grid.Column="0" Text="{Binding Invoice}" Style="{StaticResource TableCell}" />
                             <Label Grid.Column="1" Text="{Binding Customer}" Style="{StaticResource TableCell}" />
                             <Label Grid.Column="2" Text="{Binding From}" Style="{StaticResource TableCell}" />

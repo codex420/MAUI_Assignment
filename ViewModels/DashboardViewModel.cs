@@ -64,6 +64,14 @@ public partial class DashboardViewModel : ObservableObject
     [ObservableProperty]
     private string _searchQuery = string.Empty;
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsEditing))]
+    [NotifyPropertyChangedFor(nameof(ModalTitle))]
+    private OrderItem? _editingOrder;
+
+    public bool IsEditing => EditingOrder != null;
+    public string ModalTitle => IsEditing ? $"Edit Order #{EditingOrder!.Invoice}" : "Add New Order";
+
     // ---------- Responsive state ----------
 
     /// <summary>Current page width in device-independent units.</summary>
@@ -351,6 +359,7 @@ public partial class DashboardViewModel : ObservableObject
     [RelayCommand]
     private void ShowAddOrderModal()
     {
+        EditingOrder = null;
         NewOrderCustomer = string.Empty;
         NewOrderFrom = string.Empty;
         NewOrderPrice = string.Empty;
@@ -362,6 +371,18 @@ public partial class DashboardViewModel : ObservableObject
     private void CloseAddOrderModal()
     {
         IsAddOrderModalVisible = false;
+    }
+
+    [RelayCommand]
+    private void EditOrder(OrderItem order)
+    {
+        if (order is null) return;
+        EditingOrder = order;
+        NewOrderCustomer = order.Customer;
+        NewOrderFrom = order.From;
+        NewOrderPrice = order.Price.Replace("$", string.Empty);
+        NewOrderStatus = order.Status;
+        IsAddOrderModalVisible = true;
     }
 
     [RelayCommand]
@@ -388,22 +409,33 @@ public partial class DashboardViewModel : ObservableObject
             _ => "StatusProcess"
         };
 
-        // Sequential Invoice Number
-        int nextInvoice = _allOrders.Count > 0 
-            ? _allOrders.Max(o => int.TryParse(o.Invoice, out var val) ? val : 0) + 1 
-            : 12411;
-
-        var newOrder = new OrderItem
+        if (IsEditing && EditingOrder != null)
         {
-            Invoice = nextInvoice.ToString(),
-            Customer = customer,
-            From = from,
-            Price = price,
-            Status = status,
-            StatusColor = Res(colorKey)
-        };
+            EditingOrder.Customer = customer;
+            EditingOrder.From = from;
+            EditingOrder.Price = price;
+            EditingOrder.Status = status;
+            EditingOrder.StatusColor = Res(colorKey);
+            EditingOrder = null;
+        }
+        else
+        {
+            int nextInvoice = _allOrders.Count > 0 
+                ? _allOrders.Max(o => int.TryParse(o.Invoice, out var val) ? val : 0) + 1 
+                : 12411;
 
-        _allOrders.Insert(0, newOrder);
+            var newOrder = new OrderItem
+            {
+                Invoice = nextInvoice.ToString(),
+                Customer = customer,
+                From = from,
+                Price = price,
+                Status = status,
+                StatusColor = Res(colorKey)
+            };
+
+            _allOrders.Insert(0, newOrder);
+        }
 
         IsAddOrderModalVisible = false;
 

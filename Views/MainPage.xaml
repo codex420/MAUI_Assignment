@@ -155,7 +155,7 @@
                 </Border.StrokeShape>
                 
                 <VerticalStackLayout Spacing="16">
-                    <Label Text="Add New Order" FontSize="18" FontFamily="OpenSansSemibold" TextColor="{StaticResource TextPrimary}" />
+                    <Label Text="{Binding ModalTitle}" FontSize="18" FontFamily="OpenSansSemibold" TextColor="{StaticResource TextPrimary}" />
                     
                     <VerticalStackLayout Spacing="6">
                         <Label Text="Customer Name" Style="{StaticResource Caption}" />
