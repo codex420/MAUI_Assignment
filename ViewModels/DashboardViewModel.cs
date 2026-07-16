@@ -47,6 +47,18 @@ public partial class DashboardViewModel : ObservableObject
     [NotifyPropertyChangedFor(nameof(DockedSidebarVisible))]
     [NotifyPropertyChangedFor(nameof(HeaderTopHeight))]
     [NotifyPropertyChangedFor(nameof(HeaderBottomHeight))]
+    [NotifyPropertyChangedFor(nameof(HeaderRow))]
+    [NotifyPropertyChangedFor(nameof(HeaderColumn))]
+    [NotifyPropertyChangedFor(nameof(HeaderColumnSpan))]
+    [NotifyPropertyChangedFor(nameof(TrafficRow))]
+    [NotifyPropertyChangedFor(nameof(TrafficColumn))]
+    [NotifyPropertyChangedFor(nameof(TrafficColumnSpan))]
+    [NotifyPropertyChangedFor(nameof(ActivitiesRow))]
+    [NotifyPropertyChangedFor(nameof(ActivitiesColumn))]
+    [NotifyPropertyChangedFor(nameof(ActivitiesColumnSpan))]
+    [NotifyPropertyChangedFor(nameof(OrdersRow))]
+    [NotifyPropertyChangedFor(nameof(OrdersColumn))]
+    [NotifyPropertyChangedFor(nameof(OrdersColumnSpan))]
     private double _pageWidth = 1280;
 
     /// <summary>Whether the sidebar is currently shown.</summary>
@@ -114,6 +126,24 @@ public partial class DashboardViewModel : ObservableObject
 
     /// <summary>Tighter padding on phones.</summary>
     public Thickness ContentPadding => IsCompact ? new Thickness(12) : new Thickness(20);
+
+    // Row 1 grid positioning (Header + Traffic)
+    public int HeaderRow => 0;
+    public int HeaderColumn => 0;
+    public int HeaderColumnSpan => IsWide ? 1 : 2;
+
+    public int TrafficRow => IsWide ? 0 : 1;
+    public int TrafficColumn => IsWide ? 1 : 0;
+    public int TrafficColumnSpan => IsWide ? 1 : 2;
+
+    // Row 3 grid positioning (Activities + Orders)
+    public int ActivitiesRow => 0;
+    public int ActivitiesColumn => 0;
+    public int ActivitiesColumnSpan => IsCompact ? 2 : 1;
+
+    public int OrdersRow => IsCompact ? 1 : 0;
+    public int OrdersColumn => IsCompact ? 0 : 1;
+    public int OrdersColumnSpan => IsCompact ? 2 : 1;
 
     public ObservableCollection<NavItem> NavItems { get; } = new();
     public ObservableCollection<SummaryStat> SummaryStats { get; } = new();

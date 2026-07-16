@@ -65,16 +65,19 @@
                 <VerticalStackLayout Padding="{Binding ContentPadding}" Spacing="18">
 
                     <!-- Row 1: Header summary + Traffic (reflows) -->
-                    <FlexLayout Wrap="Wrap" Direction="Row"
-                                AlignItems="Stretch" JustifyContent="Start">
+                    <Grid ColumnDefinitions="63*, 37*"
+                          RowDefinitions="Auto, Auto"
+                          ColumnSpacing="18"
+                          RowSpacing="18">
                         <components:HeaderView BindingContext="{Binding .}"
-                                               FlexLayout.Grow="1" FlexLayout.Shrink="1"
-                                               FlexLayout.Basis="{Binding TopRowVertical, Converter={StaticResource StackedToBasisConverter}, ConverterParameter=63%}" />
+                                               Grid.Row="{Binding HeaderRow}"
+                                               Grid.Column="{Binding HeaderColumn}"
+                                               Grid.ColumnSpan="{Binding HeaderColumnSpan}" />
                         <components:TrafficView BindingContext="{Binding .}"
-                                                Margin="{Binding TopRowVertical, Converter={StaticResource RowGapConverter}}"
-                                                FlexLayout.Grow="1" FlexLayout.Shrink="1"
-                                                FlexLayout.Basis="{Binding TopRowVertical, Converter={StaticResource StackedToBasisConverter}, ConverterParameter=33%}" />
-                    </FlexLayout>
+                                                Grid.Row="{Binding TrafficRow}"
+                                                Grid.Column="{Binding TrafficColumn}"
+                                                Grid.ColumnSpan="{Binding TrafficColumnSpan}" />
+                    </Grid>
 
                     <!-- Row 2: Stat cards (reflow 4 / 2 / 1 across).
                          FlexLayout + BindableLayout so the row measures inside
@@ -96,16 +99,19 @@
 
 
                     <!-- Row 3: Recent Activities + Order Status (reflows) -->
-                    <FlexLayout Wrap="Wrap" Direction="Row"
-                                AlignItems="Stretch" JustifyContent="Start">
+                    <Grid ColumnDefinitions="35*, 65*"
+                          RowDefinitions="Auto, Auto"
+                          ColumnSpacing="18"
+                          RowSpacing="18">
                         <components:RecentActivitiesView BindingContext="{Binding .}"
-                                                         FlexLayout.Grow="1" FlexLayout.Shrink="1"
-                                                         FlexLayout.Basis="{Binding BottomRowVertical, Converter={StaticResource StackedToBasisConverter}, ConverterParameter=33%}" />
+                                                         Grid.Row="{Binding ActivitiesRow}"
+                                                         Grid.Column="{Binding ActivitiesColumn}"
+                                                         Grid.ColumnSpan="{Binding ActivitiesColumnSpan}" />
                         <components:OrderStatusView BindingContext="{Binding .}"
-                                                    Margin="{Binding BottomRowVertical, Converter={StaticResource RowGapConverter}}"
-                                                    FlexLayout.Grow="1" FlexLayout.Shrink="1"
-                                                    FlexLayout.Basis="{Binding BottomRowVertical, Converter={StaticResource StackedToBasisConverter}, ConverterParameter=63%}" />
-                    </FlexLayout>
+                                                    Grid.Row="{Binding OrdersRow}"
+                                                    Grid.Column="{Binding OrdersColumn}"
+                                                    Grid.ColumnSpan="{Binding OrdersColumnSpan}" />
+                    </Grid>
 
                 </VerticalStackLayout>
             </ScrollView>
