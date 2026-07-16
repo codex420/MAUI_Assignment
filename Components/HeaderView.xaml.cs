@@ -64,17 +64,19 @@ public partial class HeaderView : ContentView
 /// </summary>
 public class LineChartDrawable : IDrawable
 {
-    private static readonly float[] DailyStore  = { 0.30f, 0.42f, 0.28f, 0.55f, 0.40f, 0.62f, 0.35f, 0.90f, 0.55f, 0.48f };
-    private static readonly float[] DailyOnline = { 0.20f, 0.30f, 0.22f, 0.35f, 0.30f, 0.40f, 0.28f, 0.52f, 0.38f, 0.34f };
+    // Richer, more complex sample series (more points + several peaks/dips) so the
+    // curve reads like the multi-wave graph in the design reference.
+    private static readonly float[] DailyStore  = { 0.32f, 0.28f, 0.46f, 0.34f, 0.58f, 0.40f, 0.30f, 0.52f, 0.42f, 0.66f, 0.48f, 0.38f, 0.90f, 0.60f, 0.50f };
+    private static readonly float[] DailyOnline = { 0.20f, 0.18f, 0.30f, 0.24f, 0.38f, 0.28f, 0.22f, 0.36f, 0.30f, 0.44f, 0.34f, 0.28f, 0.60f, 0.42f, 0.36f };
 
-    private static readonly float[] WeeklyStore  = { 0.50f, 0.35f, 0.60f, 0.42f, 0.70f, 0.55f, 0.80f, 0.62f, 0.75f, 0.90f };
-    private static readonly float[] WeeklyOnline = { 0.30f, 0.25f, 0.45f, 0.32f, 0.50f, 0.40f, 0.60f, 0.48f, 0.55f, 0.70f };
+    private static readonly float[] WeeklyStore  = { 0.44f, 0.36f, 0.58f, 0.40f, 0.68f, 0.50f, 0.38f, 0.62f, 0.48f, 0.78f, 0.56f, 0.44f, 0.85f, 0.66f, 0.72f };
+    private static readonly float[] WeeklyOnline = { 0.28f, 0.24f, 0.40f, 0.28f, 0.48f, 0.36f, 0.26f, 0.44f, 0.34f, 0.56f, 0.40f, 0.32f, 0.62f, 0.48f, 0.52f };
 
-    private static readonly float[] MonthlyStore  = { 0.40f, 0.55f, 0.48f, 0.70f, 0.58f, 0.80f, 0.65f, 0.85f, 0.72f, 0.95f };
-    private static readonly float[] MonthlyOnline = { 0.25f, 0.38f, 0.34f, 0.52f, 0.42f, 0.60f, 0.48f, 0.68f, 0.54f, 0.75f };
+    private static readonly float[] MonthlyStore  = { 0.40f, 0.52f, 0.44f, 0.64f, 0.50f, 0.74f, 0.56f, 0.46f, 0.68f, 0.58f, 0.82f, 0.62f, 0.92f, 0.70f, 0.78f };
+    private static readonly float[] MonthlyOnline = { 0.26f, 0.36f, 0.30f, 0.46f, 0.36f, 0.54f, 0.40f, 0.32f, 0.50f, 0.42f, 0.60f, 0.46f, 0.68f, 0.52f, 0.58f };
 
-    private static readonly float[] YearlyStore  = { 0.60f, 0.72f, 0.58f, 0.85f, 0.70f, 0.92f, 0.78f, 0.98f, 0.85f, 0.99f };
-    private static readonly float[] YearlyOnline = { 0.40f, 0.50f, 0.42f, 0.65f, 0.52f, 0.75f, 0.60f, 0.82f, 0.68f, 0.80f };
+    private static readonly float[] YearlyStore  = { 0.56f, 0.66f, 0.54f, 0.78f, 0.62f, 0.86f, 0.68f, 0.58f, 0.82f, 0.70f, 0.94f, 0.74f, 0.99f, 0.82f, 0.88f };
+    private static readonly float[] YearlyOnline = { 0.38f, 0.46f, 0.38f, 0.58f, 0.46f, 0.66f, 0.52f, 0.44f, 0.62f, 0.52f, 0.72f, 0.56f, 0.80f, 0.64f, 0.70f };
 
     private float[] _currentStore = DailyStore;
     private float[] _currentOnline = DailyOnline;
@@ -102,20 +104,68 @@ public class LineChartDrawable : IDrawable
         }
     }
 
+    private static readonly Color StoreColor  = Color.FromArgb("#F26522");
+    private static readonly Color OnlineColor = Color.FromArgb("#4FC3F7");
+    private static readonly Color GridColor    = Color.FromArgb("#ECEEF3");
+    private static readonly Color GridTextColor = Color.FromArgb("#9AA1AC");
+
+    // Left gutter reserved for the Y-axis scale labels, bottom gutter for the plot.
+    private const float AxisGutter = 30f;
+    private const int HorizontalLines = 5; // grid rows (=> HorizontalLines gridlines)
+
     public void Draw(ICanvas canvas, RectF rect)
     {
-        DrawSeries(canvas, rect, _currentStore,  Color.FromArgb("#F26522"));
-        DrawSeries(canvas, rect, _currentOnline, Color.FromArgb("#4FC3F7"));
+        float left = rect.Left + AxisGutter;
+        float right = rect.Right - 6;
+        float top = rect.Top + 10;
+        float bottom = rect.Bottom - 6;
+
+        DrawGrid(canvas, left, top, right, bottom);
+
+        // Blue (Online) sits behind with a neutral gray area fill, matching the design.
+        DrawSeries(canvas, left, top, right, bottom, _currentOnline, OnlineColor,
+                   Color.FromArgb("#E4E6EB"), 0.75f);
+        // Orange (Store) sits on top with a soft orange fill.
+        DrawSeries(canvas, left, top, right, bottom, _currentStore, StoreColor,
+                   StoreColor, 0.14f);
     }
 
-    private static void DrawSeries(ICanvas canvas, RectF rect, float[] values, Color color)
+    private static void DrawGrid(ICanvas canvas, float left, float top, float right, float bottom)
+    {
+        float width = right - left;
+        float height = bottom - top;
+
+        canvas.FontSize = 9;
+        canvas.StrokeSize = 1;
+
+        // Horizontal grid lines + Y scale labels (0 .. 100).
+        for (int i = 0; i <= HorizontalLines; i++)
+        {
+            float y = top + height * i / HorizontalLines;
+            canvas.StrokeColor = GridColor;
+            canvas.DrawLine(left, y, right, y);
+
+            int scaleValue = 100 - (100 * i / HorizontalLines);
+            canvas.FontColor = GridTextColor;
+            canvas.DrawString(scaleValue.ToString(), left - AxisGutter, y - 6,
+                              AxisGutter - 6, 12, HorizontalAlignment.Right, VerticalAlignment.Center);
+        }
+
+        // Vertical grid lines (X scale divisions).
+        const int verticalLines = 8;
+        for (int i = 0; i <= verticalLines; i++)
+        {
+            float x = left + width * i / verticalLines;
+            canvas.StrokeColor = GridColor;
+            canvas.DrawLine(x, top, x, bottom);
+        }
+    }
+
+    private static void DrawSeries(ICanvas canvas, float left, float top, float right, float bottom,
+                                   float[] values, Color strokeColor, Color fillColor, float fillAlpha)
     {
         if (values.Length < 2) return;
 
-        float left = rect.Left + 4;
-        float right = rect.Right - 4;
-        float top = rect.Top + 8;
-        float bottom = rect.Bottom - 4;
         float width = right - left;
         float height = bottom - top;
         float step = width / (values.Length - 1);
@@ -124,12 +174,12 @@ public class LineChartDrawable : IDrawable
 
         // Filled area using smooth path
         var fill = CreateSmoothPath(values.Length, P, bottom, closePath: true);
-        canvas.FillColor = color.WithAlpha(0.14f);
+        canvas.FillColor = fillColor.WithAlpha(fillAlpha);
         canvas.FillPath(fill);
 
         // Stroke line using smooth path
         var line = CreateSmoothPath(values.Length, P, bottom, closePath: false);
-        canvas.StrokeColor = color;
+        canvas.StrokeColor = strokeColor;
         canvas.StrokeSize = 2.5f;
         canvas.StrokeLineJoin = LineJoin.Round;
         canvas.DrawPath(line);
