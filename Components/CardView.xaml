@@ -6,112 +6,163 @@
              x:Name="Root"
              x:DataType="models:StatCard">
 
-    <Border Padding="12" StrokeThickness="0"
+    <Border Padding="12"
+            StrokeThickness="0"
             BackgroundColor="{Binding Background}">
         <Border.StrokeShape>
-            <RoundRectangle CornerRadius="10" />
+            <RoundRectangle CornerRadius="10"/>
         </Border.StrokeShape>
 
         <Grid>
 
             <!-- ============ BARS LAYOUT (Revinue Status) ============ -->
-            <Grid RowDefinitions="Auto,*" RowSpacing="10"
+            <Grid RowDefinitions="Auto,*"
+                  RowSpacing="10"
                   IsVisible="{Binding Kind, Converter={StaticResource EnumEqualsConverter}, ConverterParameter=Bars}">
                 <Label Grid.Row="0"
                        Text="{Binding Title}"
                        FontSize="13"
-                       TextColor="{StaticResource TextSecondary}" />
+                       TextColor="{StaticResource TextSecondary}"/>
 
-                <Grid Grid.Row="1" ColumnDefinitions="Auto,*" ColumnSpacing="10" VerticalOptions="End">
+                <Grid Grid.Row="1"
+                      ColumnDefinitions="Auto,*"
+                      ColumnSpacing="10"
+                      VerticalOptions="End">
                     <!-- Left: mini chart placeholder built from bars -->
-                    <HorizontalStackLayout Grid.Column="0" Spacing="3" VerticalOptions="End" HeightRequest="46">
-                        <BoxView WidthRequest="5" HeightRequest="18" CornerRadius="2" Color="{Binding Accent}" VerticalOptions="End" />
-                        <BoxView WidthRequest="5" HeightRequest="34" CornerRadius="2" Color="{Binding Accent}" VerticalOptions="End" Opacity="0.65" />
-                        <BoxView WidthRequest="5" HeightRequest="24" CornerRadius="2" Color="{Binding Accent}" VerticalOptions="End" />
-                        <BoxView WidthRequest="5" HeightRequest="44" CornerRadius="2" Color="{Binding Accent}" VerticalOptions="End" Opacity="0.65" />
-                        <BoxView WidthRequest="5" HeightRequest="30" CornerRadius="2" Color="{Binding Accent}" VerticalOptions="End" />
+                    <HorizontalStackLayout Grid.Column="0"
+                                           Spacing="3"
+                                           VerticalOptions="End"
+                                           HeightRequest="46">
+                        <BoxView WidthRequest="5"
+                                 HeightRequest="18"
+                                 CornerRadius="2"
+                                 Color="{Binding Accent}"
+                                 VerticalOptions="End"/>
+                        <BoxView WidthRequest="5"
+                                 HeightRequest="34"
+                                 CornerRadius="2"
+                                 Color="{Binding Accent}"
+                                 VerticalOptions="End"
+                                 Opacity="0.65"/>
+                        <BoxView WidthRequest="5"
+                                 HeightRequest="24"
+                                 CornerRadius="2"
+                                 Color="{Binding Accent}"
+                                 VerticalOptions="End"/>
+                        <BoxView WidthRequest="5"
+                                 HeightRequest="44"
+                                 CornerRadius="2"
+                                 Color="{Binding Accent}"
+                                 VerticalOptions="End"
+                                 Opacity="0.65"/>
+                        <BoxView WidthRequest="5"
+                                 HeightRequest="30"
+                                 CornerRadius="2"
+                                 Color="{Binding Accent}"
+                                 VerticalOptions="End"/>
                     </HorizontalStackLayout>
 
                     <!-- Right: value + note -->
-                    <VerticalStackLayout Grid.Column="1" HorizontalOptions="End" VerticalOptions="End" Spacing="2">
-                        <HorizontalStackLayout HorizontalOptions="End" Spacing="2">
+                    <VerticalStackLayout Grid.Column="1"
+                                         HorizontalOptions="End"
+                                         VerticalOptions="End"
+                                         Spacing="2">
+                        <HorizontalStackLayout HorizontalOptions="End"
+                                               Spacing="2">
                             <Label Text="&#x2191;"
                                    FontFamily="OpenSansSemibold"
                                    FontSize="16"
                                    TextColor="{Binding Accent}"
-                                   VerticalOptions="Center" />
+                                   VerticalOptions="Center"/>
                             <Label Text="{Binding Value}"
                                    FontFamily="OpenSansSemibold"
                                    FontSize="22"
-                                   TextColor="{Binding Accent}" />
+                                   TextColor="{Binding Accent}"/>
                         </HorizontalStackLayout>
                         <Label Text="{Binding Note}"
                                FontSize="10"
                                LineBreakMode="NoWrap"
                                HorizontalOptions="End"
                                TextColor="{StaticResource TextMuted}"
-                               IsVisible="{Binding Note, Converter={StaticResource NotEmptyConverter}}" />
+                               IsVisible="{Binding Note, Converter={StaticResource NotEmptyConverter}}"/>
                     </VerticalStackLayout>
                 </Grid>
             </Grid>
 
             <!-- ============ AREA LAYOUT (Page View) ============ -->
-            <Grid RowDefinitions="Auto,Auto,*" RowSpacing="2"
+            <Grid RowDefinitions="Auto,Auto,*"
+                  RowSpacing="2"
                   IsVisible="{Binding Kind, Converter={StaticResource EnumEqualsConverter}, ConverterParameter=Area}">
                 <Label Grid.Row="0"
                        Text="{Binding Title}"
                        FontSize="12"
-                       TextColor="{StaticResource TextSecondary}" />
+                       TextColor="{StaticResource TextSecondary}"/>
 
-                <HorizontalStackLayout Grid.Row="1" Spacing="2">
+                <HorizontalStackLayout Grid.Row="1"
+                                       Spacing="2">
                     <Label Text="&#x2191;"
                            FontFamily="OpenSansSemibold"
                            FontSize="15"
                            TextColor="{Binding Accent}"
-                           VerticalOptions="Center" />
+                           VerticalOptions="Center"/>
                     <Label Text="{Binding Value}"
                            FontFamily="OpenSansSemibold"
                            FontSize="20"
-                           TextColor="{Binding Accent}" />
+                           TextColor="{Binding Accent}"/>
                 </HorizontalStackLayout>
 
                 <!-- Chart fills the bottom, bleeding to the card edges. MinimumHeight
                      guarantees it always has room to draw even on short cards. -->
-                <GraphicsView Grid.Row="2" x:Name="AreaChart"
+                <GraphicsView Grid.Row="2"
+                              x:Name="AreaChart"
                               MinimumHeightRequest="44"
-                              Margin="-12,2,-12,-12" />
+                              Margin="-12,2,-12,-12"/>
             </Grid>
 
             <!-- ============ LINE LAYOUT (Bounce Rate) ============ -->
-            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8"
+            <Grid ColumnDefinitions="Auto,*"
+                  ColumnSpacing="8"
                   IsVisible="{Binding Kind, Converter={StaticResource EnumEqualsConverter}, ConverterParameter=Line}">
 
                 <!-- Left column: title, value, Monthly dropdown -->
-                <VerticalStackLayout Grid.Column="0" Spacing="4" VerticalOptions="Center" WidthRequest="124">
+                <VerticalStackLayout Grid.Column="0"
+                                     Spacing="3"
+                                     VerticalOptions="Center"
+                                     WidthRequest="124">
                     <Label Text="{Binding Title}"
                            FontSize="12"
-                           TextColor="{StaticResource TextSecondary}" />
+                           TextColor="{StaticResource TextSecondary}"/>
                     <HorizontalStackLayout Spacing="2">
                         <Label Text="&#x2191;"
                                FontFamily="OpenSansSemibold"
                                FontSize="15"
                                TextColor="{Binding Accent}"
-                               VerticalOptions="Center" />
+                               VerticalOptions="Center"/>
                         <Label Text="{Binding Value}"
                                FontFamily="OpenSansSemibold"
                                FontSize="20"
-                               TextColor="{Binding Accent}" />
+                               TextColor="{Binding Accent}"/>
                     </HorizontalStackLayout>
 
                     <!-- Monthly dropdown -->
-                    <Border Padding="0" StrokeThickness="1"
+                    <Border Padding="0"
+                            StrokeThickness="1"
                             Stroke="{StaticResource BorderColor}"
                             BackgroundColor="{StaticResource White}"
                             WidthRequest="120"
-                            HeightRequest="34"
                             HorizontalOptions="Start">
+                        <!-- Android needs a bit more height for the native Picker control
+                             so its text isn't clipped; desktop keeps 34. -->
+                        <Border.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="Android"
+                                    Value="38"/>
+                                <On Platform="WinUI"
+                                    Value="34"/>
+                            </OnPlatform>
+                        </Border.HeightRequest>
                         <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="6" />
+                            <RoundRectangle CornerRadius="6"/>
                         </Border.StrokeShape>
                         <Picker x:Name="RangePicker"
                                 FontSize="11"
@@ -134,9 +185,10 @@
                 </VerticalStackLayout>
 
                 <!-- Right column: wavy line chart -->
-                <GraphicsView Grid.Column="1" x:Name="LineChart"
+                <GraphicsView Grid.Column="1"
+                              x:Name="LineChart"
                               MinimumHeightRequest="44"
-                              VerticalOptions="Fill" />
+                              VerticalOptions="Fill"/>
             </Grid>
 
         </Grid>

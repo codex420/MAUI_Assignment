@@ -51,10 +51,18 @@
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="models:StatCard">
                                 <components:CardView BindingContext="{Binding .}"
-                                                     HeightRequest="118"
                                                      Margin="0,0,10,10"
                                                      FlexLayout.Grow="1"
-                                                     FlexLayout.Basis="{Binding Source={x:Reference Page}, Path=BindingContext.StatCardBasis}" />
+                                                     FlexLayout.Basis="{Binding Source={x:Reference Page}, Path=BindingContext.StatCardBasis}">
+                                    <!-- Android needs a taller card so the Monthly dropdown isn't clipped;
+                                         Windows/desktop keeps the original 118. -->
+                                    <components:CardView.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="Android" Value="140" />
+                                            <On Platform="WinUI" Value="118" />
+                                        </OnPlatform>
+                                    </components:CardView.HeightRequest>
+                                </components:CardView>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </FlexLayout>

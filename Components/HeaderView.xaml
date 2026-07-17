@@ -194,11 +194,11 @@
 
                 <!-- Tabs + Chart -->
                 <Grid Grid.Row="1" RowDefinitions="Auto,*" RowSpacing="14" Margin="0,10,0,0">
-                    <!-- Tabs + Legend Row -->
-                    <FlexLayout Grid.Row="0" Wrap="Wrap" Direction="Row" JustifyContent="SpaceBetween" AlignItems="Start">
-                        
-                        <!-- Interactive Tabs -->
-                        <HorizontalStackLayout Spacing="20" Margin="0,0,0,6">
+                    <!-- Tabs + Legend Row: single row, tabs left + legend right on the same line -->
+                    <Grid Grid.Row="0" ColumnDefinitions="Auto,*" ColumnSpacing="8">
+
+                        <!-- Interactive Tabs (compact spacing so the legend fits beside them) -->
+                        <HorizontalStackLayout Grid.Column="0" Spacing="12" Margin="0,0,0,6" VerticalOptions="Start">
                             <!-- DAILY Tab -->
                             <VerticalStackLayout Spacing="4">
                                 <Label Text="DAILY" Style="{StaticResource TabInactive}">
@@ -284,9 +284,9 @@
                             </VerticalStackLayout>
                         </HorizontalStackLayout>
 
-                        <!-- Legend (top-aligned to sit on the same line as the tabs) -->
-                        <HorizontalStackLayout Spacing="16" Margin="24,1,0,0" VerticalOptions="Start">
-                            <HorizontalStackLayout x:Name="OnlineLegendCompact" Spacing="6" VerticalOptions="Center">
+                        <!-- Legend (right side, on the same line as the tabs) -->
+                        <HorizontalStackLayout Grid.Column="1" Spacing="10" HorizontalOptions="End" VerticalOptions="Start">
+                            <HorizontalStackLayout x:Name="OnlineLegendCompact" Spacing="5" VerticalOptions="Center">
                                 <BoxView WidthRequest="9" HeightRequest="9" CornerRadius="4.5"
                                          Color="{StaticResource ChartBlue}" VerticalOptions="Center" />
                                 <Label Text="Online" Style="{StaticResource Caption}" VerticalOptions="Center" />
@@ -294,7 +294,7 @@
                                     <TapGestureRecognizer Tapped="OnToggleOnline" />
                                 </HorizontalStackLayout.GestureRecognizers>
                             </HorizontalStackLayout>
-                            <HorizontalStackLayout x:Name="StoreLegendCompact" Spacing="6" VerticalOptions="Center">
+                            <HorizontalStackLayout x:Name="StoreLegendCompact" Spacing="5" VerticalOptions="Center">
                                 <BoxView WidthRequest="9" HeightRequest="9" CornerRadius="4.5"
                                          Color="{StaticResource ChartOrange}" VerticalOptions="Center" />
                                 <Label Text="Store" Style="{StaticResource Caption}" VerticalOptions="Center" />
@@ -303,7 +303,7 @@
                                 </HorizontalStackLayout.GestureRecognizers>
                             </HorizontalStackLayout>
                         </HorizontalStackLayout>
-                    </FlexLayout>
+                    </Grid>
 
                     <!-- Chart Canvas (Compact) -->
                     <Grid Grid.Row="1" HeightRequest="130">
