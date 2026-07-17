@@ -26,6 +26,6 @@ public partial class OrderItem : ObservableObject
     [NotifyPropertyChangedFor(nameof(RowBackground))]
     private bool _isSelected;
 
-    /// <summary>Highlight colour for the row when selected; transparent otherwise.</summary>
-    public Color RowBackground => IsSelected ? Color.FromArgb("#E8F1FF") : Colors.Transparent;
+    /// <summary>Highlight colour for the row when selected; white otherwise.</summary>
+    public Color RowBackground => IsSelected ? Color.FromArgb("#E8F1FF") : Colors.White;
 }

@@ -473,11 +473,26 @@ public partial class DashboardViewModel : ObservableObject
     /// <summary>True when at least one order row is currently selected.</summary>
     public bool HasSelection => _allOrders.Any(o => o.IsSelected);
 
+    // Debounce so that a single physical click, which can raise both the
+    // PointerPressed and Tap gestures on the same row, toggles selection once
+    // rather than twice (which would visually do nothing).
+    private OrderItem? _lastToggled;
+    private DateTime _lastToggledAt;
+
     /// <summary>Toggle the selected state of a row (tap to select / deselect).</summary>
     [RelayCommand]
     private void ToggleOrderSelection(OrderItem order)
     {
         if (order is null) return;
+
+        var now = DateTime.UtcNow;
+        if (ReferenceEquals(order, _lastToggled) &&
+            (now - _lastToggledAt) < TimeSpan.FromMilliseconds(250))
+            return;
+
+        _lastToggled = order;
+        _lastToggledAt = now;
+
         order.IsSelected = !order.IsSelected;
         OnPropertyChanged(nameof(HasSelection));
     }

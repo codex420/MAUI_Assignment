@@ -4,7 +4,7 @@
              xmlns:models="clr-namespace:MAUI_Assignment.Models"
              xmlns:vm="clr-namespace:MAUI_Assignment.ViewModels"
              xmlns:components="clr-namespace:MAUI_Assignment.Components"
-             x:Class="MAUI_Assignment.Components.OrderStatusView"
+             x:Class="MAUI_Assignment.Components.OrderStatusViewWindows"
              x:DataType="vm:DashboardViewModel"
              x:Name="Root">
 
@@ -19,53 +19,39 @@
 
             <!-- Toolbar -->
             <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,*,Auto,Auto" ColumnSpacing="8">
-                <!-- Add Button with Circular Plus Icon -->
                 <Button Grid.Column="0" Text="&#x2295; Add" Style="{StaticResource AccentButton}" HeightRequest="34" Padding="12,4" FontSize="12" Command="{Binding ShowAddOrderModalCommand}" />
-                
-                <!-- Circled Info Button -->
-                <Border Grid.Column="1" WidthRequest="34" HeightRequest="34" StrokeThickness="0" BackgroundColor="{StaticResource PageBackground}">
-                    <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ShowInfoCommand}" />
-                    </Border.GestureRecognizers>
-                    <Label Text="&#x24D8;" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
-                </Border>
-                
-                <!-- Trash Bin Button (deletes selected rows) -->
-                <Border Grid.Column="2" WidthRequest="34" HeightRequest="34" StrokeThickness="0" BackgroundColor="{StaticResource PageBackground}">
-                    <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding DeleteSelectedOrdersCommand}" />
-                    </Border.GestureRecognizers>
-                    <Label Text="&#x1F5D1;" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
-                </Border>
 
-                <!-- Printer / PDF Button (opens the share / print sheet) -->
-                <Border Grid.Column="3" WidthRequest="34" HeightRequest="34" StrokeThickness="0" BackgroundColor="{StaticResource PageBackground}">
-                    <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding PrintOrdersCommand}" />
-                    </Border.GestureRecognizers>
-                    <Label Text="&#x1F5A8;" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
-                </Border>
+<!-- Native Buttons instead of TapGestureRecognizer Borders: on Windows the
+                     scroll host can swallow tap gestures, but a WinUI Button always gets the click. -->
+                <Button Grid.Column="1" Text="&#x24D8;" FontSize="14" TextColor="{StaticResource TextPrimary}"
+                        WidthRequest="34" HeightRequest="34" Padding="0" BorderWidth="0" CornerRadius="6"
+                        BackgroundColor="{StaticResource PageBackground}"
+                        Command="{Binding ShowInfoCommand}" />
 
-                <!-- Spacer -->
+                <Button Grid.Column="2" Text="&#x1F5D1;" FontSize="14" TextColor="{StaticResource TextPrimary}"
+                        WidthRequest="34" HeightRequest="34" Padding="0" BorderWidth="0" CornerRadius="6"
+                        BackgroundColor="{StaticResource PageBackground}"
+                        Command="{Binding DeleteSelectedOrdersCommand}" />
+
+                <Button Grid.Column="3" Text="&#x1F5A8;" FontSize="14" TextColor="{StaticResource TextPrimary}"
+                        WidthRequest="34" HeightRequest="34" Padding="0" BorderWidth="0" CornerRadius="6"
+                        BackgroundColor="{StaticResource PageBackground}"
+                        Command="{Binding PrintOrdersCommand}" />
+
                 <BoxView Grid.Column="4" Color="Transparent" />
 
-                <!-- Search Input Field (Light Background, No Border) -->
                 <Border Grid.Column="5" WidthRequest="150" HeightRequest="34" StrokeThickness="0" BackgroundColor="{StaticResource PageBackground}" Padding="0">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
                     <Entry Text="{Binding SearchQuery}" Placeholder="Search" PlaceholderColor="{StaticResource TextSecondary}" FontSize="12" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="{StaticResource TextPrimary}" Margin="10,0" />
                 </Border>
 
-                <!-- Search Icon Button (beside the search field) -->
                 <Border Grid.Column="6" WidthRequest="34" HeightRequest="34" StrokeThickness="0" BackgroundColor="{StaticResource PageBackground}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
                     <Label Text="&#x1F50D;" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
                 </Border>
             </Grid>
 
-            <!-- Table header with Shaded Background Banner -->
+            <!-- Table header -->
             <VerticalStackLayout Spacing="0">
                 <Grid ColumnDefinitions="1.1*,1.5*,1.1*,1*,1.6*" Padding="12,8" ColumnSpacing="8" BackgroundColor="#EEF2F6">
                     <Label Grid.Column="0" Text="INVOICE" Style="{StaticResource TableHeader}" TextColor="{StaticResource TextPrimary}" FontFamily="OpenSansSemibold" VerticalOptions="Center" />
@@ -77,40 +63,48 @@
                 <BoxView HeightRequest="1" Color="{StaticResource BorderColor}" HorizontalOptions="Fill" />
             </VerticalStackLayout>
 
-            <!-- Rows with Spacing and Padding Bottom after status -->
+            <!-- Rows. WINDOWS-SPECIFIC: each row hosts a chrome-less native Button
+                 (see template) because a TapGestureRecognizer on the Grid does not
+                 fire here — the scroll host swallows it. Highlight comes from
+                 RowBackground on the model. -->
             <VerticalStackLayout Spacing="0"
                                  BindableLayout.ItemsSource="{Binding Orders}"
                                  Margin="0,0,0,8">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="models:OrderItem">
                         <VerticalStackLayout Spacing="0">
-                            <!-- The whole row is one tappable Grid. Its own background carries
-                                 the selection highlight, and InputTransparent="True" on the
-                                 child cells lets the tap reach this Grid's gesture recognizer. -->
-                            <Grid ColumnDefinitions="1.1*,1.5*,1.1*,1*,1.6*" Padding="12,0" ColumnSpacing="8"
-                                  HeightRequest="44"
-                                  BackgroundColor="{Binding RowBackground}">
-                                <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer
+                            <Grid HeightRequest="44" BackgroundColor="{Binding RowBackground}">
+
+                                <!-- Full-row, chrome-less native Button: a WinUI Button is always
+                                     hit-testable inside the scroll host, so a mouse click anywhere
+                                     on the row reliably toggles selection. The visible cells above
+                                     it are InputTransparent so clicks fall through to the Button. -->
+                                <Button BackgroundColor="Transparent"
+                                        BorderWidth="0"
+                                        CornerRadius="0"
+                                        Padding="0"
+                                        HorizontalOptions="Fill"
+                                        VerticalOptions="Fill"
                                         Command="{Binding BindingContext.ToggleOrderSelectionCommand, Source={x:Reference Root}}"
                                         CommandParameter="{Binding .}" />
-                                </Grid.GestureRecognizers>
-                                <Label Grid.Column="0" Text="{Binding Invoice}" Style="{StaticResource TableCell}" VerticalOptions="Center" InputTransparent="True" />
-                                <Label Grid.Column="1" Text="{Binding Customer}" Style="{StaticResource TableCell}" VerticalOptions="Center" InputTransparent="True" />
-                                <Label Grid.Column="2" Text="{Binding From}" Style="{StaticResource TableCell}" VerticalOptions="Center" InputTransparent="True" />
-                                <Label Grid.Column="3" Text="{Binding Price}" Style="{StaticResource TableCell}" VerticalOptions="Center" InputTransparent="True" />
-                                <!-- Status badge: left-aligned, single-line, sized to its text so it
-                                     never wraps ("On Hold") or overlaps the neighbouring rows. -->
-                                <Border Grid.Column="4" HorizontalOptions="Start" VerticalOptions="Center"
-                                        StrokeThickness="0" BackgroundColor="{Binding StatusColor}"
-                                        Padding="10,4" InputTransparent="True">
-                                    <Border.StrokeShape><RoundRectangle CornerRadius="5" /></Border.StrokeShape>
-                                    <Label Text="{Binding Status}" FontSize="11"
-                                           FontFamily="OpenSansSemibold"
-                                           LineBreakMode="NoWrap"
-                                           HorizontalTextAlignment="Center"
-                                           TextColor="{StaticResource White}" />
-                                </Border>
+
+                                <Grid ColumnDefinitions="1.1*,1.5*,1.1*,1*,1.6*" Padding="12,0" ColumnSpacing="8"
+                                      InputTransparent="True" CascadeInputTransparent="True">
+                                    <Label Grid.Column="0" Text="{Binding Invoice}" Style="{StaticResource TableCell}" VerticalOptions="Center" />
+                                    <Label Grid.Column="1" Text="{Binding Customer}" Style="{StaticResource TableCell}" VerticalOptions="Center" />
+                                    <Label Grid.Column="2" Text="{Binding From}" Style="{StaticResource TableCell}" VerticalOptions="Center" />
+                                    <Label Grid.Column="3" Text="{Binding Price}" Style="{StaticResource TableCell}" VerticalOptions="Center" />
+                                    <Border Grid.Column="4" HorizontalOptions="Start" VerticalOptions="Center"
+                                            StrokeThickness="0" BackgroundColor="{Binding StatusColor}"
+                                            Padding="10,4">
+                                        <Border.StrokeShape><RoundRectangle CornerRadius="5" /></Border.StrokeShape>
+                                        <Label Text="{Binding Status}" FontSize="11"
+                                               FontFamily="OpenSansSemibold"
+                                               LineBreakMode="NoWrap"
+                                               HorizontalTextAlignment="Center"
+                                               TextColor="{StaticResource White}" />
+                                    </Border>
+                                </Grid>
                             </Grid>
                             <BoxView HeightRequest="1" Color="{StaticResource BorderColor}" HorizontalOptions="Fill" />
                         </VerticalStackLayout>
@@ -123,7 +117,6 @@
                 <Label Grid.Column="0" Text="{Binding PaginationStatusText}"
                        Style="{StaticResource Caption}" VerticalOptions="Center" />
                 <HorizontalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
-                    <!-- Previous Arrow -->
                     <Label Text="&#x2039;" FontSize="20" VerticalOptions="Center" Padding="6" HorizontalTextAlignment="Center">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding PreviousPageCommand}" />
@@ -138,29 +131,26 @@
                         </Label.Triggers>
                     </Label>
 
-                    <!-- Page Numbers list -->
                     <HorizontalStackLayout Spacing="2" BindableLayout.ItemsSource="{Binding PageNumbers}">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="{x:Null}">
                                 <Grid WidthRequest="28" HeightRequest="28">
-                                    <!-- Active Page State (Circular Background) -->
                                     <Border WidthRequest="26" HeightRequest="26" StrokeThickness="0" BackgroundColor="#EAF4FE" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="False">
                                         <Border.StrokeShape><RoundRectangle CornerRadius="13" /></Border.StrokeShape>
                                         <Label Text="{Binding .}" FontSize="12" FontFamily="OpenSansSemibold" TextColor="#3F8CFF" HorizontalOptions="Center" VerticalOptions="Center" />
                                         <Border.Triggers>
-                                            <DataTrigger TargetType="Border" Binding="{Binding BindingContext.CurrentPage, Source={RelativeSource AncestorType={x:Type components:OrderStatusView}}}" Value="{Binding .}">
+                                            <DataTrigger TargetType="Border" Binding="{Binding BindingContext.CurrentPage, Source={RelativeSource AncestorType={x:Type components:OrderStatusViewWindows}}}" Value="{Binding .}">
                                                 <Setter Property="IsVisible" Value="True" />
                                             </DataTrigger>
                                         </Border.Triggers>
                                     </Border>
 
-                                    <!-- Inactive Page State (Simple Label) -->
                                     <Label Text="{Binding .}" FontSize="12" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center" HorizontalOptions="Center" Padding="4" IsVisible="True">
                                         <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding BindingContext.ChangePageCommand, Source={RelativeSource AncestorType={x:Type components:OrderStatusView}}}" CommandParameter="{Binding .}" />
+                                            <TapGestureRecognizer Command="{Binding BindingContext.ChangePageCommand, Source={RelativeSource AncestorType={x:Type components:OrderStatusViewWindows}}}" CommandParameter="{Binding .}" />
                                         </Label.GestureRecognizers>
                                         <Label.Triggers>
-                                            <DataTrigger TargetType="Label" Binding="{Binding BindingContext.CurrentPage, Source={RelativeSource AncestorType={x:Type components:OrderStatusView}}}" Value="{Binding .}">
+                                            <DataTrigger TargetType="Label" Binding="{Binding BindingContext.CurrentPage, Source={RelativeSource AncestorType={x:Type components:OrderStatusViewWindows}}}" Value="{Binding .}">
                                                 <Setter Property="IsVisible" Value="False" />
                                             </DataTrigger>
                                         </Label.Triggers>
@@ -170,7 +160,6 @@
                         </BindableLayout.ItemTemplate>
                     </HorizontalStackLayout>
 
-                    <!-- Next Arrow -->
                     <Label Text="&#x203A;" FontSize="20" VerticalOptions="Center" Padding="6" HorizontalTextAlignment="Center">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding NextPageCommand}" />
