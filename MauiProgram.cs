@@ -28,6 +28,12 @@ public static class MauiProgram
         // Services
         builder.Services.AddSingleton<IDashboardService, DashboardService>();
 
+#if ANDROID
+        builder.Services.AddSingleton<IPdfService, MAUI_Assignment.Platforms.Android.PdfService>();
+#elif WINDOWS
+        builder.Services.AddSingleton<IPdfService, MAUI_Assignment.Platforms.Windows.PdfService>();
+#endif
+
         // ViewModels
         builder.Services.AddSingleton<DashboardViewModel>();
 

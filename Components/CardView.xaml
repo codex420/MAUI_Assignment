@@ -184,11 +184,16 @@
                     </Border>
                 </VerticalStackLayout>
 
-                <!-- Right column: wavy line chart -->
+                <!-- Right column: wavy line chart.
+                     A definite height + Fill width gives the GraphicsView a concrete
+                     draw rect so it renders precisely at narrow window sizes (e.g. 400px
+                     on Windows) instead of collapsing during reflow. -->
                 <GraphicsView Grid.Column="1"
                               x:Name="LineChart"
+                              HeightRequest="70"
                               MinimumHeightRequest="44"
-                              VerticalOptions="Fill"/>
+                              HorizontalOptions="Fill"
+                              VerticalOptions="Center"/>
             </Grid>
 
         </Grid>

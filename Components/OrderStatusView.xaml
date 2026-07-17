@@ -31,15 +31,21 @@
                     <Label Text="&#x24D8;" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
                 </Border>
                 
-                <!-- Trash Bin Button -->
+                <!-- Trash Bin Button (deletes selected rows) -->
                 <Border Grid.Column="2" WidthRequest="34" HeightRequest="34" StrokeThickness="0" BackgroundColor="{StaticResource PageBackground}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding DeleteSelectedOrdersCommand}" />
+                    </Border.GestureRecognizers>
                     <Label Text="&#x1F5D1;" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
                 </Border>
-                
-                <!-- Printer Button -->
+
+                <!-- Printer / PDF Button (opens the share / print sheet) -->
                 <Border Grid.Column="3" WidthRequest="34" HeightRequest="34" StrokeThickness="0" BackgroundColor="{StaticResource PageBackground}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding PrintOrdersCommand}" />
+                    </Border.GestureRecognizers>
                     <Label Text="&#x1F5A8;" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
                 </Border>
 
@@ -52,10 +58,10 @@
                     <Entry Text="{Binding SearchQuery}" Placeholder="Search" PlaceholderColor="{StaticResource TextSecondary}" FontSize="12" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="{StaticResource TextPrimary}" Margin="10,0" />
                 </Border>
 
-                <!-- Search-Side Printer Button -->
+                <!-- Search Icon Button (beside the search field) -->
                 <Border Grid.Column="6" WidthRequest="34" HeightRequest="34" StrokeThickness="0" BackgroundColor="{StaticResource PageBackground}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
-                    <Label Text="&#x1F5A8;" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
+                    <Label Text="&#x1F50D;" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
                 </Border>
             </Grid>
 
@@ -77,21 +83,27 @@
                                  Margin="0,0,0,8">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="models:OrderItem">
-                        <VerticalStackLayout Spacing="0" BackgroundColor="Transparent">
-                            <!-- Fixed row height keeps cells vertically centered with
-                                 consistent spacing so the status badge never overlaps
-                                 the neighbouring rows. -->
+                        <VerticalStackLayout Spacing="0">
+                            <!-- The whole row is one tappable Grid. Its own background carries
+                                 the selection highlight, and InputTransparent="True" on the
+                                 child cells lets the tap reach this Grid's gesture recognizer. -->
                             <Grid ColumnDefinitions="1.1*,1.5*,1.1*,1*,1.6*" Padding="12,0" ColumnSpacing="8"
-                                  HeightRequest="44" BackgroundColor="Transparent">
-                                <Label Grid.Column="0" Text="{Binding Invoice}" Style="{StaticResource TableCell}" VerticalOptions="Center" />
-                                <Label Grid.Column="1" Text="{Binding Customer}" Style="{StaticResource TableCell}" VerticalOptions="Center" />
-                                <Label Grid.Column="2" Text="{Binding From}" Style="{StaticResource TableCell}" VerticalOptions="Center" />
-                                <Label Grid.Column="3" Text="{Binding Price}" Style="{StaticResource TableCell}" VerticalOptions="Center" />
+                                  HeightRequest="44"
+                                  BackgroundColor="{Binding RowBackground}">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding BindingContext.ToggleOrderSelectionCommand, Source={x:Reference Root}}"
+                                        CommandParameter="{Binding .}" />
+                                </Grid.GestureRecognizers>
+                                <Label Grid.Column="0" Text="{Binding Invoice}" Style="{StaticResource TableCell}" VerticalOptions="Center" InputTransparent="True" />
+                                <Label Grid.Column="1" Text="{Binding Customer}" Style="{StaticResource TableCell}" VerticalOptions="Center" InputTransparent="True" />
+                                <Label Grid.Column="2" Text="{Binding From}" Style="{StaticResource TableCell}" VerticalOptions="Center" InputTransparent="True" />
+                                <Label Grid.Column="3" Text="{Binding Price}" Style="{StaticResource TableCell}" VerticalOptions="Center" InputTransparent="True" />
                                 <!-- Status badge: left-aligned, single-line, sized to its text so it
                                      never wraps ("On Hold") or overlaps the neighbouring rows. -->
                                 <Border Grid.Column="4" HorizontalOptions="Start" VerticalOptions="Center"
                                         StrokeThickness="0" BackgroundColor="{Binding StatusColor}"
-                                        Padding="10,4">
+                                        Padding="10,4" InputTransparent="True">
                                     <Border.StrokeShape><RoundRectangle CornerRadius="5" /></Border.StrokeShape>
                                     <Label Text="{Binding Status}" FontSize="11"
                                            FontFamily="OpenSansSemibold"

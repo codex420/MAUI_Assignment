@@ -9,6 +9,7 @@ namespace MAUI_Assignment.ViewModels;
 public partial class DashboardViewModel : ObservableObject
 {
     private readonly IDashboardService _service;
+    private readonly IPdfService? _pdfService;
     private readonly List<OrderItem> _allOrders = new();
     private const int PageSize = 5;
 
@@ -153,6 +154,16 @@ public partial class DashboardViewModel : ObservableObject
         get
         {
             double fraction = IsWide ? 0.235 : (IsMedium ? 0.48 : 1.0);
+
+#if WINDOWS
+            // On Windows, a half-width card in the medium range is too narrow for the
+            // Bounce Rate card's fixed 124px label column + line chart, so the chart
+            // gets squashed. Force one card per row until the window is wide enough
+            // that four-across (wide) kicks in.
+            if (!IsWide)
+                fraction = 1.0;
+#endif
+
             return new Microsoft.Maui.Layouts.FlexBasis((float)fraction, isRelative: true);
         }
     }
@@ -219,9 +230,10 @@ public partial class DashboardViewModel : ObservableObject
     public ObservableCollection<TrafficSlice> Traffic { get; } = new();
     public ObservableCollection<int> PageNumbers { get; } = new();
 
-    public DashboardViewModel(IDashboardService service)
+    public DashboardViewModel(IDashboardService service, IPdfService? pdfService = null)
     {
         _service = service;
+        _pdfService = pdfService;
         Load();
     }
 
@@ -454,6 +466,83 @@ public partial class DashboardViewModel : ObservableObject
     {
         InfoModalMessage = "These are the order statuses of all the people inside the dashboard.";
         IsInfoModalVisible = true;
+    }
+
+    // ---------- Row selection + delete ----------
+
+    /// <summary>True when at least one order row is currently selected.</summary>
+    public bool HasSelection => _allOrders.Any(o => o.IsSelected);
+
+    /// <summary>Toggle the selected state of a row (tap to select / deselect).</summary>
+    [RelayCommand]
+    private void ToggleOrderSelection(OrderItem order)
+    {
+        if (order is null) return;
+        order.IsSelected = !order.IsSelected;
+        OnPropertyChanged(nameof(HasSelection));
+    }
+
+    /// <summary>
+    /// Delete every selected row after a confirmation prompt. If nothing is
+    /// selected, informs the user instead of doing nothing silently.
+    /// </summary>
+    [RelayCommand]
+    private async Task DeleteSelectedOrders()
+    {
+        var selected = _allOrders.Where(o => o.IsSelected).ToList();
+        var page = Application.Current?.Windows.FirstOrDefault()?.Page;
+
+        if (selected.Count == 0)
+        {
+            if (page is not null)
+                await page.DisplayAlert("Delete Orders", "Select one or more rows first, then tap delete.", "OK");
+            return;
+        }
+
+        bool confirm = page is null || await page.DisplayAlert(
+            "Delete Orders",
+            $"Delete {selected.Count} selected order{(selected.Count > 1 ? "s" : "")}?",
+            "Delete", "Cancel");
+
+        if (!confirm) return;
+
+        foreach (var order in selected)
+            _allOrders.Remove(order);
+
+        // Keep the current page valid after removals.
+        if (CurrentPage > TotalPages)
+            CurrentPage = Math.Max(1, TotalPages);
+
+        UpdatePagedOrders();
+        OnPropertyChanged(nameof(HasSelection));
+    }
+
+    /// <summary>
+    /// Generate a PDF of the orders and save it directly to the Downloads folder
+    /// on both Android and Windows.
+    /// </summary>
+    [RelayCommand]
+    private async Task PrintOrders()
+    {
+        var source = GetFilteredOrders();
+        var page = Application.Current?.Windows.FirstOrDefault()?.Page;
+
+        if (_pdfService is null)
+        {
+            if (page is not null)
+                await page.DisplayAlert("Export PDF", "PDF export isn't available on this platform.", "OK");
+            return;
+        }
+
+        string? savedPath = await _pdfService.ExportOrdersAsync(source);
+
+        if (page is not null)
+        {
+            if (savedPath is not null)
+                await page.DisplayAlert("PDF Downloaded", $"Saved to:\n{savedPath}", "OK");
+            else
+                await page.DisplayAlert("Export PDF", "Sorry, the PDF could not be saved.", "OK");
+        }
     }
 
     [RelayCommand]

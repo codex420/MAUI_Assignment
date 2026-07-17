@@ -11,6 +11,11 @@ public partial class CardView : ContentView
     {
         InitializeComponent();
         BindingContextChanged += OnBindingContextChanged;
+
+        // Redraw the charts whenever their draw rect changes so they stay precise
+        // through window reflows (notably narrow Windows sizes around 400px).
+        LineChart.SizeChanged += (_, _) => LineChart.Invalidate();
+        AreaChart.SizeChanged += (_, _) => AreaChart.Invalidate();
     }
 
     private void OnBindingContextChanged(object? sender, EventArgs e)
